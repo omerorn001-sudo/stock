@@ -1,5 +1,13 @@
 /**
- * A股「任意交易日」涨跌幅 TOP100 报告生成器（历史日期版 v2）
+ * A股「任意交易日」涨跌幅 TOP100 报告生成器（历史日期版 v3）
+ *
+ * v3 变更（三期增强，实现见 src/lib/enrich.ts 数据层 + src/lib/enrich-run.ts 编排渲染层）：
+ * - 每张卡片新增两张走势图：个股当日走势 + 所属市场板块（沪主板/深主板/创业板/科创板）指数走势。
+ *   分时数据源仅保留当天 → 报告日=今天时画真分时；历史日期降级为"±30个交易日收盘窗口图并标记当日"。
+ * - 概念板块：列出个股全部所属概念（东财概念板块体系，剔除交易属性/指数成份类后展开当日最强2个），
+ *   展开内容含板块走势图、涨跌家数统计、领涨领跌前10成分股。历史日期的板块涨幅与成分股涨跌
+ *   复用全市场回算数据（零额外请求、口径一致）。
+ * - 龙虎榜：当日上榜标记 + 上榜原因 + 买入/卖出前5席位明细（东财数据中心，可回溯历史日期）。
  *
  * 与 src/main.ts 的区别：
  * - main.ts 依赖东方财富的"实时/延时榜单快照"，只能生成当日报告，无法回溯。
@@ -29,6 +37,7 @@
  */
 
 import { mkdirSync, writeFileSync } from "node:fs";
+import { buildEnrichment, renderEnrichHtml, enrichCss } from "./lib/enrich-run";
 
 // ---------- 参数 ----------
 const RAW_DATE = (process.env.REPORT_DATE || process.env.DATE || process.argv[2] || "").trim();
@@ -379,6 +388,17 @@ await runPool([...up, ...down], 6, fetchExtra, "明细进度");
   }
 }
 
+// ---------- 3.5) 三期增强：双走势图 / 概念板块 / 龙虎榜 ----------
+const isToday = DATE === todayBJ;
+const pctMap = new Map<string, number>(valid.map((r) => [r.code, r.pct as number]));
+const enrichRes = await buildEnrichment({
+  date: DATE,
+  isToday,
+  selected: [...up, ...down].map((r) => ({ code: r.code, name: r.name })),
+  pctMap,
+  concurrency: 6,
+});
+
 // ---------- 4) 生成 HTML ----------
 const num = (v: any): number | null => (typeof v === "number" && isFinite(v) ? v : null);
 const yi = (v: any, d = 2) => { const n = num(v); return n === null ? "—" : (n / 1e8).toFixed(d) + " 亿"; };
@@ -444,6 +464,7 @@ function card(r: DayRow, idx: number, dir: "up" | "down"): string {
     <div class="chart">${e?.kline?.length ? sparkline(e.kline, color) : `<div class="nochart">未能获取K线：${e?.kerr || "无数据"}</div>`}<div class="chartlbl">截至 ${DATE} 近半年收盘价走势（前复权）</div></div>
     <div class="hbox"><div class="httl">前十大流通股东</div>${holdersHtml(r)}</div>
   </div>
+${renderEnrichHtml(enrichRes.map, r.code)}
 </div>`;
 }
 
@@ -487,12 +508,14 @@ ol.holders{margin:2px 0 4px;padding-left:20px;line-height:1.55;column-count:1}
 .noholder,.nochart{color:#a66;font-size:12px;background:#fdf6f6;padding:6px 8px;border-radius:4px}
 footer{font-size:12px;color:#888;margin:20px 0;text-align:center}
 @media print{.card{break-inside:avoid}}
+${enrichCss()}
 </style></head><body><div class="wrap">
 <h1>A股 涨幅前100 与 跌幅前100 明细报告（指定交易日）</h1>
 <div class="meta">
 <b>交易日：</b>${DATE}（周${weekday}）｜<b>范围：</b>沪深两市A股（沪主板、深主板含原中小板、创业板、科创板），<b>不含北交所</b>；参与排序的当日有效样本 ${valid.length} 只（全市场名单 ${universe.length} 只，其余为当日停牌、尚未上市或接口失败 ${failed.length} 只）。${noPctNote}<br>
 <b>生成方式：</b>本报告为<b>历史日期回算版</b>——不使用行情榜单快照，而是对全市场逐只拉取日K线，取 ${DATE} 当日涨跌幅重新排序后取前/后各100名。行情数据主源为腾讯财经公开接口（收盘/开盘/成交额/换手率取自不复权日K原始字段；涨跌幅由前复权连续收盘价环比计算，与行情软件官方口径一致，除权除息日亦准确）；东方财富公开接口用于全市场名单、前十大流通股东及个别兜底${estNote}。生成时间 ${generatedAt}（北京时间）。<br>
-<b>口径与局限：</b>①当日收盘价、开盘价、成交额、换手率均取自<b>不复权</b>日K线，与行情软件当日排行口径一致；走势图为<b>前复权</b>收盘价。②<b>流通市值/总市值为推算值</b>＝当日收盘价 × <b>当前</b>流通股本/总股本，若此后发生过增发、回购、解禁等股本变动会有偏差。③样本取自当前仍在市的股票名单，<b>在 ${DATE} 之后已退市的个股不在样本内</b>。④前十大流通股东取报告期<b>不晚于 ${DATE}</b> 的最新一期披露，不使用未来数据。⑤无法取得的数据以"—"标示并注明原因，<b>不编造、不臆测</b>。
+<b>口径与局限：</b>①当日收盘价、开盘价、成交额、换手率均取自<b>不复权</b>日K线，与行情软件当日排行口径一致；走势图为<b>前复权</b>收盘价。②<b>流通市值/总市值为推算值</b>＝当日收盘价 × <b>当前</b>流通股本/总股本，若此后发生过增发、回购、解禁等股本变动会有偏差。③样本取自当前仍在市的股票名单，<b>在 ${DATE} 之后已退市的个股不在样本内</b>。④前十大流通股东取报告期<b>不晚于 ${DATE}</b> 的最新一期披露，不使用未来数据。⑤无法取得的数据以"—"标示并注明原因，<b>不编造、不臆测</b>。<br>
+<b>三期增强口径：</b>${enrichRes.metaNote}
 </div>
 ${section("一、涨幅前 100", up, "up")}
 ${section("二、跌幅前 100", down, "down")}
