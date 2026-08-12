@@ -1,0 +1,173 @@
+"""完整流水线：巨潮发现/下载 -> Google Drive 幂等归档 -> 运行清单。"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import logging
+import os
+import sys
+from datetime import UTC, date, datetime, timedelta
+from pathlib import Path
+from typing import Any
+
+from . import phase1
+from .drive_storage import DriveClient, DriveError
+
+log = logging.getLogger("juchao.pipeline")
+
+
+def default_run_id() -> str:
+    return datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
+
+
+def resolve_range(args: argparse.Namespace) -> tuple[date, date]:
+    if args.last_days is not None:
+        if args.last_days < 1:
+            raise SystemExit("--last-days 必须大于 0")
+        end = datetime.now(phase1.TZ).date()
+        return end - timedelta(days=args.last_days - 1), end
+    if args.start is None or args.end is None:
+        raise SystemExit("请提供 --start 与 --end，或使用 --last-days")
+    return args.start, args.end
+
+
+def _init_drive_fields(record: dict[str, Any]) -> None:
+    for key, value in {
+        "drive_status": "not_requested", "drive_file_id": None, "drive_path": None,
+        "drive_version": None, "drive_web_view_link": None, "uploaded_at": None,
+    }.items():
+        record.setdefault(key, value)
+
+
+def _failure(stage: str, exc: Exception, **context: Any) -> dict[str, Any]:
+    return {"stage": stage, **context, "error": f"{type(exc).__name__}: {exc}",
+            "at": phase1.now_iso()}
+
+
+def append_pipeline_summary(summary: dict[str, Any]) -> None:
+    target = os.getenv("GITHUB_STEP_SUMMARY")
+    if not target:
+        return
+    lines = ["", "### Google Drive 归档", "",
+             f"- 新建：**{summary['drive_created']}**",
+             f"- 更新：**{summary['drive_updated']}**",
+             f"- 已存在跳过：**{summary['drive_skipped']}**",
+             f"- Drive 失败：**{summary['drive_failed']}**",
+             f"- 隔离文件：**{summary['quarantined']}**",
+             f"- 运行 ID：`{summary['run_id']}`"]
+    with Path(target).open("a", encoding="utf-8") as handle:
+        handle.write("\n".join(lines) + "\n")
+
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(description="巨潮机构调研完整归档流水线")
+    parser.add_argument("--start", type=phase1.parse_date)
+    parser.add_argument("--end", type=phase1.parse_date)
+    parser.add_argument("--last-days", type=int)
+    parser.add_argument("--market", choices=("all", "sh", "sz"), default="all")
+    parser.add_argument("--download-files", action="store_true")
+    parser.add_argument("--upload-drive", action="store_true")
+    parser.add_argument("--max-files", type=int, default=0)
+    parser.add_argument("--output", type=Path, default=Path("artifacts/juchao-run"))
+    parser.add_argument("--run-id", default=default_run_id())
+    parser.add_argument("--fail-on-empty", action="store_true")
+    parser.add_argument("--skip-run-manifest-upload", action="store_true")
+    parser.add_argument("--verbose", action="store_true")
+    return parser
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = build_parser().parse_args(argv)
+    logging.basicConfig(level=logging.DEBUG if args.verbose else logging.INFO,
+                        format="%(asctime)s %(levelname)-7s %(name)s | %(message)s")
+    start, end = resolve_range(args)
+    if start > end:
+        raise SystemExit("开始日期不得晚于结束日期")
+    if args.max_files < 0:
+        raise SystemExit("--max-files 不得为负数")
+    download_requested = bool(args.download_files or args.upload_drive)
+    session = phase1.make_session()
+    records, failures, query_stats = phase1.fetch_range(start, end, args.market, session)
+    for record in records:
+        _init_drive_fields(record)
+    selected = records[: args.max_files] if args.max_files else records
+    selected_ids = {record["announcement_id"] for record in selected}
+    for record in records:
+        if record["announcement_id"] not in selected_ids:
+            record["download_status"] = "not_selected"
+    if download_requested:
+        for record in selected:
+            try:
+                phase1.download_attachment(record, args.output, session)
+            except Exception as exc:  # noqa: BLE001
+                if record["download_status"] == "not_requested":
+                    record["download_status"] = "failed"
+                failures.append(_failure("download", exc,
+                                         announcement_id=record["announcement_id"],
+                                         attachment_url=record["attachment_url"]))
+    drive_client: DriveClient | None = None
+    if args.upload_drive:
+        try:
+            drive_client = DriveClient()
+        except Exception as exc:  # noqa: BLE001
+            failures.append(_failure("drive_config", exc))
+    if drive_client is not None:
+        for record in selected:
+            if record["download_status"] != "ok" or not record.get("local_path"):
+                continue
+            local_path = args.output / str(record["local_path"])
+            try:
+                result = drive_client.upsert_record(local_path, record)
+                record.update({
+                    "drive_status": result["status"], "drive_file_id": result.get("file_id"),
+                    "drive_path": result.get("drive_path"), "drive_version": result.get("version"),
+                    "drive_web_view_link": result.get("web_view_link"), "uploaded_at": phase1.now_iso(),
+                })
+            except Exception as exc:  # noqa: BLE001
+                record["drive_status"] = "failed"
+                failures.append(_failure("drive_upload", exc,
+                                         announcement_id=record["announcement_id"],
+                                         local_path=str(local_path)))
+    format_counts = {name: 0 for name in phase1.SUPPORTED_FORMATS}
+    for record in records:
+        detected = record.get("format_detected")
+        if detected in format_counts:
+            format_counts[detected] += 1
+    summary = {
+        "phase": "complete", "run_id": args.run_id, "generated_at": phase1.now_iso(),
+        "start": start.isoformat(), "end": end.isoformat(), "market": args.market,
+        **query_stats, "download_requested": download_requested,
+        "upload_drive_requested": bool(args.upload_drive), "download_limit": args.max_files,
+        "downloaded": sum(r["download_status"] == "ok" for r in records),
+        "quarantined": sum(r["download_status"] == "quarantined" for r in records),
+        "pdf": format_counts["pdf"], "doc": format_counts["doc"], "docx": format_counts["docx"],
+        "drive_created": sum(r["drive_status"] == "created" for r in records),
+        "drive_updated": sum(r["drive_status"] == "updated" for r in records),
+        "drive_skipped": sum(r["drive_status"] == "skipped" for r in records),
+        "drive_failed": sum(r["drive_status"] == "failed" for r in records),
+        "failures": len(failures),
+    }
+    phase1.write_outputs(args.output, records, failures, summary)
+    if drive_client is not None and not args.skip_run_manifest_upload:
+        for name in ("manifest.json", "manifest.csv", "failures.json"):
+            try:
+                drive_client.upload_run_file(args.output / name, args.run_id)
+            except Exception as exc:  # noqa: BLE001
+                failures.append(_failure("drive_run_manifest", exc, file=name))
+        summary["failures"] = len(failures)
+        phase1.write_outputs(args.output, records, failures, summary)
+    phase1.write_step_summary(summary)
+    append_pipeline_summary(summary)
+    print(json.dumps(summary, ensure_ascii=False, indent=2))
+    if args.fail_on_empty and not records:
+        return 1
+    return 1 if failures else 0
+
+
+if __name__ == "__main__":
+    try:
+        sys.exit(main())
+    except DriveError as exc:
+        log.error("Drive 失败：%s", exc)
+        sys.exit(1)
