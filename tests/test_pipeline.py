@@ -4,7 +4,7 @@ import argparse
 from datetime import date
 
 from scripts.backfill_matrix import month_ranges
-from src.pipeline import resolve_range
+from src.pipeline import build_drive_client, resolve_range
 
 
 def test_backfill_matrix_splits_natural_months():
@@ -18,3 +18,13 @@ def test_backfill_matrix_splits_natural_months():
 def test_pipeline_resolves_explicit_range():
     args = argparse.Namespace(last_days=None, start=date(2026, 8, 1), end=date(2026, 8, 7))
     assert resolve_range(args) == (date(2026, 8, 1), date(2026, 8, 7))
+
+
+def test_pipeline_prefers_apps_script_when_configured(monkeypatch):
+    monkeypatch.setenv(
+        "GDRIVE_APPS_SCRIPT_URL",
+        "https://script.google.com/macros/s/test-deployment/exec",
+    )
+    monkeypatch.setenv("GDRIVE_APPS_SCRIPT_TOKEN", "t" * 32)
+    client = build_drive_client()
+    assert client.backend_name == "apps_script"
