@@ -79,7 +79,7 @@ jobs:
       - name: Unit tests
         run: pytest -q tests/test_phase1.py tests/test_drive_storage.py tests/test_pipeline.py
       - name: Offline end-to-end self-check
-        run: python scripts/self_check.py
+        run: python -m scripts.self_check
       - name: Best-effort live metadata probe
         if: github.event_name == 'push' || github.event_name == 'pull_request'
         continue-on-error: true
