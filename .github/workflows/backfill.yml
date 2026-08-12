@@ -15,13 +15,13 @@ on:
         options: [all, sh, sz]
         default: all
       upload_drive:
-        description: "上传到 Google Drive"
+        description: "上传到 Google Drive（未配置凭据时请关闭）"
         type: boolean
-        default: true
+        default: false
       max_files_per_month:
         description: "每月最多处理数量；0表示不限制"
         required: true
-        default: "0"
+        default: "3"
 
 concurrency:
   group: juchao-history-backfill
@@ -40,6 +40,7 @@ jobs:
         with:
           python-version: "3.11"
       - id: matrix
+        name: Split range into calendar months
         run: python scripts/backfill_matrix.py --start "${{ inputs.start }}" --end "${{ inputs.end }}"
 
   backfill:
@@ -69,14 +70,27 @@ jobs:
         with:
           python-version: "3.11"
           cache: pip
-      - run: |
+          cache-dependency-path: requirements-juchao.txt
+      - name: Install pipeline dependencies
+        run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
-      - uses: google-github-actions/auth@v3
-        if: >-
-          inputs.upload_drive == true &&
-          env.GCP_WORKLOAD_IDENTITY_PROVIDER != '' &&
-          env.GCP_SERVICE_ACCOUNT != ''
+          pip install -r requirements-juchao.txt
+      - name: Validate Drive configuration
+        id: preflight
+        shell: bash
+        run: |
+          oauth_ready=false
+          wif_ready=false
+          if [[ -n "$GDRIVE_OAUTH_CLIENT_ID" && -n "$GDRIVE_OAUTH_CLIENT_SECRET" && -n "$GDRIVE_OAUTH_REFRESH_TOKEN" ]]; then oauth_ready=true; fi
+          if [[ -n "$GCP_WORKLOAD_IDENTITY_PROVIDER" && -n "$GCP_SERVICE_ACCOUNT" ]]; then wif_ready=true; fi
+          if [[ "${{ inputs.upload_drive }}" == "true" && "$oauth_ready" != "true" && "$wif_ready" != "true" ]]; then
+            echo "::error::已选择上传 Drive，但 OAuth 或 WIF 凭据不完整"
+            exit 1
+          fi
+          echo "wif_ready=$wif_ready" >> "$GITHUB_OUTPUT"
+      - name: Authenticate with Workload Identity Federation
+        if: inputs.upload_drive == true && steps.preflight.outputs.wif_ready == 'true'
+        uses: google-github-actions/auth@v3
         with:
           workload_identity_provider: ${{ env.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ env.GCP_SERVICE_ACCOUNT }}
@@ -91,12 +105,13 @@ jobs:
                 --output "artifacts/backfill-${{ matrix.start }}-${{ matrix.end }}")
           if [[ "${{ inputs.upload_drive }}" == "true" ]]; then args+=(--upload-drive); fi
           python -m src.pipeline "${args[@]}"
-      - uses: actions/upload-artifact@v4
+      - name: Upload monthly artifact
         if: always()
+        uses: actions/upload-artifact@v4
         with:
           name: juchao-backfill-${{ matrix.start }}-${{ matrix.end }}
           path: artifacts/backfill-${{ matrix.start }}-${{ matrix.end }}/
-          if-no-files-found: error
+          if-no-files-found: warn
           retention-days: 14
 
   report-failure:
@@ -108,10 +123,9 @@ jobs:
       contents: read
     steps:
       - uses: actions/github-script@v7
+        continue-on-error: true
         with:
           script: |
-            await github.rest.issues.create({
-              owner: context.repo.owner, repo: context.repo.repo,
+            await github.rest.issues.create({owner: context.repo.owner, repo: context.repo.repo,
               title: '[juchao] 历史回填存在失败月份',
-              body: `请检查运行：${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
-            });
+              body: `请检查运行：${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`});
