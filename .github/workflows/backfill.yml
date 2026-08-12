@@ -1,0 +1,117 @@
+name: juchao-history-backfill
+
+on:
+  workflow_dispatch:
+    inputs:
+      start:
+        description: "历史回填开始日期 YYYY-MM-DD"
+        required: true
+      end:
+        description: "历史回填结束日期 YYYY-MM-DD"
+        required: true
+      market:
+        description: "市场范围"
+        type: choice
+        options: [all, sh, sz]
+        default: all
+      upload_drive:
+        description: "上传到 Google Drive"
+        type: boolean
+        default: true
+      max_files_per_month:
+        description: "每月最多处理数量；0表示不限制"
+        required: true
+        default: "0"
+
+concurrency:
+  group: juchao-history-backfill
+  cancel-in-progress: false
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - id: matrix
+        run: python scripts/backfill_matrix.py --start "${{ inputs.start }}" --end "${{ inputs.end }}"
+
+  backfill:
+    needs: plan
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix: ${{ fromJson(needs.plan.outputs.matrix) }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      TZ: Asia/Shanghai
+      GCP_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+      GCP_SERVICE_ACCOUNT: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+      GDRIVE_OAUTH_CLIENT_ID: ${{ secrets.GDRIVE_OAUTH_CLIENT_ID }}
+      GDRIVE_OAUTH_CLIENT_SECRET: ${{ secrets.GDRIVE_OAUTH_CLIENT_SECRET }}
+      GDRIVE_OAUTH_REFRESH_TOKEN: ${{ secrets.GDRIVE_OAUTH_REFRESH_TOKEN }}
+      GDRIVE_ROOT_FOLDER_ID: ${{ secrets.GDRIVE_ROOT_FOLDER_ID }}
+      GDRIVE_SHARED_DRIVE_ID: ${{ secrets.GDRIVE_SHARED_DRIVE_ID }}
+      GDRIVE_BASE_PATH: ${{ vars.GDRIVE_BASE_PATH || 'CNINFO/机构调研' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - uses: google-github-actions/auth@v3
+        if: >-
+          inputs.upload_drive == true &&
+          env.GCP_WORKLOAD_IDENTITY_PROVIDER != '' &&
+          env.GCP_SERVICE_ACCOUNT != ''
+        with:
+          workload_identity_provider: ${{ env.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ env.GCP_SERVICE_ACCOUNT }}
+          create_credentials_file: true
+          token_format: access_token
+          access_token_scopes: https://www.googleapis.com/auth/drive
+      - name: Backfill month
+        shell: bash
+        run: |
+          args=(--start "${{ matrix.start }}" --end "${{ matrix.end }}" --market "${{ inputs.market }}"
+                --max-files "${{ inputs.max_files_per_month }}" --download-files
+                --output "artifacts/backfill-${{ matrix.start }}-${{ matrix.end }}")
+          if [[ "${{ inputs.upload_drive }}" == "true" ]]; then args+=(--upload-drive); fi
+          python -m src.pipeline "${args[@]}"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: juchao-backfill-${{ matrix.start }}-${{ matrix.end }}
+          path: artifacts/backfill-${{ matrix.start }}-${{ matrix.end }}/
+          if-no-files-found: error
+          retention-days: 14
+
+  report-failure:
+    needs: backfill
+    if: always() && needs.backfill.result == 'failure'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.create({
+              owner: context.repo.owner, repo: context.repo.repo,
+              title: '[juchao] 历史回填存在失败月份',
+              body: `请检查运行：${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+            });

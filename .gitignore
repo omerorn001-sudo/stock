@@ -1,2 +1,25 @@
 node_modules/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+
+# 本地凭证
+rclone.conf
+.env
+gha-creds-*.json
+
+# 下载和运行产物
+data/raw/
+artifacts/
+
+# 本地临时产物
 *.log
+!ops/probe-console.log
+!ops/pip.log
+.DS_Store
