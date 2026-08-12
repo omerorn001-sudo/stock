@@ -1,0 +1,175 @@
+name: A股每日龙虎榜归档
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/dragon_tiger.py"
+      - "src/apps_script_storage.py"
+      - "apps-script/Code.gs"
+      - "tests/test_dragon_tiger.py"
+      - "tests/test_apps_script_storage.py"
+      - ".github/workflows/dragon-tiger.yml"
+      - "requirements-juchao.txt"
+  pull_request:
+    paths:
+      - "src/dragon_tiger.py"
+      - "src/apps_script_storage.py"
+      - "apps-script/Code.gs"
+      - "tests/test_dragon_tiger.py"
+      - "tests/test_apps_script_storage.py"
+      - ".github/workflows/dragon-tiger.yml"
+      - "requirements-juchao.txt"
+  schedule:
+    # UTC 12:10 = 北京时间 20:10，周一至周五；节假日无数据时正常跳过上传。
+    - cron: "10 12 * * 1-5"
+  workflow_dispatch:
+    inputs:
+      trade_date:
+        description: "交易日期 YYYY-MM-DD；留空为北京时间今日"
+        required: false
+        type: string
+      upload_drive:
+        description: "上传 CSV、JSON 和 Markdown 摘要到 Google Drive"
+        required: true
+        type: boolean
+        default: true
+
+concurrency:
+  group: dragon-tiger-${{ github.event_name }}
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    name: Validate dragon-tiger pipeline
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements-juchao.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-juchao.txt
+      - name: Compile Python and Apps Script
+        run: |
+          python -m compileall -q src tests
+          node --check < apps-script/Code.gs
+      - name: Critical static checks
+        run: |
+          ruff check --select E9,F63,F7,F82 \
+            src/dragon_tiger.py src/apps_script_storage.py \
+            tests/test_dragon_tiger.py tests/test_apps_script_storage.py
+      - name: Unit tests
+        run: |
+          python -m pytest -q tests/test_dragon_tiger.py tests/test_apps_script_storage.py
+      - name: Best-effort live data probe
+        if: github.event_name == 'push' || github.event_name == 'pull_request'
+        continue-on-error: true
+        run: |
+          python -m src.dragon_tiger \
+            --date 2026-08-11 \
+            --output artifacts/dragon-tiger-probe
+      - name: Upload probe artifact
+        if: always() && (github.event_name == 'push' || github.event_name == 'pull_request')
+        uses: actions/upload-artifact@v5
+        with:
+          name: dragon-tiger-live-probe
+          path: artifacts/dragon-tiger-probe/
+          if-no-files-found: warn
+          retention-days: 7
+
+  archive:
+    name: Fetch and archive dragon-tiger data
+    needs: validate
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      issues: write
+    env:
+      TZ: Asia/Shanghai
+      GDRIVE_APPS_SCRIPT_URL: ${{ secrets.GDRIVE_APPS_SCRIPT_URL }}
+      GDRIVE_APPS_SCRIPT_TOKEN: ${{ secrets.GDRIVE_APPS_SCRIPT_TOKEN }}
+      GDRIVE_APPS_SCRIPT_MAX_BYTES: ${{ vars.GDRIVE_APPS_SCRIPT_MAX_BYTES || '36700160' }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements-juchao.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-juchao.txt
+      - name: Resolve run parameters
+        id: params
+        shell: bash
+        run: |
+          if [[ "${{ github.event_name }}" == "schedule" ]]; then
+            trade_date=$(TZ=Asia/Shanghai date +%F)
+            upload=true
+          else
+            trade_date="${{ inputs.trade_date }}"
+            if [[ -z "$trade_date" ]]; then trade_date=$(TZ=Asia/Shanghai date +%F); fi
+            upload="${{ inputs.upload_drive }}"
+          fi
+          python -c 'from datetime import date; import sys; value=sys.argv[1]; assert date.fromisoformat(value).isoformat() == value' "$trade_date"
+          echo "trade_date=$trade_date" >> "$GITHUB_OUTPUT"
+          echo "upload=$upload" >> "$GITHUB_OUTPUT"
+      - name: Check Apps Script Drive gateway
+        if: steps.params.outputs.upload == 'true'
+        run: |
+          python - <<'PY'
+          from src.apps_script_storage import AppsScriptDriveClient
+          result = AppsScriptDriveClient().ping()
+          print("Apps Script Drive 网关连接成功：" + str(result.get("service") or "ok"))
+          print("龙虎榜目录：" + str((result.get("datasets") or {}).get("dragon_tiger") or "等待新版脚本"))
+          PY
+      - name: Fetch and archive
+        shell: bash
+        run: |
+          args=(--date "${{ steps.params.outputs.trade_date }}" --output artifacts/dragon-tiger)
+          if [[ "${{ steps.params.outputs.upload }}" == "true" ]]; then args+=(--upload-drive); fi
+          python -m src.dragon_tiger "${args[@]}"
+      - name: Upload run artifact
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: dragon-tiger-${{ steps.params.outputs.trade_date }}
+          path: artifacts/dragon-tiger/
+          if-no-files-found: warn
+          retention-days: 30
+      - name: Open or update failure issue
+        if: failure()
+        continue-on-error: true
+        uses: actions/github-script@v8
+        env:
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          TRADE_DATE: ${{ steps.params.outputs.trade_date }}
+        with:
+          script: |
+            const title = '[龙虎榜] 每日 Drive 归档失败';
+            const body = `交易日：${process.env.TRADE_DATE}\n\n运行：${process.env.RUN_URL}`;
+            const { data: issues } = await github.rest.issues.listForRepo({owner: context.repo.owner, repo: context.repo.repo, state: 'open', per_page: 100});
+            const existing = issues.find((item) => item.title === title);
+            if (existing) await github.rest.issues.createComment({owner: context.repo.owner, repo: context.repo.repo, issue_number: existing.number, body});
+            else await github.rest.issues.create({owner: context.repo.owner, repo: context.repo.repo, title, body});
+      - name: Close recovered failure issue
+        if: success()
+        continue-on-error: true
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const title = '[龙虎榜] 每日 Drive 归档失败';
+            const { data: issues } = await github.rest.issues.listForRepo({owner: context.repo.owner, repo: context.repo.repo, state: 'open', per_page: 100});
+            const existing = issues.find((item) => item.title === title);
+            if (existing) await github.rest.issues.update({owner: context.repo.owner, repo: context.repo.repo, issue_number: existing.number, state: 'closed', state_reason: 'completed'});
