@@ -106,7 +106,7 @@ drive_failed: 0
 
 ## 6. 自动任务
 
-两个 Secret 配置完整后，每天北京时间 21:37 的任务会自动上传最近 7 天记录。
+两个 Secret 配置完整后，每天北京时间 20:00 的任务会自动上传最近 7 天记录。
 
 如果未配置 Drive，定时任务仍会下载并生成 GitHub Artifact，但不会上传 Drive。
 
@@ -143,4 +143,4 @@ function setupCustomArchive() {
 - Apps Script 与 Google Drive 都有每日配额；本项目的低频日更通常足够。
 - 不要把 Web App URL 和令牌写入仓库。
 - 不要在来自不受信任 Fork 的工作流中使用仓库 Secrets。
-- 本方案已完成客户端、脚本语法和模拟上传测试；真实 Drive 上传必须在你部署 Web App 后才能验证。
+- 本方案已完成客户端、脚本语法、模拟上传及真实 Drive 上传验收。

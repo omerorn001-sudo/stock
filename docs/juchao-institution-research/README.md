@@ -10,7 +10,7 @@
 
 ## GitHub Actions
 
-- `juchao-research-pipeline`：Push 验证、手动日期运行、每天北京时间 21:37 回看 7 天。
+- `juchao-research-pipeline`：Push 验证、手动日期运行、每天北京时间 20:00 回看 7 天。
 - `juchao-history-backfill`：输入历史区间，按自然月串行回填。
 
 ## Google Drive

@@ -14,7 +14,7 @@
 - SHA-256、异常隔离、JSON/CSV/失败清单；
 - GitHub Artifact；
 - 手动日期运行；
-- 每天北京时间 21:37 回看最近 7 天；
+- 每天北京时间 20:00 回看最近 7 天；
 - 历史区间按自然月串行回填；
 - Google Drive Apps Script、OAuth、WIF 三种后端；
 - 公告 ID 与 SHA-256 去重；
@@ -91,7 +91,7 @@ failures       0
 - Google Drive 授权已完成；
 - 两个 GitHub Secrets 已配置并通过真实调用；
 - 手动上传工作流可用；
-- 每日任务会在北京时间 21:37 自动回看最近 7 天并上传；
+- 每日任务会在北京时间 20:00 自动回看最近 7 天并上传；
 - 无需 Google Cloud OAuth Client、Client Secret 或 Refresh Token。
 
 ## 7. 后续运维观察项

@@ -48,7 +48,7 @@ on:
         required: true
         default: "3"
   schedule:
-    - cron: "37 13 * * *"
+    - cron: "0 12 * * *"
 
 concurrency:
   group: juchao-research-${{ github.event_name }}
