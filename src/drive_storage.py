@@ -1,8 +1,17 @@
-"""Google Drive API 归档：双认证、文件夹创建、公告 ID 去重与修订更新。"""
+"""Google Drive API 归档：双认证、文件夹创建、公告 ID 去重与修订更新。
+
+支持两种正式认证路径：
+1. 个人 My Drive：OAuth client_id/client_secret/refresh_token；
+2. Workspace Shared Drive：GitHub OIDC + Workload Identity Federation，
+   由 google-github-actions/auth 生成 Application Default Credentials。
+
+本模块不保存凭据，也不把令牌写入日志。
+"""
 
 from __future__ import annotations
 
 import hashlib
+import logging
 import mimetypes
 import os
 import time
@@ -18,10 +27,14 @@ FOLDER_MIME = "application/vnd.google-apps.folder"
 DEFAULT_SCOPE = "https://www.googleapis.com/auth/drive"
 TRANSIENT_STATUS = {408, 429, 500, 502, 503, 504}
 FORMAT_MIME = {
-    "pdf": "application/pdf", "doc": "application/msword",
+    "pdf": "application/pdf",
+    "doc": "application/msword",
     "docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    "json": "application/json", "csv": "text/csv",
+    "json": "application/json",
+    "csv": "text/csv",
 }
+
+log = logging.getLogger("juchao.drive")
 
 
 class DriveError(RuntimeError):
@@ -29,8 +42,11 @@ class DriveError(RuntimeError):
 
 
 class TokenSource(Protocol):
-    def token(self) -> str: ...
-    def invalidate(self) -> None: ...
+    def token(self) -> str:
+        ...
+
+    def invalidate(self) -> None:
+        ...
 
 
 @dataclass(frozen=True)
@@ -55,6 +71,8 @@ class DriveConfig:
 
 
 class GoogleTokenSource:
+    """延迟加载 google-auth，自动刷新 OAuth 或 WIF/ADC 凭据。"""
+
     def __init__(self, config: DriveConfig) -> None:
         self.config = config
         self._credentials: Any | None = None
@@ -66,22 +84,29 @@ class GoogleTokenSource:
             from google.oauth2.credentials import Credentials
         except ImportError as exc:
             raise DriveError("缺少 google-auth，请先安装 requirements.txt") from exc
+
         refresh_token = os.getenv("GDRIVE_OAUTH_REFRESH_TOKEN", "").strip()
         client_id = os.getenv("GDRIVE_OAUTH_CLIENT_ID", "").strip()
         client_secret = os.getenv("GDRIVE_OAUTH_CLIENT_SECRET", "").strip()
-        values = (refresh_token, client_id, client_secret)
-        if any(values):
-            if not all(values):
+        oauth_values = (refresh_token, client_id, client_secret)
+        if any(oauth_values):
+            if not all(oauth_values):
                 raise DriveError("个人 OAuth 需要同时配置 client_id、client_secret、refresh_token")
             return Credentials(
-                token=None, refresh_token=refresh_token,
+                token=None,
+                refresh_token=refresh_token,
                 token_uri="https://oauth2.googleapis.com/token",
-                client_id=client_id, client_secret=client_secret, scopes=[self.config.scope],
+                client_id=client_id,
+                client_secret=client_secret,
+                scopes=[self.config.scope],
             )
+
         try:
             credentials, _project = google.auth.default(scopes=[self.config.scope])
         except Exception as exc:  # noqa: BLE001
-            raise DriveError("没有可用的 Drive 凭据：请配置个人 OAuth，或启用 WIF/ADC") from exc
+            raise DriveError(
+                "没有可用的 Drive 凭据：请配置个人 OAuth，或在 Actions 中启用 WIF/ADC"
+            ) from exc
         return credentials
 
     def token(self) -> str:
@@ -92,6 +117,7 @@ class GoogleTokenSource:
         if not getattr(self._credentials, "valid", False):
             try:
                 from google.auth.transport.requests import Request
+
                 self._credentials.refresh(Request())
             except Exception as exc:  # noqa: BLE001
                 raise DriveError("刷新 Google Drive 访问令牌失败") from exc
@@ -104,11 +130,15 @@ class GoogleTokenSource:
         if self._static_token:
             return
         if self._credentials is not None:
-            self._credentials.expiry = None
-            self._credentials.token = None
+            try:
+                self._credentials.expiry = None
+                self._credentials.token = None
+            except Exception:  # noqa: BLE001
+                self._credentials = None
 
 
 def drive_quote(value: str) -> str:
+    """转义 Drive 查询语句中的字符串值。"""
     return value.replace("\\", "\\\\").replace("'", "\\'")
 
 
@@ -117,16 +147,26 @@ def safe_property(value: Any, limit: int = 120) -> str:
 
 
 class DriveClient:
-    def __init__(self, config: DriveConfig | None = None,
-                 token_source: TokenSource | None = None,
-                 session: requests.Session | None = None) -> None:
+    def __init__(
+        self,
+        config: DriveConfig | None = None,
+        token_source: TokenSource | None = None,
+        session: requests.Session | None = None,
+    ) -> None:
         self.config = config or DriveConfig.from_env()
         self.token_source = token_source or GoogleTokenSource(self.config)
         self.session = session or requests.Session()
         self._folder_cache: dict[tuple[str, str], str] = {}
 
-    def _request(self, method: str, url: str, *, expected: set[int] | None = None,
-                 retry_body: bytes | None = None, **kwargs: Any) -> requests.Response:
+    def _request(
+        self,
+        method: str,
+        url: str,
+        *,
+        expected: set[int] | None = None,
+        retry_body: bytes | None = None,
+        **kwargs: Any,
+    ) -> requests.Response:
         expected = expected or {200}
         base_headers = dict(kwargs.pop("headers", {}) or {})
         last_response: requests.Response | None = None
@@ -143,8 +183,9 @@ class DriveClient:
                 self.token_source.invalidate()
                 continue
             if response.status_code in TRANSIENT_STATUS and attempt < 5:
+                retry_after = response.headers.get("Retry-After", "")
                 try:
-                    delay = max(float(response.headers.get("Retry-After", "")), 1.0)
+                    delay = max(float(retry_after), 1.0)
                 except ValueError:
                     delay = min(2 ** (attempt - 1), 16)
                 time.sleep(delay)
@@ -155,16 +196,20 @@ class DriveClient:
         raise DriveError(f"Drive API 重试耗尽，最后状态 {status}")
 
     def _list(self, query: str, fields: str) -> list[dict[str, Any]]:
-        params = {
-            "q": query, "spaces": "drive", "pageSize": "100",
+        params: dict[str, str] = {
+            "q": query,
+            "spaces": "drive",
+            "pageSize": "100",
             "fields": f"nextPageToken,files({fields})",
-            "includeItemsFromAllDrives": "true", "supportsAllDrives": "true",
+            "includeItemsFromAllDrives": "true",
+            "supportsAllDrives": "true",
         }
         if self.config.shared_drive_id:
             params.update({"corpora": "drive", "driveId": self.config.shared_drive_id})
         files: list[dict[str, Any]] = []
         while True:
-            payload = self._request("GET", f"{DRIVE_API}/files", params=params).json()
+            response = self._request("GET", f"{DRIVE_API}/files", params=params)
+            payload = response.json()
             files.extend(payload.get("files") or [])
             token = payload.get("nextPageToken")
             if not token:
@@ -182,14 +227,18 @@ class DriveClient:
         existing = self._list(query, "id,name")
         if existing:
             folder_id = str(existing[0]["id"])
-        else:
-            response = self._request(
-                "POST", f"{DRIVE_API}/files",
-                params={"supportsAllDrives": "true", "fields": "id,name"},
-                json={"name": name, "mimeType": FOLDER_MIME, "parents": [parent_id]},
-                expected={200, 201},
-            )
-            folder_id = str(response.json()["id"])
+            self._folder_cache[key] = folder_id
+            return folder_id
+
+        metadata = {"name": name, "mimeType": FOLDER_MIME, "parents": [parent_id]}
+        response = self._request(
+            "POST",
+            f"{DRIVE_API}/files",
+            params={"supportsAllDrives": "true", "fields": "id,name"},
+            json=metadata,
+            expected={200, 201},
+        )
+        folder_id = str(response.json()["id"])
         self._folder_cache[key] = folder_id
         return folder_id
 
@@ -209,48 +258,87 @@ class DriveClient:
         files = self._list(query, "id,name,appProperties,size,modifiedTime,webViewLink")
         return files[0] if files else None
 
-    def _upload_resumable(self, local_path: Path, metadata: dict[str, Any],
-                          file_id: str | None, mime_type: str) -> dict[str, Any]:
-        method = "PATCH" if file_id else "POST"
-        url = f"{DRIVE_UPLOAD_API}/files/{file_id}" if file_id else f"{DRIVE_UPLOAD_API}/files"
+    def _start_resumable(
+        self,
+        local_path: Path,
+        metadata: dict[str, Any],
+        file_id: str | None,
+        mime_type: str,
+    ) -> str:
+        if file_id:
+            method = "PATCH"
+            url = f"{DRIVE_UPLOAD_API}/files/{file_id}"
+        else:
+            method = "POST"
+            url = f"{DRIVE_UPLOAD_API}/files"
         response = self._request(
-            method, url,
-            params={"uploadType": "resumable", "supportsAllDrives": "true",
-                    "fields": "id,name,appProperties,size,modifiedTime,webViewLink"},
-            headers={"Content-Type": "application/json; charset=UTF-8",
-                     "X-Upload-Content-Type": mime_type,
-                     "X-Upload-Content-Length": str(local_path.stat().st_size)},
-            json=metadata, expected={200, 201},
+            method,
+            url,
+            params={
+                "uploadType": "resumable",
+                "supportsAllDrives": "true",
+                "fields": "id,name,appProperties,size,modifiedTime,webViewLink",
+            },
+            headers={
+                "Content-Type": "application/json; charset=UTF-8",
+                "X-Upload-Content-Type": mime_type,
+                "X-Upload-Content-Length": str(local_path.stat().st_size),
+            },
+            json=metadata,
+            expected={200, 201},
         )
         location = response.headers.get("Location")
         if not location:
             raise DriveError("Drive 未返回 resumable upload URL")
+        return location
+
+    def _upload_resumable(
+        self,
+        local_path: Path,
+        metadata: dict[str, Any],
+        file_id: str | None,
+        mime_type: str,
+    ) -> dict[str, Any]:
+        location = self._start_resumable(local_path, metadata, file_id, mime_type)
         body = local_path.read_bytes()
-        result = self._request(
-            "PUT", location,
+        response = self._request(
+            "PUT",
+            location,
             headers={"Content-Type": mime_type, "Content-Length": str(len(body))},
-            expected={200, 201}, retry_body=body,
+            expected={200, 201},
+            retry_body=body,
         )
-        return dict(result.json())
+        return dict(response.json())
 
     def upsert_record(self, local_path: Path, record: dict[str, Any]) -> dict[str, Any]:
         publish_date = str(record["publish_date"])
-        segments = (*self.config.base_segments, publish_date[:4], publish_date[:7], publish_date)
-        parent_id = self.ensure_path(segments)
+        folder_segments = (
+            *self.config.base_segments,
+            publish_date[:4],
+            publish_date[:7],
+            publish_date,
+        )
+        parent_id = self.ensure_path(folder_segments)
         ann_id = safe_property(record["announcement_id"])
         sha256 = safe_property(record["sha256"])
         existing = self._find_existing(parent_id, ann_id)
-        props = (existing or {}).get("appProperties") or {}
-        drive_path = "/".join((*segments, local_path.name))
-        if existing and props.get("cninfo_sha256") == sha256:
-            return {"status": "skipped", "file_id": existing["id"],
-                    "drive_path": drive_path, "version": int(props.get("cninfo_version") or 1),
-                    "web_view_link": existing.get("webViewLink")}
-        version = int(props.get("cninfo_version") or 0) + 1
+        old_sha = ((existing or {}).get("appProperties") or {}).get("cninfo_sha256")
+        drive_path = "/".join((*folder_segments, local_path.name))
+        if existing and old_sha == sha256:
+            return {
+                "status": "skipped",
+                "file_id": existing["id"],
+                "drive_path": drive_path,
+                "version": int(((existing.get("appProperties") or {}).get("cninfo_version") or 1)),
+                "web_view_link": existing.get("webViewLink"),
+            }
+
+        version = int(((existing or {}).get("appProperties") or {}).get("cninfo_version") or 0) + 1
         metadata: dict[str, Any] = {
             "name": local_path.name,
             "appProperties": {
-                "cninfo_announcement_id": ann_id, "cninfo_sha256": sha256,
+                "cninfo_announcement_id": ann_id,
+                "cninfo_sha256": sha256,
                 "cninfo_stock_code": safe_property(record.get("stock_code")),
                 "cninfo_publish_date": safe_property(publish_date),
                 "cninfo_format": safe_property(record.get("format_detected")),
@@ -262,36 +350,45 @@ class DriveClient:
             metadata["parents"] = [parent_id]
         extension = str(record.get("format_detected") or local_path.suffix.lstrip(".")).lower()
         mime_type = FORMAT_MIME.get(extension) or mimetypes.guess_type(local_path.name)[0]
-        uploaded = self._upload_resumable(
-            local_path, metadata, file_id, mime_type or "application/octet-stream"
-        )
-        return {"status": "updated" if existing else "created",
-                "file_id": uploaded.get("id") or file_id, "drive_path": drive_path,
-                "version": version, "web_view_link": uploaded.get("webViewLink")}
+        mime_type = mime_type or "application/octet-stream"
+        uploaded = self._upload_resumable(local_path, metadata, file_id, mime_type)
+        return {
+            "status": "updated" if existing else "created",
+            "file_id": uploaded.get("id") or file_id,
+            "drive_path": drive_path,
+            "version": version,
+            "web_view_link": uploaded.get("webViewLink"),
+        }
 
     def upload_run_file(self, local_path: Path, run_id: str) -> dict[str, Any]:
-        year, month = datetime_utc_parts(run_id)
-        segments = (*self.config.base_segments, "_runs", year, month, run_id)
+        now = datetime_utc_parts(run_id)
+        segments = (*self.config.base_segments, "_runs", now[0], now[1], run_id)
         parent_id = self.ensure_path(segments)
         synthetic_id = f"run:{run_id}:{local_path.name}"
         existing = self._find_existing(parent_id, synthetic_id)
         sha256 = file_sha256(local_path)
-        props = (existing or {}).get("appProperties") or {}
-        if existing and props.get("cninfo_sha256") == sha256:
+        old_sha = ((existing or {}).get("appProperties") or {}).get("cninfo_sha256")
+        if existing and old_sha == sha256:
             return {"status": "skipped", "file_id": existing["id"]}
         metadata: dict[str, Any] = {
             "name": local_path.name,
-            "appProperties": {"cninfo_announcement_id": synthetic_id,
-                              "cninfo_sha256": sha256, "cninfo_run_id": safe_property(run_id),
-                              "cninfo_version": "1"},
+            "appProperties": {
+                "cninfo_announcement_id": synthetic_id,
+                "cninfo_sha256": sha256,
+                "cninfo_run_id": safe_property(run_id),
+                "cninfo_version": "1",
+            },
         }
         file_id = str(existing["id"]) if existing else None
         if not existing:
             metadata["parents"] = [parent_id]
-        mime_type = FORMAT_MIME.get(local_path.suffix.lower().lstrip(".")) or "application/octet-stream"
+        extension = local_path.suffix.lower().lstrip(".")
+        mime_type = FORMAT_MIME.get(extension) or "application/octet-stream"
         uploaded = self._upload_resumable(local_path, metadata, file_id, mime_type)
-        return {"status": "updated" if existing else "created",
-                "file_id": uploaded.get("id") or file_id}
+        return {
+            "status": "updated" if existing else "created",
+            "file_id": uploaded.get("id") or file_id,
+        }
 
 
 def file_sha256(path: Path) -> str:
@@ -303,6 +400,7 @@ def file_sha256(path: Path) -> str:
 
 
 def datetime_utc_parts(run_id: str) -> tuple[str, str]:
+    """从 YYYYMMDDTHHMMSSZ 运行 ID 提取年和年月。"""
     if len(run_id) >= 6 and run_id[:6].isdigit():
         return run_id[:4], f"{run_id[:4]}-{run_id[4:6]}"
     return "unknown", "unknown"
