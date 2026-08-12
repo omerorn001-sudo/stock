@@ -15,7 +15,7 @@ on:
         options: [all, sh, sz]
         default: all
       upload_drive:
-        description: "上传到 Google Drive（未配置凭据时请关闭）"
+        description: "上传到 Google Drive（推荐 Apps Script；未配置时请关闭）"
         type: boolean
         default: false
       max_files_per_month:
@@ -35,8 +35,8 @@ jobs:
     outputs:
       matrix: ${{ steps.matrix.outputs.matrix }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.11"
       - id: matrix
@@ -56,6 +56,9 @@ jobs:
       id-token: write
     env:
       TZ: Asia/Shanghai
+      GDRIVE_APPS_SCRIPT_URL: ${{ secrets.GDRIVE_APPS_SCRIPT_URL }}
+      GDRIVE_APPS_SCRIPT_TOKEN: ${{ secrets.GDRIVE_APPS_SCRIPT_TOKEN }}
+      GDRIVE_APPS_SCRIPT_MAX_BYTES: ${{ vars.GDRIVE_APPS_SCRIPT_MAX_BYTES || '36700160' }}
       GCP_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
       GCP_SERVICE_ACCOUNT: ${{ secrets.GCP_SERVICE_ACCOUNT }}
       GDRIVE_OAUTH_CLIENT_ID: ${{ secrets.GDRIVE_OAUTH_CLIENT_ID }}
@@ -65,8 +68,8 @@ jobs:
       GDRIVE_SHARED_DRIVE_ID: ${{ secrets.GDRIVE_SHARED_DRIVE_ID }}
       GDRIVE_BASE_PATH: ${{ vars.GDRIVE_BASE_PATH || 'CNINFO/机构调研' }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.11"
           cache: pip
@@ -79,17 +82,42 @@ jobs:
         id: preflight
         shell: bash
         run: |
+          apps_any=false
+          apps_ready=false
+          oauth_any=false
           oauth_ready=false
+          wif_any=false
           wif_ready=false
+          if [[ -n "$GDRIVE_APPS_SCRIPT_URL" || -n "$GDRIVE_APPS_SCRIPT_TOKEN" ]]; then apps_any=true; fi
+          if [[ -n "$GDRIVE_APPS_SCRIPT_URL" && -n "$GDRIVE_APPS_SCRIPT_TOKEN" ]]; then apps_ready=true; fi
+          if [[ -n "$GDRIVE_OAUTH_CLIENT_ID" || -n "$GDRIVE_OAUTH_CLIENT_SECRET" || -n "$GDRIVE_OAUTH_REFRESH_TOKEN" ]]; then oauth_any=true; fi
           if [[ -n "$GDRIVE_OAUTH_CLIENT_ID" && -n "$GDRIVE_OAUTH_CLIENT_SECRET" && -n "$GDRIVE_OAUTH_REFRESH_TOKEN" ]]; then oauth_ready=true; fi
+          if [[ -n "$GCP_WORKLOAD_IDENTITY_PROVIDER" || -n "$GCP_SERVICE_ACCOUNT" ]]; then wif_any=true; fi
           if [[ -n "$GCP_WORKLOAD_IDENTITY_PROVIDER" && -n "$GCP_SERVICE_ACCOUNT" ]]; then wif_ready=true; fi
-          if [[ "${{ inputs.upload_drive }}" == "true" && "$oauth_ready" != "true" && "$wif_ready" != "true" ]]; then
-            echo "::error::已选择上传 Drive，但 OAuth 或 WIF 凭据不完整"
+
+          backend=not_configured
+          config_error=""
+          if [[ "$apps_any" == "true" ]]; then
+            if [[ "$apps_ready" == "true" ]]; then backend=apps_script; else config_error="Apps Script 需要同时配置 URL 和 TOKEN"; fi
+          elif [[ "$oauth_any" == "true" ]]; then
+            if [[ "$oauth_ready" == "true" ]]; then backend=oauth; else config_error="OAuth 三项凭据不完整"; fi
+          elif [[ "$wif_any" == "true" ]]; then
+            if [[ "$wif_ready" == "true" ]]; then backend=wif; else config_error="WIF 两项配置不完整"; fi
+          fi
+          if [[ "${{ inputs.upload_drive }}" == "true" && -n "$config_error" ]]; then
+            echo "::error::$config_error"
             exit 1
           fi
-          echo "wif_ready=$wif_ready" >> "$GITHUB_OUTPUT"
+          if [[ "${{ inputs.upload_drive }}" == "true" && "$backend" == "not_configured" ]]; then
+            echo "::error::已选择上传 Drive，但尚未配置 Apps Script、OAuth 或 WIF"
+            exit 1
+          fi
+          use_wif=false
+          if [[ "$backend" == "wif" ]]; then use_wif=true; fi
+          echo "backend=$backend" >> "$GITHUB_OUTPUT"
+          echo "use_wif=$use_wif" >> "$GITHUB_OUTPUT"
       - name: Authenticate with Workload Identity Federation
-        if: inputs.upload_drive == true && steps.preflight.outputs.wif_ready == 'true'
+        if: inputs.upload_drive == true && steps.preflight.outputs.use_wif == 'true'
         uses: google-github-actions/auth@v3
         with:
           workload_identity_provider: ${{ env.GCP_WORKLOAD_IDENTITY_PROVIDER }}
@@ -97,6 +125,14 @@ jobs:
           create_credentials_file: true
           token_format: access_token
           access_token_scopes: https://www.googleapis.com/auth/drive
+      - name: Check Apps Script Drive gateway
+        if: inputs.upload_drive == true && steps.preflight.outputs.backend == 'apps_script'
+        run: |
+          python - <<'PY'
+          from src.apps_script_storage import AppsScriptDriveClient
+          result = AppsScriptDriveClient().ping()
+          print("Apps Script Drive 网关连接成功：" + str(result.get("service") or "ok"))
+          PY
       - name: Backfill month
         shell: bash
         run: |
@@ -107,7 +143,7 @@ jobs:
           python -m src.pipeline "${args[@]}"
       - name: Upload monthly artifact
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: juchao-backfill-${{ matrix.start }}-${{ matrix.end }}
           path: artifacts/backfill-${{ matrix.start }}-${{ matrix.end }}/
@@ -122,7 +158,7 @@ jobs:
       issues: write
       contents: read
     steps:
-      - uses: actions/github-script@v7
+      - uses: actions/github-script@v8
         continue-on-error: true
         with:
           script: |
