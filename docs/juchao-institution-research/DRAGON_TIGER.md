@@ -1,14 +1,15 @@
 # 每日龙虎榜 Drive 归档
 
-本功能从东方财富公开龙虎榜接口获取指定交易日数据，只保留沪市、深市 A 股，排除北交所和可转债，然后把结构化文件归档到个人 Google Drive。
+本功能从东方财富公开龙虎榜接口获取指定交易日数据，只保留沪市、深市 A 股，排除北交所和可转债，并逐只股票获取买入、卖出前五席位明细，然后归档到个人 Google Drive。
 
 ## 输出内容
 
 每个交易日生成：
 
-- `龙虎榜_YYYY-MM-DD.csv`：便于 Excel、表格软件和数据分析；
-- `龙虎榜_YYYY-MM-DD.json`：保留完整结构化字段和数据源元信息；
-- `龙虎榜摘要_YYYY-MM-DD.md`：记录数量、证券数量及净买额前 10 条；
+- `龙虎榜_YYYY-MM-DD.csv`：龙虎榜汇总；证券代码使用六位文本格式，Google Sheets/Excel 不再删除前导零；
+- `龙虎榜席位明细_YYYY-MM-DD.csv`：逐只股票、逐个上榜原因列出买入前五和卖出前五席位、买卖金额及净额；
+- `龙虎榜_YYYY-MM-DD.json`：每条龙虎榜记录内嵌 `buy_seats` 和 `sell_seats`；
+- `龙虎榜摘要_YYYY-MM-DD.md`：完整列出每只股票、每个上榜原因及对应买卖席位；
 - `manifest.json`：GitHub Artifact 内的本次运行审计清单，不上传 Drive。
 
 Google Drive 目录：
@@ -18,6 +19,18 @@ My Drive/CNINFO/龙虎榜/YYYY/YYYY-MM/YYYY-MM-DD/
 ```
 
 相同日期和文件内容重复运行时返回 `skipped`，不会创建重复文件；数据变化时创建新版本并把旧版本移入回收站。
+
+## 证券代码格式
+
+CSV 中的证券代码写成表格软件可识别的六位文本公式，例如 `="000779"`。在 Google Sheets 和 Excel 中显示为 `000779`，而不是 `779`；`市场代码` 列同时保留 `000779.SZ` 或 `600000.SH`。JSON 中始终保存原始六位字符串。
+
+## 席位口径
+
+- 买入席位数据：`RPT_BILLBOARD_DAILYDETAILSBUY`；
+- 卖出席位数据：`RPT_BILLBOARD_DAILYDETAILSSELL`；
+- 按证券代码和上榜原因分别匹配；
+- 每个方向最多保留金额排序前五席位；
+- 记录营业部/机构名称、买入额、卖出额、净额及占总成交比例。
 
 ## 首次启用：更新 Apps Script 部署
 
@@ -29,7 +42,7 @@ My Drive/CNINFO/龙虎榜/YYYY/YYYY-MM/YYYY-MM-DD/
 4. 版本选择 **新版本**；
 5. 点击 **部署**。
 
-不需要再次运行 `initialize`，原上传令牌继续有效。
+本次证券代码和席位明细改动只发生在 Python 采集端，已经部署过 `dataset_file` 版本的用户不需要再次部署 Apps Script。
 
 ## 手动运行
 

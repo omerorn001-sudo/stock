@@ -30,7 +30,7 @@ on:
         required: false
         type: string
       upload_drive:
-        description: "上传 CSV、JSON 和 Markdown 摘要到 Google Drive"
+        description: "上传汇总、买卖席位明细、JSON 和完整报告到 Google Drive"
         required: true
         type: boolean
         default: true
