@@ -1,3 +1,4 @@
+import csv
 import json
 from pathlib import Path
 
@@ -97,6 +98,11 @@ class Drive:
         }
 
 
+def _first_csv_row(path: Path):
+    with path.open(encoding="utf-8-sig", newline="") as handle:
+        return next(csv.DictReader(handle))
+
+
 def test_run_writes_six_digit_codes_and_seat_details(tmp_path: Path):
     drive = Drive()
     result = run(
@@ -113,14 +119,13 @@ def test_run_writes_six_digit_codes_and_seat_details(tmp_path: Path):
     assert result["seat_records"] == 2
     assert len(drive.calls) == 4
 
-    summary_csv = (target / "龙虎榜_2026-08-11.csv").read_text(encoding="utf-8-sig")
-    seat_csv = (target / "龙虎榜席位明细_2026-08-11.csv").read_text(
-        encoding="utf-8-sig"
-    )
-    assert '="000001"' in summary_csv
-    assert '="000001"' in seat_csv
-    assert "买一营业部" in seat_csv
-    assert "卖一营业部" in seat_csv
+    summary_row = _first_csv_row(target / "龙虎榜_2026-08-11.csv")
+    seat_rows_path = target / "龙虎榜席位明细_2026-08-11.csv"
+    with seat_rows_path.open(encoding="utf-8-sig", newline="") as handle:
+        seat_rows = list(csv.DictReader(handle))
+    assert summary_row["证券代码"] == '="000001"'
+    assert {row["证券代码"] for row in seat_rows} == {'="000001"'}
+    assert {row["营业部名称"] for row in seat_rows} == {"买一营业部", "卖一营业部"}
 
     payload = json.loads((target / "龙虎榜_2026-08-11.json").read_text())
     assert payload["schema_version"] == 2
