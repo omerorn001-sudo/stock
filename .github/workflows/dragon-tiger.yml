@@ -5,18 +5,22 @@ on:
     branches: [main]
     paths:
       - "src/dragon_tiger.py"
+      - "src/dragon_tiger_html.py"
       - "src/apps_script_storage.py"
       - "apps-script/Code.gs"
       - "tests/test_dragon_tiger.py"
+      - "tests/test_dragon_tiger_html.py"
       - "tests/test_apps_script_storage.py"
       - ".github/workflows/dragon-tiger.yml"
       - "requirements-juchao.txt"
   pull_request:
     paths:
       - "src/dragon_tiger.py"
+      - "src/dragon_tiger_html.py"
       - "src/apps_script_storage.py"
       - "apps-script/Code.gs"
       - "tests/test_dragon_tiger.py"
+      - "tests/test_dragon_tiger_html.py"
       - "tests/test_apps_script_storage.py"
       - ".github/workflows/dragon-tiger.yml"
       - "requirements-juchao.txt"
@@ -30,7 +34,7 @@ on:
         required: false
         type: string
       upload_drive:
-        description: "上传汇总、买卖席位明细、JSON 和完整报告到 Google Drive"
+        description: "上传汇总、席位明细、JSON、Markdown 和 HTML 报告到 Google Drive"
         required: true
         type: boolean
         default: true
@@ -64,16 +68,22 @@ jobs:
       - name: Critical static checks
         run: |
           ruff check --select E9,F63,F7,F82 \
-            src/dragon_tiger.py src/apps_script_storage.py \
-            tests/test_dragon_tiger.py tests/test_apps_script_storage.py
+            src/dragon_tiger.py src/dragon_tiger_html.py src/apps_script_storage.py \
+            tests/test_dragon_tiger.py tests/test_dragon_tiger_html.py \
+            tests/test_apps_script_storage.py
       - name: Unit tests
         run: |
-          python -m pytest -q tests/test_dragon_tiger.py tests/test_apps_script_storage.py
+          python -m pytest -q \
+            tests/test_dragon_tiger.py tests/test_dragon_tiger_html.py \
+            tests/test_apps_script_storage.py
       - name: Best-effort live data probe
         if: github.event_name == 'push' || github.event_name == 'pull_request'
         continue-on-error: true
         run: |
           python -m src.dragon_tiger \
+            --date 2026-08-11 \
+            --output artifacts/dragon-tiger-probe
+          python -m src.dragon_tiger_html \
             --date 2026-08-11 \
             --output artifacts/dragon-tiger-probe
       - name: Upload probe artifact
@@ -134,12 +144,18 @@ jobs:
           print("Apps Script Drive 网关连接成功：" + str(result.get("service") or "ok"))
           print("龙虎榜目录：" + str((result.get("datasets") or {}).get("dragon_tiger") or "等待新版脚本"))
           PY
-      - name: Fetch and archive
+      - name: Fetch and archive data files
         shell: bash
         run: |
           args=(--date "${{ steps.params.outputs.trade_date }}" --output artifacts/dragon-tiger)
           if [[ "${{ steps.params.outputs.upload }}" == "true" ]]; then args+=(--upload-drive); fi
           python -m src.dragon_tiger "${args[@]}"
+      - name: Build and archive HTML report
+        shell: bash
+        run: |
+          args=(--date "${{ steps.params.outputs.trade_date }}" --output artifacts/dragon-tiger)
+          if [[ "${{ steps.params.outputs.upload }}" == "true" ]]; then args+=(--upload-drive); fi
+          python -m src.dragon_tiger_html "${args[@]}"
       - name: Upload run artifact
         if: always()
         uses: actions/upload-artifact@v5
