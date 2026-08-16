@@ -1,0 +1,79 @@
+name: A股指定日期报告（每日自动）
+
+on:
+  schedule:
+    # GitHub Actions 的 cron 使用 UTC；UTC 11:30 = 北京时间 19:30
+    # 定时任务可能因 GitHub Actions 调度而延迟数分钟至数十分钟
+    - cron: '30 11 * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: report-by-date-daily
+  cancel-in-progress: false
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: 确定北京时间报告日期
+        id: report-date
+        shell: bash
+        run: |
+          report_date="$(TZ=Asia/Shanghai date +%F)"
+          echo "date=${report_date}" >> "$GITHUB_OUTPUT"
+          echo "北京时间报告日期：${report_date}"
+
+      - name: 生成当日指定日期报告
+        id: generate
+        shell: bash
+        env:
+          REPORT_DATE: ${{ steps.report-date.outputs.date }}
+        run: |
+          set +e
+          bun run src/report-by-date.ts "$REPORT_DATE" 2>&1 | tee /tmp/report-by-date.log
+          status=${PIPESTATUS[0]}
+          set -e
+
+          if [ "$status" -eq 0 ]; then
+            echo "generated=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          if grep -q "不是交易日" /tmp/report-by-date.log; then
+            echo "${REPORT_DATE} 不是交易日，正常跳过。"
+            echo "generated=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "报告生成失败，退出码：${status}"
+          exit "$status"
+
+      - name: 提交报告
+        if: steps.generate.outputs.generated == 'true'
+        shell: bash
+        env:
+          REPORT_DATE: ${{ steps.report-date.outputs.date }}
+          TARGET_BRANCH: ${{ github.ref_name }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "reports/${REPORT_DATE}.html"
+
+          if git diff --cached --quiet; then
+            echo "报告没有变化，跳过提交。"
+            exit 0
+          fi
+
+          git commit -m "report(${REPORT_DATE}): 每日自动指定日期报告"
+          git pull --rebase origin "$TARGET_BRANCH"
+          git push origin "HEAD:${TARGET_BRANCH}"
