@@ -2,29 +2,27 @@ name: juchao-research-pipeline
 
 on:
   push:
-    branches: [main, feat/juchao-institution-research]
+    branches: [main]
     paths:
       - "src/phase1.py"
+      - "src/pipeline.py"
+      - "src/research_complete.py"
       - "src/drive_storage.py"
       - "src/apps_script_storage.py"
-      - "src/pipeline.py"
-      - "scripts/backfill_matrix.py"
-      - "scripts/self_check.py"
-      - "apps-script/Code.gs"
       - "tests/**"
       - ".github/workflows/fetch.yml"
+      - ".github/workflows/backfill.yml"
       - "requirements-juchao.txt"
   pull_request:
     paths:
       - "src/phase1.py"
+      - "src/pipeline.py"
+      - "src/research_complete.py"
       - "src/drive_storage.py"
       - "src/apps_script_storage.py"
-      - "src/pipeline.py"
-      - "scripts/backfill_matrix.py"
-      - "scripts/self_check.py"
-      - "apps-script/Code.gs"
       - "tests/**"
       - ".github/workflows/fetch.yml"
+      - ".github/workflows/backfill.yml"
       - "requirements-juchao.txt"
   workflow_dispatch:
     inputs:
@@ -35,18 +33,18 @@ on:
         description: "结束日期 YYYY-MM-DD（含当日）"
         required: true
       market:
-        description: "市场范围"
+        description: "市场范围（北交所始终排除）"
         type: choice
         options: [all, sh, sz]
         default: all
       upload_drive:
-        description: "上传到 Google Drive（推荐 Apps Script；未配置时请关闭）"
+        description: "上传到 Google Drive"
         type: boolean
-        default: false
+        default: true
       max_files:
         description: "最多处理数量；0表示不限制"
         required: true
-        default: "3"
+        default: "0"
   schedule:
     - cron: "0 12 * * *"
 
@@ -56,7 +54,6 @@ concurrency:
 
 jobs:
   validate:
-    name: Validate code
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
@@ -68,69 +65,43 @@ jobs:
           python-version: "3.11"
           cache: pip
           cache-dependency-path: requirements-juchao.txt
-      - name: Install pipeline dependencies
+      - name: Install
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements-juchao.txt
-      - name: Compile Python and Apps Script
+      - name: Compile and lint
         run: |
           python -m compileall -q src scripts tests
           node --check < apps-script/Code.gs
-      - name: Critical static checks
-        run: |
           ruff check --select E9,F63,F7,F82 \
-            src/phase1.py src/drive_storage.py src/apps_script_storage.py src/pipeline.py \
-            scripts/backfill_matrix.py scripts/self_check.py \
-            tests/test_phase1.py tests/test_drive_storage.py \
-            tests/test_apps_script_storage.py tests/test_pipeline.py
+            src/phase1.py src/pipeline.py src/research_complete.py \
+            src/drive_storage.py src/apps_script_storage.py \
+            tests/test_phase1.py tests/test_research_complete.py \
+            tests/test_pipeline.py tests/test_drive_storage.py \
+            tests/test_apps_script_storage.py
       - name: Unit tests
         run: |
-          python -m pytest -q tests/test_phase1.py tests/test_drive_storage.py \
-            tests/test_apps_script_storage.py tests/test_pipeline.py
-      - name: Offline end-to-end self-check
-        run: python -m scripts.self_check
-      - name: Best-effort live metadata probe
-        if: github.event_name == 'push' || github.event_name == 'pull_request'
-        continue-on-error: true
+          python -m pytest -q \
+            tests/test_phase1.py tests/test_research_complete.py \
+            tests/test_pipeline.py tests/test_drive_storage.py \
+            tests/test_apps_script_storage.py
+      - name: Verify production entry points
         run: |
-          python -m src.pipeline \
-            --start 2025-03-07 \
-            --end 2025-03-07 \
-            --market all \
-            --output artifacts/live-probe \
-            --fail-on-empty \
-            --skip-run-manifest-upload
-      - name: Upload probe artifact
-        if: always() && (github.event_name == 'push' || github.event_name == 'pull_request')
-        uses: actions/upload-artifact@v5
-        with:
-          name: juchao-live-probe
-          path: artifacts/live-probe/
-          if-no-files-found: warn
-          retention-days: 7
+          grep -q "python -m src.research_complete" .github/workflows/fetch.yml
+          grep -q "python -m src.research_complete" .github/workflows/backfill.yml
 
   archive:
-    name: Discover, download and archive
     needs: validate
     if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
     runs-on: ubuntu-latest
     timeout-minutes: 330
     permissions:
       contents: read
-      id-token: write
-      issues: write
     env:
       TZ: Asia/Shanghai
       GDRIVE_APPS_SCRIPT_URL: ${{ secrets.GDRIVE_APPS_SCRIPT_URL }}
       GDRIVE_APPS_SCRIPT_TOKEN: ${{ secrets.GDRIVE_APPS_SCRIPT_TOKEN }}
       GDRIVE_APPS_SCRIPT_MAX_BYTES: ${{ vars.GDRIVE_APPS_SCRIPT_MAX_BYTES || '36700160' }}
-      GCP_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
-      GCP_SERVICE_ACCOUNT: ${{ secrets.GCP_SERVICE_ACCOUNT }}
-      GDRIVE_OAUTH_CLIENT_ID: ${{ secrets.GDRIVE_OAUTH_CLIENT_ID }}
-      GDRIVE_OAUTH_CLIENT_SECRET: ${{ secrets.GDRIVE_OAUTH_CLIENT_SECRET }}
-      GDRIVE_OAUTH_REFRESH_TOKEN: ${{ secrets.GDRIVE_OAUTH_REFRESH_TOKEN }}
-      GDRIVE_ROOT_FOLDER_ID: ${{ secrets.GDRIVE_ROOT_FOLDER_ID }}
-      GDRIVE_SHARED_DRIVE_ID: ${{ secrets.GDRIVE_SHARED_DRIVE_ID }}
       GDRIVE_BASE_PATH: ${{ vars.GDRIVE_BASE_PATH || 'CNINFO/机构调研' }}
     steps:
       - uses: actions/checkout@v5
@@ -139,47 +110,21 @@ jobs:
           python-version: "3.11"
           cache: pip
           cache-dependency-path: requirements-juchao.txt
-      - name: Install pipeline dependencies
+      - name: Install
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements-juchao.txt
-      - name: Resolve and validate run parameters
+      - name: Resolve parameters
         id: params
         shell: bash
         run: |
-          apps_any=false
-          apps_ready=false
-          oauth_any=false
-          oauth_ready=false
-          wif_any=false
-          wif_ready=false
-          if [[ -n "$GDRIVE_APPS_SCRIPT_URL" || -n "$GDRIVE_APPS_SCRIPT_TOKEN" ]]; then apps_any=true; fi
-          if [[ -n "$GDRIVE_APPS_SCRIPT_URL" && -n "$GDRIVE_APPS_SCRIPT_TOKEN" ]]; then apps_ready=true; fi
-          if [[ -n "$GDRIVE_OAUTH_CLIENT_ID" || -n "$GDRIVE_OAUTH_CLIENT_SECRET" || -n "$GDRIVE_OAUTH_REFRESH_TOKEN" ]]; then oauth_any=true; fi
-          if [[ -n "$GDRIVE_OAUTH_CLIENT_ID" && -n "$GDRIVE_OAUTH_CLIENT_SECRET" && -n "$GDRIVE_OAUTH_REFRESH_TOKEN" ]]; then oauth_ready=true; fi
-          if [[ -n "$GCP_WORKLOAD_IDENTITY_PROVIDER" || -n "$GCP_SERVICE_ACCOUNT" ]]; then wif_any=true; fi
-          if [[ -n "$GCP_WORKLOAD_IDENTITY_PROVIDER" && -n "$GCP_SERVICE_ACCOUNT" ]]; then wif_ready=true; fi
-
-          backend=not_configured
-          config_error=""
-          if [[ "$apps_any" == "true" ]]; then
-            if [[ "$apps_ready" == "true" ]]; then backend=apps_script; else config_error="Apps Script 需要同时配置 URL 和 TOKEN"; fi
-          elif [[ "$oauth_any" == "true" ]]; then
-            if [[ "$oauth_ready" == "true" ]]; then backend=oauth; else config_error="OAuth 三项凭据不完整"; fi
-          elif [[ "$wif_any" == "true" ]]; then
-            if [[ "$wif_ready" == "true" ]]; then backend=wif; else config_error="WIF 两项配置不完整"; fi
-          fi
-          drive_ready=false
-          if [[ "$backend" != "not_configured" && -z "$config_error" ]]; then drive_ready=true; fi
-
           if [[ "${{ github.event_name }}" == "schedule" ]]; then
             start=$(TZ=Asia/Shanghai date -d '6 days ago' +%F)
             end=$(TZ=Asia/Shanghai date +%F)
             market=all
-            upload=$drive_ready
+            upload=true
             max_files=0
             fail_on_empty=true
-            if [[ -n "$config_error" ]]; then echo "::warning::$config_error；本次定时任务仅生成 Artifact"; fi
           else
             start="${{ inputs.start }}"
             end="${{ inputs.end }}"
@@ -188,52 +133,34 @@ jobs:
             max_files="${{ inputs.max_files }}"
             fail_on_empty=false
           fi
-          if [[ "$upload" == "true" && -n "$config_error" ]]; then
-            echo "::error::$config_error"
+          if [[ "$upload" == "true" && ( -z "$GDRIVE_APPS_SCRIPT_URL" || -z "$GDRIVE_APPS_SCRIPT_TOKEN" ) ]]; then
+            echo "::error::上传 Drive 需要 Apps Script URL 和 TOKEN"
             exit 1
           fi
-          if [[ "$upload" == "true" && "$drive_ready" != "true" ]]; then
-            echo "::error::已选择上传 Drive，但尚未配置 Apps Script、OAuth 或 WIF"
-            exit 1
-          fi
-          if [[ "$upload" != "true" ]]; then backend=not_requested; fi
-          use_wif=false
-          if [[ "$backend" == "wif" ]]; then use_wif=true; fi
           echo "start=$start" >> "$GITHUB_OUTPUT"
           echo "end=$end" >> "$GITHUB_OUTPUT"
           echo "market=$market" >> "$GITHUB_OUTPUT"
           echo "upload=$upload" >> "$GITHUB_OUTPUT"
           echo "max_files=$max_files" >> "$GITHUB_OUTPUT"
           echo "fail_on_empty=$fail_on_empty" >> "$GITHUB_OUTPUT"
-          echo "backend=$backend" >> "$GITHUB_OUTPUT"
-          echo "use_wif=$use_wif" >> "$GITHUB_OUTPUT"
-      - name: Authenticate with Workload Identity Federation
-        if: steps.params.outputs.upload == 'true' && steps.params.outputs.use_wif == 'true'
-        uses: google-github-actions/auth@v3
-        with:
-          workload_identity_provider: ${{ env.GCP_WORKLOAD_IDENTITY_PROVIDER }}
-          service_account: ${{ env.GCP_SERVICE_ACCOUNT }}
-          create_credentials_file: true
-          token_format: access_token
-          access_token_scopes: https://www.googleapis.com/auth/drive
-      - name: Check Apps Script Drive gateway
-        if: steps.params.outputs.upload == 'true' && steps.params.outputs.backend == 'apps_script'
+      - name: Check Drive gateway
+        if: steps.params.outputs.upload == 'true'
         run: |
           python - <<'PY'
           from src.apps_script_storage import AppsScriptDriveClient
-          result = AppsScriptDriveClient().ping()
-          print("Apps Script Drive 网关连接成功：" + str(result.get("service") or "ok"))
+          print(AppsScriptDriveClient().ping().get('service') or 'ok')
           PY
-      - name: Run archive pipeline
+      - name: Run complete archive
         shell: bash
         run: |
           args=(--start "${{ steps.params.outputs.start }}" --end "${{ steps.params.outputs.end }}"
-                --market "${{ steps.params.outputs.market }}" --max-files "${{ steps.params.outputs.max_files }}"
+                --market "${{ steps.params.outputs.market }}"
+                --max-files "${{ steps.params.outputs.max_files }}"
                 --download-files --output artifacts/juchao-run)
           if [[ "${{ steps.params.outputs.upload }}" == "true" ]]; then args+=(--upload-drive); fi
           if [[ "${{ steps.params.outputs.fail_on_empty }}" == "true" ]]; then args+=(--fail-on-empty); fi
-          python -m src.pipeline "${args[@]}"
-      - name: Upload run artifact
+          python -m src.research_complete "${args[@]}"
+      - name: Upload artifact
         if: always()
         uses: actions/upload-artifact@v5
         with:
@@ -241,27 +168,3 @@ jobs:
           path: artifacts/juchao-run/
           if-no-files-found: warn
           retention-days: 14
-      - name: Open or update failure issue
-        if: failure()
-        continue-on-error: true
-        uses: actions/github-script@v8
-        env:
-          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        with:
-          script: |
-            const title = '[juchao] 机构调研归档流水线失败';
-            const body = `运行失败：${process.env.RUN_URL}`;
-            const { data: issues } = await github.rest.issues.listForRepo({owner: context.repo.owner, repo: context.repo.repo, state: 'open', per_page: 100});
-            const existing = issues.find((item) => item.title === title);
-            if (existing) await github.rest.issues.createComment({owner: context.repo.owner, repo: context.repo.repo, issue_number: existing.number, body});
-            else await github.rest.issues.create({owner: context.repo.owner, repo: context.repo.repo, title, body});
-      - name: Close recovered failure issue
-        if: success()
-        continue-on-error: true
-        uses: actions/github-script@v8
-        with:
-          script: |
-            const title = '[juchao] 机构调研归档流水线失败';
-            const { data: issues } = await github.rest.issues.listForRepo({owner: context.repo.owner, repo: context.repo.repo, state: 'open', per_page: 100});
-            const existing = issues.find((item) => item.title === title);
-            if (existing) await github.rest.issues.update({owner: context.repo.owner, repo: context.repo.repo, issue_number: existing.number, state: 'closed', state_reason: 'completed'});

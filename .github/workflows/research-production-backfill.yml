@@ -1,0 +1,142 @@
+name: research-production-backfill-validation
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/research-production-backfill.yml"
+      - "validation/research-production-backfill-trigger.txt"
+
+permissions:
+  contents: write
+
+jobs:
+  backfill-and-verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    env:
+      TZ: Asia/Shanghai
+      GDRIVE_APPS_SCRIPT_URL: ${{ secrets.GDRIVE_APPS_SCRIPT_URL }}
+      GDRIVE_APPS_SCRIPT_TOKEN: ${{ secrets.GDRIVE_APPS_SCRIPT_TOKEN }}
+      GDRIVE_APPS_SCRIPT_MAX_BYTES: ${{ vars.GDRIVE_APPS_SCRIPT_MAX_BYTES || '36700160' }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements-juchao.txt
+      - name: Install and test
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-juchao.txt
+          python -m compileall -q src tests
+          ruff check --select E9,F63,F7,F82 \
+            src/phase1.py src/pipeline.py src/research_complete.py \
+            src/apps_script_storage.py tests/test_research_complete.py
+          python -m pytest -q tests/test_phase1.py tests/test_research_complete.py \
+            tests/test_pipeline.py tests/test_apps_script_storage.py
+      - name: First production backfill
+        id: first
+        continue-on-error: true
+        run: |
+          python -m src.research_complete \
+            --start 2026-08-13 --end 2026-08-16 \
+            --market all --max-files 0 --download-files --upload-drive \
+            --skip-run-manifest-upload \
+            --output artifacts/research-production-backfill/first
+      - name: Second idempotency run
+        id: second
+        continue-on-error: true
+        run: |
+          python -m src.research_complete \
+            --start 2026-08-13 --end 2026-08-16 \
+            --market all --max-files 0 --download-files --upload-drive \
+            --skip-run-manifest-upload \
+            --output artifacts/research-production-backfill/second
+      - name: Write result
+        if: always()
+        env:
+          FIRST_OUTCOME: ${{ steps.first.outcome }}
+          SECOND_OUTCOME: ${{ steps.second.outcome }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          root = Path('artifacts/research-production-backfill')
+          def load(name):
+              path = root / name / 'manifest.json'
+              return json.loads(path.read_text(encoding='utf-8')) if path.exists() else None
+          first_doc = load('first')
+          second_doc = load('second')
+          first = first_doc['summary'] if first_doc else None
+          second = second_doc['summary'] if second_doc else None
+          records = first_doc.get('records', []) if first_doc else []
+          filenames_no_id = all(
+              not row.get('local_path') or
+              str(row.get('announcement_id') or '') not in Path(str(row['local_path'])).name
+              for row in records
+          )
+          supported = 0 if not first else sum(int(first.get(k) or 0) for k in ('pdf','doc','docx'))
+          checks = {
+              'first_step_ok': os.environ.get('FIRST_OUTCOME') == 'success',
+              'second_step_ok': os.environ.get('SECOND_OUTCOME') == 'success',
+              'company_coverage_100': bool(first) and first.get('coverage_pct') == 100.0,
+              'record_coverage_100': bool(first) and first.get('record_coverage_pct') == 100.0,
+              'no_missing_companies': bool(first) and first.get('missing_expected_companies') == 0,
+              'no_missing_records': bool(first) and first.get('missing_expected_records') == 0,
+              'all_downloaded': bool(first) and first.get('accepted', 0) > 0
+                  and first.get('downloaded') == first.get('accepted'),
+              'all_formats_supported': bool(first) and supported == first.get('accepted'),
+              'filename_ids_omitted': filenames_no_id,
+              'drive_no_failure': bool(first) and first.get('drive_failed') == 0,
+              'pipeline_no_failure': bool(first) and first.get('failures') == 0,
+              'second_idempotent': bool(second)
+                  and second.get('drive_created') == 0
+                  and second.get('drive_updated') == 0
+                  and second.get('drive_skipped') == second.get('downloaded'),
+              'second_no_failure': bool(second) and second.get('failures') == 0,
+          }
+          keys = [
+              'start','end','raw','accepted','expected_companies',
+              'matched_expected_companies','missing_expected_companies','coverage_pct',
+              'expected_records','matched_expected_records','missing_expected_records',
+              'record_coverage_pct','downloaded','pdf','doc','docx','drive_created',
+              'drive_updated','drive_skipped','drive_failed','failures','drive_backend',
+          ]
+          result = {
+              'generated_at': datetime.now(timezone.utc).isoformat(),
+              'run_url': os.environ['RUN_URL'],
+              'checks': checks,
+              'first_summary': {k: first.get(k) for k in keys} if first else None,
+              'second_summary': {k: second.get(k) for k in keys} if second else None,
+              'overall': 'passed' if all(checks.values()) else 'failed',
+          }
+          root.mkdir(parents=True, exist_ok=True)
+          (root / 'result.json').write_text(
+              json.dumps(result, ensure_ascii=False, indent=2) + '\n', encoding='utf-8'
+          )
+          PY
+      - name: Commit result
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f artifacts/research-production-backfill/result.json
+          git diff --cached --quiet || git commit -m "test(juchao): record production backfill [skip ci]"
+          git pull --rebase --autostash
+          git push
+      - name: Enforce result
+        if: always()
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          result = json.loads(Path('artifacts/research-production-backfill/result.json').read_text())
+          if result['overall'] != 'passed':
+              raise SystemExit('production research backfill failed')
+          PY
