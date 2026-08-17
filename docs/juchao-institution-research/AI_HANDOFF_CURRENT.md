@@ -1,114 +1,119 @@
-# 巨潮机构调研归档系统｜当前交接状态
+# 机构调研归档系统｜当前交接状态
 
-更新时间：2026-08-12（Asia/Shanghai）
+更新时间：2026-08-17（Asia/Shanghai）
 
-## 1. 项目目标
+## 1. 当前目标与数据口径
 
-从巨潮资讯网发现机构调研／投资者关系活动公告，只保留沪市、深市 A 股，排除北交所，下载 PDF、DOC、DOCX 原件，生成审计清单，并归档到 Google Drive。
+按公告日期完整归档沪深机构调研／投资者关系活动原始附件，排除北交所。东方财富汇总报表 `RPT_ORG_SURVEYNEW` 是每日预期公司和活动清单，明细报表 `RPT_ORG_SURVEY` 提供原始公告 URL。两份清单必须完成公司级和活动级对账；不可解释缺失会让任务失败。
 
-## 2. 已完成能力
+## 2. 正式实现
 
-- 按日期范围和关键词查询巨潮公告并处理完整分页；
-- 沪深 A 股筛选，排除北交所代码；
-- PDF、DOC、DOCX 真实格式检测；
-- SHA-256、异常隔离、JSON/CSV/失败清单；
-- GitHub Artifact；
-- 手动日期运行；
-- 每天北京时间 20:00 回看最近 7 天；
-- 历史区间按自然月串行回填；
-- Google Drive Apps Script、OAuth、WIF 三种后端；
-- 公告 ID 与 SHA-256 去重；
-- Apps Script URL/令牌预检；
-- 失败重试与汇总；
-- 个人 Google Drive 真实上传和重复运行验收。
-
-## 3. 正式文件
+正式生产入口：
 
 ```text
-apps-script/Code.gs
+src/research_complete.py
+```
+
+所有运行方式均调用：
+
+```bash
+python -m src.research_complete
+```
+
+相关文件：
+
+```text
+src/research_complete.py
 src/apps_script_storage.py
 src/pipeline.py
+tests/test_research_complete.py
 .github/workflows/fetch.yml
 .github/workflows/backfill.yml
-tests/test_apps_script_storage.py
-tests/test_pipeline.py
-docs/juchao-institution-research/APPS_SCRIPT_SETUP.md
-docs/juchao-institution-research/DRIVE_VALIDATION_RESULT.md
+.github/workflows/research-production-backfill.yml
 ```
 
-Drive 后端选择顺序：
+主要规则：
 
-1. `GDRIVE_APPS_SCRIPT_URL` + `GDRIVE_APPS_SCRIPT_TOKEN`；
-2. OAuth 三项凭据；
-3. WIF/ADC。
+- 东方财富明细接口使用 `columns=ALL`、`pageSize=50` 稳定分页；
+- 沪市、深市纳入，北交所排除；
+- 公司和活动覆盖率必须为 100%；
+- 附件根据文件魔数保留 PDF、DOC、DOCX；
+- 公告 ID 只作为隐藏去重元数据；
+- 可见文件名不得包含东方财富 `AN...` 或巨潮数字公告 ID；
+- 同名不同内容仅追加 `_2`、`_3`；
+- 手动默认 `max_files=0`、`upload_drive=true`；
+- 历史回填默认 `max_files_per_month=0`、`upload_drive=true`；
+- 每天北京时间 20:00 自动回看最近 7 天。
 
-## 4. GitHub 托管代码验证
-
-运行：<https://github.com/zencolab/stock/actions/runs/31599658796>
+## 3. 正式 main 提交
 
 ```text
-install        success
-compile        success
-workflow YAML  success
-ruff           success
-pytest         28 passed
-self-check     success
-live probe     success
+13855ca0f090667e59af1591dc2676f32a45573b  完整采集实现与测试
+5b55f42fa6e19458fe240bac3c9f056cefd0fdfe  手动、自动、回填统一入口
+b3b07b11e906ed29f08dff3e84b966091ded82ad  正式回填与幂等验收结果
 ```
 
-巨潮真实探针：原始公告 21、筛选保留 20、真实下载 3 个 PDF、隔离 0、失败 0。
+## 4. 真实生产验收
 
-## 5. Apps Script Drive 真实验收
+运行：<https://github.com/zencolab/stock/actions/runs/31997212264>
 
-运行：<https://github.com/zencolab/stock/actions/runs/31603784249>
+区间：2026-08-13 至 2026-08-16。
 
 第一次运行：
 
 ```text
-drive_backend  apps_script
-downloaded     3
-drive_created  3
-drive_failed   0
-failures       0
+raw                         1415
+expected_companies          47
+matched_expected_companies  47
+missing_expected_companies  0
+coverage_pct                100.0
+expected_records            49
+matched_expected_records    49
+missing_expected_records    0
+record_coverage_pct         100.0
+accepted/downloaded         47/47
+pdf/doc/docx                 38/2/7
+drive_created               27
+drive_updated               0
+drive_skipped               20
+drive_failed                0
+failures                    0
 ```
 
-相同参数第二次运行：
+第二次相同参数运行：
 
 ```text
-drive_backend  apps_script
-downloaded     3
-drive_created  0
-drive_skipped  3
-drive_failed   0
-failures       0
+downloaded      47
+drive_created   0
+drive_updated   0
+drive_skipped   47
+drive_failed    0
+failures        0
 ```
 
-结论：真实 Google Drive 连接、写入和跨运行幂等去重均已通过。
+结论：完整性、原始格式、无 ID 文件名、真实 Drive 上传和跨运行幂等均通过。
 
-## 6. 当前部署状态
+文件名示例：
 
-- Apps Script Web App 已部署；
-- Google Drive 授权已完成；
-- 两个 GitHub Secrets 已配置并通过真实调用；
-- 手动上传工作流可用；
-- 每日任务会在北京时间 20:00 自动回看最近 7 天并上传；
-- 无需 Google Cloud OAuth Client、Client Secret 或 Refresh Token。
+```text
+000530_冰山冷热_2026-08-13_2026年8月13日_分析师会议_投资者关系活动记录表.pdf
+```
 
-## 7. 后续运维观察项
+## 5. 部署状态
 
-这些不是当前阻塞项：
+- Apps Script Web App 已部署且现有 URL、Token 继续有效；
+- 本次只修改 GitHub 采集程序与工作流，不需要重新部署 Apps Script；
+- 无需重新配置 GitHub Secrets；
+- 当前日期 2026-08-17 尚未结束，由北京时间 20:00 的自动任务继续完整回看。
 
-- 观察每日定时任务连续运行情况；
-- 历史回填首次正式运行时先限制每月数量；
-- 后续补充真实 DOC、DOCX 在线样本；
-- 定期检查 Apps Script 和 Google Drive 配额；
-- 如果更新 `Code.gs`，必须重新部署新版本；
-- 如果轮换上传令牌，必须同步更新 GitHub Secret。
+## 6. 旧文件处理
 
-## 8. 安全边界
+早期程序生成的少量带巨潮数字 ID 的文件可能仍保留在 Drive，作为 legacy 文件。本次没有自动删除或重命名它们，原因是现有 Apps Script 网关只提供幂等写入，不提供删除接口；程序从本次起只创建无 ID 文件名。若要清理 legacy 文件，优先在 Drive 手动删除，避免为一次性清理重新部署 Apps Script。
 
-- 不提交或打印任何 Secret；
-- 不在 Fork PR 中使用 Drive Secrets；
+## 7. 安全与运维
+
+- 不提交或打印 Secret；
 - Apps Script 默认单文件安全上限为 35 MiB；
-- 超限文件保留在 GitHub Artifact，并记录 Drive 上传失败；
-- 验收报告只记录 Secret 是否存在，不记录 Secret 值。
+- 如果后续修改 `apps-script/Code.gs`，才需要部署新版本；
+- 如果轮换上传令牌，才需要同步更新 GitHub Secret；
+- 每日运行若出现公司、活动或附件缺失，应按失败处理，不得忽略。
