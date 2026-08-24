@@ -101,6 +101,9 @@ jobs:
     if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    concurrency:
+      group: gdrive-apps-script-archive
+      cancel-in-progress: false
     permissions:
       contents: read
       issues: write
