@@ -7,6 +7,11 @@ on:
         description: '交易日日期，格式 YYYY-MM-DD（例如 2026-07-31）'
         required: true
         type: string
+      upload_drive:
+        description: '将 PDF 上传到 Google Drive'
+        required: true
+        type: boolean
+        default: true
 
 permissions:
   contents: write
@@ -18,7 +23,14 @@ concurrency:
 jobs:
   report:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 75
+    concurrency:
+      group: gdrive-apps-script-archive
+      cancel-in-progress: false
+    env:
+      GDRIVE_APPS_SCRIPT_URL: ${{ secrets.GDRIVE_APPS_SCRIPT_URL }}
+      GDRIVE_APPS_SCRIPT_TOKEN: ${{ secrets.GDRIVE_APPS_SCRIPT_TOKEN }}
+      GDRIVE_APPS_SCRIPT_MAX_BYTES: ${{ vars.GDRIVE_APPS_SCRIPT_MAX_BYTES || '36700160' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -26,14 +38,41 @@ jobs:
         with:
           bun-version: latest
 
-      - name: 生成指定日期报告
-        run: bun run src/report-by-date.ts "${{ github.event.inputs.date }}"
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
 
-      - name: 提交报告
+      - name: 安装 Drive 上传依赖
+        run: python -m pip install --disable-pip-version-check 'requests>=2.32.0'
+
+      - name: 生成指定日期 HTML 报告
+        run: bun run src/report-by-date.ts "${{ inputs.date }}"
+
+      - name: 生成 PDF 并按需上传 Google Drive
+        shell: bash
+        run: |
+          args=(report
+            --html "reports/${{ inputs.date }}.html"
+            --pdf "reports/${{ inputs.date }}.pdf"
+            --date "${{ inputs.date }}")
+          if [[ "${{ inputs.upload_drive }}" == "true" ]]; then
+            args+=(--upload-drive)
+          fi
+          python scripts/pdf_drive.py "${args[@]}"
+
+      - name: 保存 PDF Artifact
+        uses: actions/upload-artifact@v5
+        with:
+          name: a-share-report-${{ inputs.date }}
+          path: reports/${{ inputs.date }}.pdf
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: 提交 HTML 报告
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add reports/
-          git diff --staged --quiet || git commit -m "report(${{ github.event.inputs.date }}): 指定日期报告"
+          git add "reports/${{ inputs.date }}.html"
+          git diff --staged --quiet || git commit -m "report(${{ inputs.date }}): 指定日期报告"
           git pull --rebase --autostash || true
           git push

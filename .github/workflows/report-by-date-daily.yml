@@ -17,13 +17,27 @@ concurrency:
 jobs:
   report:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 75
+    concurrency:
+      group: gdrive-apps-script-archive
+      cancel-in-progress: false
+    env:
+      GDRIVE_APPS_SCRIPT_URL: ${{ secrets.GDRIVE_APPS_SCRIPT_URL }}
+      GDRIVE_APPS_SCRIPT_TOKEN: ${{ secrets.GDRIVE_APPS_SCRIPT_TOKEN }}
+      GDRIVE_APPS_SCRIPT_MAX_BYTES: ${{ vars.GDRIVE_APPS_SCRIPT_MAX_BYTES || '36700160' }}
     steps:
       - uses: actions/checkout@v4
 
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: 安装 Drive 上传依赖
+        run: python -m pip install --disable-pip-version-check 'requests>=2.32.0'
 
       - name: 确定北京时间报告日期
         id: report-date
@@ -58,7 +72,28 @@ jobs:
           echo "报告生成失败，退出码：${status}"
           exit "$status"
 
-      - name: 提交报告
+      - name: 生成 PDF 并上传 Google Drive
+        if: steps.generate.outputs.generated == 'true'
+        shell: bash
+        env:
+          REPORT_DATE: ${{ steps.report-date.outputs.date }}
+        run: |
+          python scripts/pdf_drive.py report \
+            --html "reports/${REPORT_DATE}.html" \
+            --pdf "reports/${REPORT_DATE}.pdf" \
+            --date "$REPORT_DATE" \
+            --upload-drive
+
+      - name: 保存 PDF Artifact
+        if: steps.generate.outputs.generated == 'true'
+        uses: actions/upload-artifact@v5
+        with:
+          name: a-share-report-${{ steps.report-date.outputs.date }}
+          path: reports/${{ steps.report-date.outputs.date }}.pdf
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: 提交 HTML 报告
         if: steps.generate.outputs.generated == 'true'
         shell: bash
         env:

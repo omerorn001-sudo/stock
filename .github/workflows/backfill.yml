@@ -15,7 +15,7 @@ on:
         options: [all, sh, sz]
         default: all
       upload_drive:
-        description: "上传到 Google Drive"
+        description: "将统一生成的 PDF 上传到 Google Drive"
         type: boolean
         default: true
       max_files_per_month:
@@ -39,6 +39,8 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: "3.11"
+      - name: 校验 PDF 工具脚本
+        run: python -m py_compile scripts/pdf_drive.py
       - id: matrix
         run: python scripts/backfill_matrix.py --start "${{ inputs.start }}" --end "${{ inputs.end }}"
 
@@ -69,6 +71,13 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements-juchao.txt
+      - name: 安装 PDF 转换工具
+        shell: bash
+        run: |
+          if ! command -v libreoffice >/dev/null 2>&1 && ! command -v soffice >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y --no-install-recommends libreoffice-writer fonts-noto-cjk
+          fi
       - name: Check Drive gateway
         if: inputs.upload_drive == true
         run: |
@@ -80,16 +89,32 @@ jobs:
           from src.apps_script_storage import AppsScriptDriveClient
           print(AppsScriptDriveClient().ping().get('service') or 'ok')
           PY
-      - name: Backfill month
+      - name: 回填、统一生成 PDF 并归档
         shell: bash
         run: |
-          args=(--start "${{ matrix.start }}" --end "${{ matrix.end }}"
+          output="artifacts/backfill-${{ matrix.start }}-${{ matrix.end }}"
+          archive_args=(--start "${{ matrix.start }}" --end "${{ matrix.end }}"
                 --market "${{ inputs.market }}"
                 --max-files "${{ inputs.max_files_per_month }}"
                 --download-files
-                --output "artifacts/backfill-${{ matrix.start }}-${{ matrix.end }}")
-          if [[ "${{ inputs.upload_drive }}" == "true" ]]; then args+=(--upload-drive); fi
-          python -m src.research_complete "${args[@]}"
+                --output "$output")
+
+          set +e
+          python -m src.research_complete "${archive_args[@]}"
+          archive_status=$?
+
+          pdf_args=(backfill --output "$output")
+          if [[ "${{ inputs.upload_drive }}" == "true" ]]; then
+            pdf_args+=(--upload-drive)
+          fi
+          python scripts/pdf_drive.py "${pdf_args[@]}"
+          pdf_status=$?
+          set -e
+
+          if [[ "$archive_status" -ne 0 || "$pdf_status" -ne 0 ]]; then
+            echo "::error::原始采集状态=${archive_status}，PDF/Drive 状态=${pdf_status}"
+            exit 1
+          fi
       - name: Upload artifact
         if: always()
         uses: actions/upload-artifact@v5
