@@ -1,0 +1,6 @@
+# AKShare source revision inspected for this project; upgrade deliberately.
+akshare @ git+https://github.com/akfamily/akshare.git@8e95744b79ae22326308ccd2b4e62650c5b53c55
+pandas>=2.2,<4
+requests>=2.32,<3
+beautifulsoup4>=4.12,<5
+lxml>=5,<7

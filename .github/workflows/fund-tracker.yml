@@ -1,0 +1,102 @@
+name: 基金 TOP50 与持仓分析
+
+on:
+  schedule:
+    # UTC 23:35 = 次日北京时间 07:35；每天运行，周末保留真实净值日期。
+    - cron: '35 23 * * *'
+  workflow_dispatch:
+    inputs:
+      category:
+        description: 排名基金范围
+        type: choice
+        default: 全部
+        options: [全部, 股票型, 混合型, 债券型, 指数型, QDII, FOF]
+  push:
+    branches: [main]
+    paths: ['fund_tracker/**', '.github/workflows/fund-tracker.yml']
+  pull_request:
+    paths: ['fund_tracker/**', '.github/workflows/fund-tracker.yml']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fund-tracker-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: fund_tracker/requirements-test.txt
+      - run: pip install -r fund_tracker/requirements-test.txt
+      - run: python -m unittest discover -s fund_tracker/tests -v
+
+  collect:
+    needs: test
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    permissions:
+      contents: write
+    env:
+      TZ: Asia/Shanghai
+      CATEGORY: ${{ inputs.category || '全部' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: fund_tracker/requirements.txt
+      - name: 安装已核对版本的数据接口
+        run: pip install -r fund_tracker/requirements.txt
+      - uses: actions/cache@v4
+        with:
+          path: .cache/fund_tracker
+          key: ${{ runner.os }}-fund-v1-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: ${{ runner.os }}-fund-v1-
+      - name: 采集并生成基金报告
+        run: python -m fund_tracker.main --category "$CATEGORY"
+      - name: 显示运行摘要
+        if: success()
+        run: cat reports/funds/latest/summary.md >> "$GITHUB_STEP_SUMMARY"
+      - name: 保存报告、原始响应与失败诊断
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fund-tracker-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            reports/funds/
+            artifacts/fund-tracker/
+          retention-days: 14
+          if-no-files-found: warn
+      - name: 提交日报，不改动现有 A 股报告
+        if: success()
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add -- reports/funds/
+          if git diff --cached --quiet; then
+            echo '没有新的基金报告'
+            exit 0
+          fi
+          git commit -m "funds: daily snapshot $(date +%F)"
+          for attempt in 1 2 3; do
+            if git pull --rebase origin main && git push origin HEAD:main; then
+              exit 0
+            fi
+            git rebase --abort || true
+            sleep 5
+          done
+          echo '提交失败：检查仓库写权限/分支保护；报告仍保存在本次 Actions 附件中。'
+          exit 1
