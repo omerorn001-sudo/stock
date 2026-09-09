@@ -1,0 +1,2182 @@
+[
+  {
+    "code": "920268",
+    "name": "N百迈科",
+    "board": "北交所",
+    "industry": null,
+    "list_date": "2026-09-09",
+    "price": 26.88,
+    "pct_chg": 57.193,
+    "total_mv": null,
+    "float_mv": null,
+    "pe_static": null,
+    "pe_dynamic": null,
+    "pe_ttm": null,
+    "pb": null,
+    "turnover": null,
+    "main_business": "以手术缝线为代表的外科手术医疗器械及多肽制药设备等产品的研发、生产和销售。",
+    "main_business_source": "akshare:stock_zyjs_ths",
+    "holders": {
+      "rows": [
+        {
+          "rank": 1,
+          "holder": "杭州灏月企业管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 2,
+          "holder": "上海天亿资产管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 3,
+          "holder": "上海麒钧投资中心(有限合伙)",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 4,
+          "holder": "上海维途企业发展中心(有限合伙)",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 5,
+          "holder": "中国银行股份有限公司-华宝中证医疗交易型开放式指数证券投资基金",
+          "shares": null,
+          "ratio": -3.11814119,
+          "change": "减少",
+          "holder_type": null
+        },
+        {
+          "rank": 6,
+          "holder": "基本养老保险基金一二零五组合",
+          "shares": null,
+          "ratio": 47.11015414,
+          "change": "增加",
+          "holder_type": null
+        },
+        {
+          "rank": 7,
+          "holder": "世纪长河科技集团有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 8,
+          "holder": "上海美馨投资管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 9,
+          "holder": "上海天亿力升实业控股集团有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "新进",
+          "holder_type": null
+        },
+        {
+          "rank": 10,
+          "holder": "易方达基金管理有限公司-社保基金17042组合",
+          "shares": null,
+          "ratio": null,
+          "change": "新进",
+          "holder_type": null
+        }
+      ],
+      "report_date": "2026-06-30",
+      "source": "akshare:stock_gdfx_free_top_10_em(20260630)",
+      "note": "持股数量单位沿用数据源口径（通常为股）"
+    },
+    "source": "akshare:stock_zh_a_spot_em",
+    "notes": [
+      "估值历史（PE 序列）不可得，仅展示快照市盈率"
+    ]
+  },
+  {
+    "code": "301699",
+    "name": "N洛轴",
+    "board": "创业板",
+    "industry": null,
+    "list_date": "2026-09-09",
+    "price": 31.99,
+    "pct_chg": 101.448,
+    "total_mv": null,
+    "float_mv": null,
+    "pe_static": null,
+    "pe_dynamic": null,
+    "pe_ttm": null,
+    "pb": null,
+    "turnover": null,
+    "main_business": "轴承及相关零部件的研发、生产和销售。",
+    "main_business_source": "akshare:stock_zyjs_ths",
+    "holders": {
+      "rows": [
+        {
+          "rank": 1,
+          "holder": "杭州灏月企业管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 2,
+          "holder": "上海天亿资产管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 3,
+          "holder": "上海麒钧投资中心(有限合伙)",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 4,
+          "holder": "上海维途企业发展中心(有限合伙)",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 5,
+          "holder": "中国银行股份有限公司-华宝中证医疗交易型开放式指数证券投资基金",
+          "shares": null,
+          "ratio": -3.11814119,
+          "change": "减少",
+          "holder_type": null
+        },
+        {
+          "rank": 6,
+          "holder": "基本养老保险基金一二零五组合",
+          "shares": null,
+          "ratio": 47.11015414,
+          "change": "增加",
+          "holder_type": null
+        },
+        {
+          "rank": 7,
+          "holder": "世纪长河科技集团有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 8,
+          "holder": "上海美馨投资管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 9,
+          "holder": "上海天亿力升实业控股集团有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "新进",
+          "holder_type": null
+        },
+        {
+          "rank": 10,
+          "holder": "易方达基金管理有限公司-社保基金17042组合",
+          "shares": null,
+          "ratio": null,
+          "change": "新进",
+          "holder_type": null
+        }
+      ],
+      "report_date": "2026-06-30",
+      "source": "akshare:stock_gdfx_free_top_10_em(20260630)",
+      "note": "持股数量单位沿用数据源口径（通常为股）"
+    },
+    "source": "akshare:stock_zh_a_spot_em",
+    "notes": [
+      "估值历史（PE 序列）不可得，仅展示快照市盈率"
+    ]
+  },
+  {
+    "code": "920269",
+    "name": "杰锋动力",
+    "board": "北交所",
+    "industry": null,
+    "list_date": "2026-09-07",
+    "price": 35.15,
+    "pct_chg": -1.953,
+    "total_mv": null,
+    "float_mv": null,
+    "pe_static": null,
+    "pe_dynamic": null,
+    "pe_ttm": null,
+    "pb": null,
+    "turnover": null,
+    "main_business": "以汽车排气系统、动力系统等领域为主的汽车核心零部件产品的研发、设计、生产和销售。",
+    "main_business_source": "akshare:stock_zyjs_ths",
+    "holders": {
+      "rows": [
+        {
+          "rank": 1,
+          "holder": "杭州灏月企业管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 2,
+          "holder": "上海天亿资产管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 3,
+          "holder": "上海麒钧投资中心(有限合伙)",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 4,
+          "holder": "上海维途企业发展中心(有限合伙)",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 5,
+          "holder": "中国银行股份有限公司-华宝中证医疗交易型开放式指数证券投资基金",
+          "shares": null,
+          "ratio": -3.11814119,
+          "change": "减少",
+          "holder_type": null
+        },
+        {
+          "rank": 6,
+          "holder": "基本养老保险基金一二零五组合",
+          "shares": null,
+          "ratio": 47.11015414,
+          "change": "增加",
+          "holder_type": null
+        },
+        {
+          "rank": 7,
+          "holder": "世纪长河科技集团有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 8,
+          "holder": "上海美馨投资管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 9,
+          "holder": "上海天亿力升实业控股集团有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "新进",
+          "holder_type": null
+        },
+        {
+          "rank": 10,
+          "holder": "易方达基金管理有限公司-社保基金17042组合",
+          "shares": null,
+          "ratio": null,
+          "change": "新进",
+          "holder_type": null
+        }
+      ],
+      "report_date": "2026-06-30",
+      "source": "akshare:stock_gdfx_free_top_10_em(20260630)",
+      "note": "持股数量单位沿用数据源口径（通常为股）"
+    },
+    "source": "akshare:stock_zh_a_spot_em",
+    "notes": [
+      "估值历史（PE 序列）不可得，仅展示快照市盈率"
+    ]
+  },
+  {
+    "code": "603448",
+    "name": "天博智能",
+    "board": "沪市主板",
+    "industry": null,
+    "list_date": "2026-09-07",
+    "price": 68.22,
+    "pct_chg": -2.557,
+    "total_mv": null,
+    "float_mv": null,
+    "pe_static": null,
+    "pe_dynamic": null,
+    "pe_ttm": null,
+    "pb": null,
+    "turnover": null,
+    "main_business": "汽车热管理系统零部件制造。",
+    "main_business_source": "akshare:stock_zyjs_ths",
+    "holders": {
+      "rows": [
+        {
+          "rank": 1,
+          "holder": "杭州灏月企业管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 2,
+          "holder": "上海天亿资产管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 3,
+          "holder": "上海麒钧投资中心(有限合伙)",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 4,
+          "holder": "上海维途企业发展中心(有限合伙)",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 5,
+          "holder": "中国银行股份有限公司-华宝中证医疗交易型开放式指数证券投资基金",
+          "shares": null,
+          "ratio": -3.11814119,
+          "change": "减少",
+          "holder_type": null
+        },
+        {
+          "rank": 6,
+          "holder": "基本养老保险基金一二零五组合",
+          "shares": null,
+          "ratio": 47.11015414,
+          "change": "增加",
+          "holder_type": null
+        },
+        {
+          "rank": 7,
+          "holder": "世纪长河科技集团有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 8,
+          "holder": "上海美馨投资管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 9,
+          "holder": "上海天亿力升实业控股集团有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "新进",
+          "holder_type": null
+        },
+        {
+          "rank": 10,
+          "holder": "易方达基金管理有限公司-社保基金17042组合",
+          "shares": null,
+          "ratio": null,
+          "change": "新进",
+          "holder_type": null
+        }
+      ],
+      "report_date": "2026-06-30",
+      "source": "akshare:stock_gdfx_free_top_10_em(20260630)",
+      "note": "持股数量单位沿用数据源口径（通常为股）"
+    },
+    "source": "akshare:stock_zh_a_spot_em",
+    "notes": [
+      "估值历史（PE 序列）不可得，仅展示快照市盈率"
+    ]
+  },
+  {
+    "code": "920289",
+    "name": "华汇智能",
+    "board": "北交所",
+    "industry": null,
+    "list_date": "2026-09-04",
+    "price": 26.3,
+    "pct_chg": -2.412,
+    "total_mv": null,
+    "float_mv": null,
+    "pe_static": null,
+    "pe_dynamic": null,
+    "pe_ttm": null,
+    "pb": null,
+    "turnover": null,
+    "main_business": "纳米砂磨机等智能装备及其关键部件的研发、设计、生产和销售。",
+    "main_business_source": "akshare:stock_zyjs_ths",
+    "holders": {
+      "rows": [
+        {
+          "rank": 1,
+          "holder": "杭州灏月企业管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 2,
+          "holder": "上海天亿资产管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 3,
+          "holder": "上海麒钧投资中心(有限合伙)",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 4,
+          "holder": "上海维途企业发展中心(有限合伙)",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 5,
+          "holder": "中国银行股份有限公司-华宝中证医疗交易型开放式指数证券投资基金",
+          "shares": null,
+          "ratio": -3.11814119,
+          "change": "减少",
+          "holder_type": null
+        },
+        {
+          "rank": 6,
+          "holder": "基本养老保险基金一二零五组合",
+          "shares": null,
+          "ratio": 47.11015414,
+          "change": "增加",
+          "holder_type": null
+        },
+        {
+          "rank": 7,
+          "holder": "世纪长河科技集团有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 8,
+          "holder": "上海美馨投资管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 9,
+          "holder": "上海天亿力升实业控股集团有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "新进",
+          "holder_type": null
+        },
+        {
+          "rank": 10,
+          "holder": "易方达基金管理有限公司-社保基金17042组合",
+          "shares": null,
+          "ratio": null,
+          "change": "新进",
+          "holder_type": null
+        }
+      ],
+      "report_date": "2026-06-30",
+      "source": "akshare:stock_gdfx_free_top_10_em(20260630)",
+      "note": "持股数量单位沿用数据源口径（通常为股）"
+    },
+    "source": "akshare:stock_zh_a_spot_em",
+    "notes": [
+      "估值历史（PE 序列）不可得，仅展示快照市盈率"
+    ]
+  },
+  {
+    "code": "920071",
+    "name": "金钛股份",
+    "board": "北交所",
+    "industry": null,
+    "list_date": "2026-09-03",
+    "price": 26.39,
+    "pct_chg": 5.56,
+    "total_mv": null,
+    "float_mv": null,
+    "pe_static": null,
+    "pe_dynamic": null,
+    "pe_ttm": null,
+    "pb": null,
+    "turnover": null,
+    "main_business": "海绵钛系列产品研发、生产和销售。",
+    "main_business_source": "akshare:stock_zyjs_ths",
+    "holders": {
+      "rows": [
+        {
+          "rank": 1,
+          "holder": "杭州灏月企业管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 2,
+          "holder": "上海天亿资产管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 3,
+          "holder": "上海麒钧投资中心(有限合伙)",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 4,
+          "holder": "上海维途企业发展中心(有限合伙)",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 5,
+          "holder": "中国银行股份有限公司-华宝中证医疗交易型开放式指数证券投资基金",
+          "shares": null,
+          "ratio": -3.11814119,
+          "change": "减少",
+          "holder_type": null
+        },
+        {
+          "rank": 6,
+          "holder": "基本养老保险基金一二零五组合",
+          "shares": null,
+          "ratio": 47.11015414,
+          "change": "增加",
+          "holder_type": null
+        },
+        {
+          "rank": 7,
+          "holder": "世纪长河科技集团有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 8,
+          "holder": "上海美馨投资管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 9,
+          "holder": "上海天亿力升实业控股集团有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "新进",
+          "holder_type": null
+        },
+        {
+          "rank": 10,
+          "holder": "易方达基金管理有限公司-社保基金17042组合",
+          "shares": null,
+          "ratio": null,
+          "change": "新进",
+          "holder_type": null
+        }
+      ],
+      "report_date": "2026-06-30",
+      "source": "akshare:stock_gdfx_free_top_10_em(20260630)",
+      "note": "持股数量单位沿用数据源口径（通常为股）"
+    },
+    "source": "akshare:stock_zh_a_spot_em",
+    "notes": [
+      "估值历史（PE 序列）不可得，仅展示快照市盈率"
+    ]
+  },
+  {
+    "code": "301688",
+    "name": "格林生物",
+    "board": "创业板",
+    "industry": null,
+    "list_date": "2026-09-02",
+    "price": 38.89,
+    "pct_chg": -5.63,
+    "total_mv": null,
+    "float_mv": null,
+    "pe_static": null,
+    "pe_dynamic": null,
+    "pe_ttm": null,
+    "pb": null,
+    "turnover": null,
+    "main_business": "香料产品的研发、生产与销售。",
+    "main_business_source": "akshare:stock_zyjs_ths",
+    "holders": {
+      "rows": [
+        {
+          "rank": 1,
+          "holder": "杭州灏月企业管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 2,
+          "holder": "上海天亿资产管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 3,
+          "holder": "上海麒钧投资中心(有限合伙)",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 4,
+          "holder": "上海维途企业发展中心(有限合伙)",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 5,
+          "holder": "中国银行股份有限公司-华宝中证医疗交易型开放式指数证券投资基金",
+          "shares": null,
+          "ratio": -3.11814119,
+          "change": "减少",
+          "holder_type": null
+        },
+        {
+          "rank": 6,
+          "holder": "基本养老保险基金一二零五组合",
+          "shares": null,
+          "ratio": 47.11015414,
+          "change": "增加",
+          "holder_type": null
+        },
+        {
+          "rank": 7,
+          "holder": "世纪长河科技集团有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 8,
+          "holder": "上海美馨投资管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 9,
+          "holder": "上海天亿力升实业控股集团有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "新进",
+          "holder_type": null
+        },
+        {
+          "rank": 10,
+          "holder": "易方达基金管理有限公司-社保基金17042组合",
+          "shares": null,
+          "ratio": null,
+          "change": "新进",
+          "holder_type": null
+        }
+      ],
+      "report_date": "2026-06-30",
+      "source": "akshare:stock_gdfx_free_top_10_em(20260630)",
+      "note": "持股数量单位沿用数据源口径（通常为股）"
+    },
+    "source": "akshare:stock_zh_a_spot_em",
+    "notes": [
+      "估值历史（PE 序列）不可得，仅展示快照市盈率"
+    ]
+  },
+  {
+    "code": "601123",
+    "name": "马矿股份",
+    "board": "沪市主板",
+    "industry": null,
+    "list_date": "2026-09-01",
+    "price": 17.25,
+    "pct_chg": 0.877,
+    "total_mv": null,
+    "float_mv": null,
+    "pe_static": null,
+    "pe_dynamic": null,
+    "pe_ttm": null,
+    "pb": null,
+    "turnover": null,
+    "main_business": "铁矿石的采选、综合利用及铁精粉、钼精矿销售，石灰石的开采和销售。",
+    "main_business_source": "akshare:stock_zyjs_ths",
+    "holders": {
+      "rows": [
+        {
+          "rank": 1,
+          "holder": "杭州灏月企业管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 2,
+          "holder": "上海天亿资产管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 3,
+          "holder": "上海麒钧投资中心(有限合伙)",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 4,
+          "holder": "上海维途企业发展中心(有限合伙)",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 5,
+          "holder": "中国银行股份有限公司-华宝中证医疗交易型开放式指数证券投资基金",
+          "shares": null,
+          "ratio": -3.11814119,
+          "change": "减少",
+          "holder_type": null
+        },
+        {
+          "rank": 6,
+          "holder": "基本养老保险基金一二零五组合",
+          "shares": null,
+          "ratio": 47.11015414,
+          "change": "增加",
+          "holder_type": null
+        },
+        {
+          "rank": 7,
+          "holder": "世纪长河科技集团有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 8,
+          "holder": "上海美馨投资管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 9,
+          "holder": "上海天亿力升实业控股集团有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "新进",
+          "holder_type": null
+        },
+        {
+          "rank": 10,
+          "holder": "易方达基金管理有限公司-社保基金17042组合",
+          "shares": null,
+          "ratio": null,
+          "change": "新进",
+          "holder_type": null
+        }
+      ],
+      "report_date": "2026-06-30",
+      "source": "akshare:stock_gdfx_free_top_10_em(20260630)",
+      "note": "持股数量单位沿用数据源口径（通常为股）"
+    },
+    "source": "akshare:stock_zh_a_spot_em",
+    "notes": [
+      "估值历史（PE 序列）不可得，仅展示快照市盈率"
+    ]
+  },
+  {
+    "code": "301697",
+    "name": "贝特利",
+    "board": "创业板",
+    "industry": null,
+    "list_date": "2026-09-01",
+    "price": 26.22,
+    "pct_chg": -2.889,
+    "total_mv": null,
+    "float_mv": null,
+    "pe_static": null,
+    "pe_dynamic": null,
+    "pe_ttm": null,
+    "pb": null,
+    "turnover": null,
+    "main_business": "电子材料和化工新材料的研发、生产与销售。",
+    "main_business_source": "akshare:stock_zyjs_ths",
+    "holders": {
+      "rows": [
+        {
+          "rank": 1,
+          "holder": "杭州灏月企业管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 2,
+          "holder": "上海天亿资产管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 3,
+          "holder": "上海麒钧投资中心(有限合伙)",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 4,
+          "holder": "上海维途企业发展中心(有限合伙)",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 5,
+          "holder": "中国银行股份有限公司-华宝中证医疗交易型开放式指数证券投资基金",
+          "shares": null,
+          "ratio": -3.11814119,
+          "change": "减少",
+          "holder_type": null
+        },
+        {
+          "rank": 6,
+          "holder": "基本养老保险基金一二零五组合",
+          "shares": null,
+          "ratio": 47.11015414,
+          "change": "增加",
+          "holder_type": null
+        },
+        {
+          "rank": 7,
+          "holder": "世纪长河科技集团有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 8,
+          "holder": "上海美馨投资管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 9,
+          "holder": "上海天亿力升实业控股集团有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "新进",
+          "holder_type": null
+        },
+        {
+          "rank": 10,
+          "holder": "易方达基金管理有限公司-社保基金17042组合",
+          "shares": null,
+          "ratio": null,
+          "change": "新进",
+          "holder_type": null
+        }
+      ],
+      "report_date": "2026-06-30",
+      "source": "akshare:stock_gdfx_free_top_10_em(20260630)",
+      "note": "持股数量单位沿用数据源口径（通常为股）"
+    },
+    "source": "akshare:stock_zh_a_spot_em",
+    "notes": [
+      "估值历史（PE 序列）不可得，仅展示快照市盈率"
+    ]
+  },
+  {
+    "code": "920288",
+    "name": "华大海天",
+    "board": "北交所",
+    "industry": null,
+    "list_date": "2026-08-28",
+    "price": 18.05,
+    "pct_chg": -1.849,
+    "total_mv": null,
+    "float_mv": null,
+    "pe_static": null,
+    "pe_dynamic": null,
+    "pe_ttm": null,
+    "pb": null,
+    "turnover": null,
+    "main_business": "数码纸基新材料、水性墨材料、食品包装材料及其他等绿色环保特色产品的研发、生产制造和销售服务。",
+    "main_business_source": "akshare:stock_zyjs_ths",
+    "holders": {
+      "rows": [
+        {
+          "rank": 1,
+          "holder": "杭州灏月企业管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 2,
+          "holder": "上海天亿资产管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 3,
+          "holder": "上海麒钧投资中心(有限合伙)",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 4,
+          "holder": "上海维途企业发展中心(有限合伙)",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 5,
+          "holder": "中国银行股份有限公司-华宝中证医疗交易型开放式指数证券投资基金",
+          "shares": null,
+          "ratio": -3.11814119,
+          "change": "减少",
+          "holder_type": null
+        },
+        {
+          "rank": 6,
+          "holder": "基本养老保险基金一二零五组合",
+          "shares": null,
+          "ratio": 47.11015414,
+          "change": "增加",
+          "holder_type": null
+        },
+        {
+          "rank": 7,
+          "holder": "世纪长河科技集团有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 8,
+          "holder": "上海美馨投资管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 9,
+          "holder": "上海天亿力升实业控股集团有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "新进",
+          "holder_type": null
+        },
+        {
+          "rank": 10,
+          "holder": "易方达基金管理有限公司-社保基金17042组合",
+          "shares": null,
+          "ratio": null,
+          "change": "新进",
+          "holder_type": null
+        }
+      ],
+      "report_date": "2026-06-30",
+      "source": "akshare:stock_gdfx_free_top_10_em(20260630)",
+      "note": "持股数量单位沿用数据源口径（通常为股）"
+    },
+    "source": "akshare:stock_zh_a_spot_em",
+    "notes": [
+      "估值历史（PE 序列）不可得，仅展示快照市盈率"
+    ]
+  },
+  {
+    "code": "688835",
+    "name": "高凯技术",
+    "board": "科创板",
+    "industry": null,
+    "list_date": "2026-08-25",
+    "price": 258.58,
+    "pct_chg": -4.565,
+    "total_mv": null,
+    "float_mv": null,
+    "pe_static": null,
+    "pe_dynamic": null,
+    "pe_ttm": null,
+    "pb": null,
+    "turnover": null,
+    "main_business": "精密流体控制领域中关键控制部件及相关设备的研发、生产与销售。",
+    "main_business_source": "akshare:stock_zyjs_ths",
+    "holders": {
+      "rows": [
+        {
+          "rank": 1,
+          "holder": "杭州灏月企业管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 2,
+          "holder": "上海天亿资产管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 3,
+          "holder": "上海麒钧投资中心(有限合伙)",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 4,
+          "holder": "上海维途企业发展中心(有限合伙)",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 5,
+          "holder": "中国银行股份有限公司-华宝中证医疗交易型开放式指数证券投资基金",
+          "shares": null,
+          "ratio": -3.11814119,
+          "change": "减少",
+          "holder_type": null
+        },
+        {
+          "rank": 6,
+          "holder": "基本养老保险基金一二零五组合",
+          "shares": null,
+          "ratio": 47.11015414,
+          "change": "增加",
+          "holder_type": null
+        },
+        {
+          "rank": 7,
+          "holder": "世纪长河科技集团有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 8,
+          "holder": "上海美馨投资管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 9,
+          "holder": "上海天亿力升实业控股集团有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "新进",
+          "holder_type": null
+        },
+        {
+          "rank": 10,
+          "holder": "易方达基金管理有限公司-社保基金17042组合",
+          "shares": null,
+          "ratio": null,
+          "change": "新进",
+          "holder_type": null
+        }
+      ],
+      "report_date": "2026-06-30",
+      "source": "akshare:stock_gdfx_free_top_10_em(20260630)",
+      "note": "持股数量单位沿用数据源口径（通常为股）"
+    },
+    "source": "akshare:stock_zh_a_spot_em",
+    "notes": [
+      "估值历史（PE 序列）不可得，仅展示快照市盈率"
+    ]
+  },
+  {
+    "code": "920093",
+    "name": "信胜科技",
+    "board": "北交所",
+    "industry": null,
+    "list_date": "2026-08-21",
+    "price": 19.42,
+    "pct_chg": -1.371,
+    "total_mv": null,
+    "float_mv": null,
+    "pe_static": null,
+    "pe_dynamic": null,
+    "pe_ttm": null,
+    "pb": null,
+    "turnover": null,
+    "main_business": "电脑刺绣机的研发、生产和销售。",
+    "main_business_source": "akshare:stock_zyjs_ths",
+    "holders": {
+      "rows": [
+        {
+          "rank": 1,
+          "holder": "杭州灏月企业管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 2,
+          "holder": "上海天亿资产管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 3,
+          "holder": "上海麒钧投资中心(有限合伙)",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 4,
+          "holder": "上海维途企业发展中心(有限合伙)",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 5,
+          "holder": "中国银行股份有限公司-华宝中证医疗交易型开放式指数证券投资基金",
+          "shares": null,
+          "ratio": -3.11814119,
+          "change": "减少",
+          "holder_type": null
+        },
+        {
+          "rank": 6,
+          "holder": "基本养老保险基金一二零五组合",
+          "shares": null,
+          "ratio": 47.11015414,
+          "change": "增加",
+          "holder_type": null
+        },
+        {
+          "rank": 7,
+          "holder": "世纪长河科技集团有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 8,
+          "holder": "上海美馨投资管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 9,
+          "holder": "上海天亿力升实业控股集团有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "新进",
+          "holder_type": null
+        },
+        {
+          "rank": 10,
+          "holder": "易方达基金管理有限公司-社保基金17042组合",
+          "shares": null,
+          "ratio": null,
+          "change": "新进",
+          "holder_type": null
+        }
+      ],
+      "report_date": "2026-06-30",
+      "source": "akshare:stock_gdfx_free_top_10_em(20260630)",
+      "note": "持股数量单位沿用数据源口径（通常为股）"
+    },
+    "source": "akshare:stock_zh_a_spot_em",
+    "notes": [
+      "估值历史（PE 序列）不可得，仅展示快照市盈率"
+    ]
+  },
+  {
+    "code": "301655",
+    "name": "绿控传动",
+    "board": "创业板",
+    "industry": null,
+    "list_date": "2026-08-20",
+    "price": 22.51,
+    "pct_chg": -3.803,
+    "total_mv": null,
+    "float_mv": null,
+    "pe_static": null,
+    "pe_dynamic": null,
+    "pe_ttm": null,
+    "pb": null,
+    "turnover": null,
+    "main_business": "新能源商用车电驱动系统的研发、生产和销售。",
+    "main_business_source": "akshare:stock_zyjs_ths",
+    "holders": {
+      "rows": [
+        {
+          "rank": 1,
+          "holder": "杭州灏月企业管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 2,
+          "holder": "上海天亿资产管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 3,
+          "holder": "上海麒钧投资中心(有限合伙)",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 4,
+          "holder": "上海维途企业发展中心(有限合伙)",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 5,
+          "holder": "中国银行股份有限公司-华宝中证医疗交易型开放式指数证券投资基金",
+          "shares": null,
+          "ratio": -3.11814119,
+          "change": "减少",
+          "holder_type": null
+        },
+        {
+          "rank": 6,
+          "holder": "基本养老保险基金一二零五组合",
+          "shares": null,
+          "ratio": 47.11015414,
+          "change": "增加",
+          "holder_type": null
+        },
+        {
+          "rank": 7,
+          "holder": "世纪长河科技集团有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 8,
+          "holder": "上海美馨投资管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 9,
+          "holder": "上海天亿力升实业控股集团有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "新进",
+          "holder_type": null
+        },
+        {
+          "rank": 10,
+          "holder": "易方达基金管理有限公司-社保基金17042组合",
+          "shares": null,
+          "ratio": null,
+          "change": "新进",
+          "holder_type": null
+        }
+      ],
+      "report_date": "2026-06-30",
+      "source": "akshare:stock_gdfx_free_top_10_em(20260630)",
+      "note": "持股数量单位沿用数据源口径（通常为股）"
+    },
+    "source": "akshare:stock_zh_a_spot_em",
+    "notes": [
+      "估值历史（PE 序列）不可得，仅展示快照市盈率"
+    ]
+  },
+  {
+    "code": "920059",
+    "name": "双英集团",
+    "board": "北交所",
+    "industry": null,
+    "list_date": "2026-08-19",
+    "price": 13.08,
+    "pct_chg": -2.823,
+    "total_mv": null,
+    "float_mv": null,
+    "pe_static": null,
+    "pe_dynamic": null,
+    "pe_ttm": null,
+    "pb": null,
+    "turnover": null,
+    "main_business": "汽车座椅、汽车内外饰件的研发、生产和销售。",
+    "main_business_source": "akshare:stock_zyjs_ths",
+    "holders": {
+      "rows": [
+        {
+          "rank": 1,
+          "holder": "杭州灏月企业管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 2,
+          "holder": "上海天亿资产管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 3,
+          "holder": "上海麒钧投资中心(有限合伙)",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 4,
+          "holder": "上海维途企业发展中心(有限合伙)",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 5,
+          "holder": "中国银行股份有限公司-华宝中证医疗交易型开放式指数证券投资基金",
+          "shares": null,
+          "ratio": -3.11814119,
+          "change": "减少",
+          "holder_type": null
+        },
+        {
+          "rank": 6,
+          "holder": "基本养老保险基金一二零五组合",
+          "shares": null,
+          "ratio": 47.11015414,
+          "change": "增加",
+          "holder_type": null
+        },
+        {
+          "rank": 7,
+          "holder": "世纪长河科技集团有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 8,
+          "holder": "上海美馨投资管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 9,
+          "holder": "上海天亿力升实业控股集团有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "新进",
+          "holder_type": null
+        },
+        {
+          "rank": 10,
+          "holder": "易方达基金管理有限公司-社保基金17042组合",
+          "shares": null,
+          "ratio": null,
+          "change": "新进",
+          "holder_type": null
+        }
+      ],
+      "report_date": "2026-06-30",
+      "source": "akshare:stock_gdfx_free_top_10_em(20260630)",
+      "note": "持股数量单位沿用数据源口径（通常为股）"
+    },
+    "source": "akshare:stock_zh_a_spot_em",
+    "notes": [
+      "估值历史（PE 序列）不可得，仅展示快照市盈率"
+    ]
+  },
+  {
+    "code": "688836",
+    "name": "宇树科技",
+    "board": "科创板",
+    "industry": null,
+    "list_date": "2026-08-19",
+    "price": 513.93,
+    "pct_chg": -1.862,
+    "total_mv": null,
+    "float_mv": null,
+    "pe_static": null,
+    "pe_dynamic": null,
+    "pe_ttm": null,
+    "pb": null,
+    "turnover": null,
+    "main_business": "高性能通用人形机器人、四足机器人、机器人组件及具身智能模型的研发、生产和销售。",
+    "main_business_source": "akshare:stock_zyjs_ths",
+    "holders": {
+      "rows": [
+        {
+          "rank": 1,
+          "holder": "杭州灏月企业管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 2,
+          "holder": "上海天亿资产管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 3,
+          "holder": "上海麒钧投资中心(有限合伙)",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 4,
+          "holder": "上海维途企业发展中心(有限合伙)",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 5,
+          "holder": "中国银行股份有限公司-华宝中证医疗交易型开放式指数证券投资基金",
+          "shares": null,
+          "ratio": -3.11814119,
+          "change": "减少",
+          "holder_type": null
+        },
+        {
+          "rank": 6,
+          "holder": "基本养老保险基金一二零五组合",
+          "shares": null,
+          "ratio": 47.11015414,
+          "change": "增加",
+          "holder_type": null
+        },
+        {
+          "rank": 7,
+          "holder": "世纪长河科技集团有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 8,
+          "holder": "上海美馨投资管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 9,
+          "holder": "上海天亿力升实业控股集团有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "新进",
+          "holder_type": null
+        },
+        {
+          "rank": 10,
+          "holder": "易方达基金管理有限公司-社保基金17042组合",
+          "shares": null,
+          "ratio": null,
+          "change": "新进",
+          "holder_type": null
+        }
+      ],
+      "report_date": "2026-06-30",
+      "source": "akshare:stock_gdfx_free_top_10_em(20260630)",
+      "note": "持股数量单位沿用数据源口径（通常为股）"
+    },
+    "source": "akshare:stock_zh_a_spot_em",
+    "notes": [
+      "估值历史（PE 序列）不可得，仅展示快照市盈率"
+    ]
+  },
+  {
+    "code": "688826",
+    "name": "频准激光",
+    "board": "科创板",
+    "industry": null,
+    "list_date": "2026-08-18",
+    "price": 776.02,
+    "pct_chg": -2.998,
+    "total_mv": null,
+    "float_mv": null,
+    "pe_static": null,
+    "pe_dynamic": null,
+    "pe_ttm": null,
+    "pb": null,
+    "turnover": null,
+    "main_business": "精准激光器的研发、生产与销售。",
+    "main_business_source": "akshare:stock_zyjs_ths",
+    "holders": {
+      "rows": [
+        {
+          "rank": 1,
+          "holder": "杭州灏月企业管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 2,
+          "holder": "上海天亿资产管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 3,
+          "holder": "上海麒钧投资中心(有限合伙)",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 4,
+          "holder": "上海维途企业发展中心(有限合伙)",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 5,
+          "holder": "中国银行股份有限公司-华宝中证医疗交易型开放式指数证券投资基金",
+          "shares": null,
+          "ratio": -3.11814119,
+          "change": "减少",
+          "holder_type": null
+        },
+        {
+          "rank": 6,
+          "holder": "基本养老保险基金一二零五组合",
+          "shares": null,
+          "ratio": 47.11015414,
+          "change": "增加",
+          "holder_type": null
+        },
+        {
+          "rank": 7,
+          "holder": "世纪长河科技集团有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 8,
+          "holder": "上海美馨投资管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 9,
+          "holder": "上海天亿力升实业控股集团有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "新进",
+          "holder_type": null
+        },
+        {
+          "rank": 10,
+          "holder": "易方达基金管理有限公司-社保基金17042组合",
+          "shares": null,
+          "ratio": null,
+          "change": "新进",
+          "holder_type": null
+        }
+      ],
+      "report_date": "2026-06-30",
+      "source": "akshare:stock_gdfx_free_top_10_em(20260630)",
+      "note": "持股数量单位沿用数据源口径（通常为股）"
+    },
+    "source": "akshare:stock_zh_a_spot_em",
+    "notes": [
+      "估值历史（PE 序列）不可得，仅展示快照市盈率"
+    ]
+  },
+  {
+    "code": "920107",
+    "name": "恒兴股份",
+    "board": "北交所",
+    "industry": null,
+    "list_date": "2026-08-17",
+    "price": 19.99,
+    "pct_chg": -2.583,
+    "total_mv": null,
+    "float_mv": null,
+    "pe_static": null,
+    "pe_dynamic": null,
+    "pe_ttm": null,
+    "pb": null,
+    "turnover": null,
+    "main_business": "紫外光(UV)固化涂料和PUR热熔胶的研发、生产和销售。",
+    "main_business_source": "akshare:stock_zyjs_ths",
+    "holders": {
+      "rows": [
+        {
+          "rank": 1,
+          "holder": "杭州灏月企业管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 2,
+          "holder": "上海天亿资产管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 3,
+          "holder": "上海麒钧投资中心(有限合伙)",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 4,
+          "holder": "上海维途企业发展中心(有限合伙)",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 5,
+          "holder": "中国银行股份有限公司-华宝中证医疗交易型开放式指数证券投资基金",
+          "shares": null,
+          "ratio": -3.11814119,
+          "change": "减少",
+          "holder_type": null
+        },
+        {
+          "rank": 6,
+          "holder": "基本养老保险基金一二零五组合",
+          "shares": null,
+          "ratio": 47.11015414,
+          "change": "增加",
+          "holder_type": null
+        },
+        {
+          "rank": 7,
+          "holder": "世纪长河科技集团有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 8,
+          "holder": "上海美馨投资管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 9,
+          "holder": "上海天亿力升实业控股集团有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "新进",
+          "holder_type": null
+        },
+        {
+          "rank": 10,
+          "holder": "易方达基金管理有限公司-社保基金17042组合",
+          "shares": null,
+          "ratio": null,
+          "change": "新进",
+          "holder_type": null
+        }
+      ],
+      "report_date": "2026-06-30",
+      "source": "akshare:stock_gdfx_free_top_10_em(20260630)",
+      "note": "持股数量单位沿用数据源口径（通常为股）"
+    },
+    "source": "akshare:stock_zh_a_spot_em",
+    "notes": [
+      "估值历史（PE 序列）不可得，仅展示快照市盈率"
+    ]
+  },
+  {
+    "code": "920138",
+    "name": "杰理科技",
+    "board": "北交所",
+    "industry": null,
+    "list_date": "2026-08-12",
+    "price": 32.62,
+    "pct_chg": -3.262,
+    "total_mv": null,
+    "float_mv": null,
+    "pe_static": null,
+    "pe_dynamic": null,
+    "pe_ttm": null,
+    "pb": null,
+    "turnover": null,
+    "main_business": "射频、音频、视频、信号采集及处理等系统级芯片（SoC）的研究、开发与销售。",
+    "main_business_source": "akshare:stock_zyjs_ths",
+    "holders": {
+      "rows": [
+        {
+          "rank": 1,
+          "holder": "杭州灏月企业管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 2,
+          "holder": "上海天亿资产管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 3,
+          "holder": "上海麒钧投资中心(有限合伙)",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 4,
+          "holder": "上海维途企业发展中心(有限合伙)",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 5,
+          "holder": "中国银行股份有限公司-华宝中证医疗交易型开放式指数证券投资基金",
+          "shares": null,
+          "ratio": -3.11814119,
+          "change": "减少",
+          "holder_type": null
+        },
+        {
+          "rank": 6,
+          "holder": "基本养老保险基金一二零五组合",
+          "shares": null,
+          "ratio": 47.11015414,
+          "change": "增加",
+          "holder_type": null
+        },
+        {
+          "rank": 7,
+          "holder": "世纪长河科技集团有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 8,
+          "holder": "上海美馨投资管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 9,
+          "holder": "上海天亿力升实业控股集团有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "新进",
+          "holder_type": null
+        },
+        {
+          "rank": 10,
+          "holder": "易方达基金管理有限公司-社保基金17042组合",
+          "shares": null,
+          "ratio": null,
+          "change": "新进",
+          "holder_type": null
+        }
+      ],
+      "report_date": "2026-06-30",
+      "source": "akshare:stock_gdfx_free_top_10_em(20260630)",
+      "note": "持股数量单位沿用数据源口径（通常为股）"
+    },
+    "source": "akshare:stock_zh_a_spot_em",
+    "notes": [
+      "估值历史（PE 序列）不可得，仅展示快照市盈率"
+    ]
+  },
+  {
+    "code": "301717",
+    "name": "超纯应材",
+    "board": "创业板",
+    "industry": null,
+    "list_date": "2026-08-11",
+    "price": 321.09,
+    "pct_chg": -8.732,
+    "total_mv": null,
+    "float_mv": null,
+    "pe_static": null,
+    "pe_dynamic": null,
+    "pe_ttm": null,
+    "pb": null,
+    "turnover": null,
+    "main_business": "面向芯片制造、精密光学等领域，提供经材料改性、精密表面加工、精密清洗和特殊涂层工艺后的精密零部件产品及服务。",
+    "main_business_source": "akshare:stock_zyjs_ths",
+    "holders": {
+      "rows": [
+        {
+          "rank": 1,
+          "holder": "杭州灏月企业管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 2,
+          "holder": "上海天亿资产管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 3,
+          "holder": "上海麒钧投资中心(有限合伙)",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 4,
+          "holder": "上海维途企业发展中心(有限合伙)",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 5,
+          "holder": "中国银行股份有限公司-华宝中证医疗交易型开放式指数证券投资基金",
+          "shares": null,
+          "ratio": -3.11814119,
+          "change": "减少",
+          "holder_type": null
+        },
+        {
+          "rank": 6,
+          "holder": "基本养老保险基金一二零五组合",
+          "shares": null,
+          "ratio": 47.11015414,
+          "change": "增加",
+          "holder_type": null
+        },
+        {
+          "rank": 7,
+          "holder": "世纪长河科技集团有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 8,
+          "holder": "上海美馨投资管理有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "不变",
+          "holder_type": null
+        },
+        {
+          "rank": 9,
+          "holder": "上海天亿力升实业控股集团有限公司",
+          "shares": null,
+          "ratio": null,
+          "change": "新进",
+          "holder_type": null
+        },
+        {
+          "rank": 10,
+          "holder": "易方达基金管理有限公司-社保基金17042组合",
+          "shares": null,
+          "ratio": null,
+          "change": "新进",
+          "holder_type": null
+        }
+      ],
+      "report_date": "2026-06-30",
+      "source": "akshare:stock_gdfx_free_top_10_em(20260630)",
+      "note": "持股数量单位沿用数据源口径（通常为股）"
+    },
+    "source": "akshare:stock_zh_a_spot_em",
+    "notes": [
+      "估值历史（PE 序列）不可得，仅展示快照市盈率"
+    ]
+  },
+  {
+    "code": "920165",
+    "name": "珈凯生物",
+    "board": "北交所",
+    "industry": null,
+    "list_date": "2026-08-11",
+    "price": 35.16,
+    "pct_chg": -2.953,
+    "total_mv": null,
+    "float_mv": null,
+    "pe_static": null,
+    "pe_dynamic": null,
+    "pe_ttm": null,
+    "pb": null,
+    "turnover": null,
+    "main_business": "化妆品功效原料的研发、生产及销售。",
+    "main_business_source": "akshare:stock_zyjs_ths",
+    "holders": {
+      "rows": [
+        {
+          "rank": 1,
+          "holder": "平阳致宸青云创业投资合伙企业(有限合伙)",
+          "shares": 2161960.0,
+          "ratio": 21.2019990658,
+          "change": "新进",
+          "holder_type": "私募基金"
+        },
+        {
+          "rank": 2,
+          "holder": "芜湖华熙朗亚健康产业投资合伙企业(有限合伙)",
+          "shares": 1503040.0,
+          "ratio": 14.740075059604,
+          "change": "新进",
+          "holder_type": "私募基金"
+        },
+        {
+          "rank": 3,
+          "holder": "温润佳品壹号(珠海)股权投资基金合伙企业(有限合伙)",
+          "shares": 1173280.0,
+          "ratio": 11.506171004053,
+          "change": "新进",
+          "holder_type": "私募基金"
+        },
+        {
+          "rank": 4,
+          "holder": "苏州苏盈金穗创业投资中心(有限合伙)",
+          "shares": 1056160.0,
+          "ratio": 10.357593726681,
+          "change": "新进",
+          "holder_type": "私募基金"
+        },
+        {
+          "rank": 5,
+          "holder": "水羊集团股份有限公司",
+          "shares": 621880.0,
+          "ratio": 6.098678596755,
+          "change": "新进",
+          "holder_type": "其它"
+        },
+        {
+          "rank": 6,
+          "holder": "温润佳品贰号(珠海)股权投资基金合伙企业(有限合伙)",
+          "shares": 610440.0,
+          "ratio": 5.986488329908,
+          "change": "新进",
+          "holder_type": "投资公司"
+        },
+        {
+          "rank": 7,
+          "holder": "湖州致宸天珈创业投资合伙企业(有限合伙)",
+          "shares": 604080.0,
+          "ratio": 5.924116817919,
+          "change": "新进",
+          "holder_type": "私募基金"
+        },
+        {
+          "rank": 8,
+          "holder": "宁波保税区峰上观星创业投资合伙企业(有限合伙)",
+          "shares": 429120.0,
+          "ratio": 4.208311827747,
+          "change": "新进",
+          "holder_type": "私募基金"
+        },
+        {
+          "rank": 9,
+          "holder": "嘉兴金彩创业投资合伙企业(有限合伙)",
+          "shares": 412577.0,
+          "ratio": 4.046077248687,
+          "change": "新进",
+          "holder_type": "私募基金"
+        },
+        {
+          "rank": 10,
+          "holder": "苏州亿崇创业投资合伙企业(有限合伙)",
+          "shares": 385560.0,
+          "ratio": 3.781125811676,
+          "change": "新进",
+          "holder_type": "私募基金"
+        }
+      ],
+      "report_date": "2026-06-30",
+      "source": "akshare:stock_gdfx_free_top_10_em(20260630)",
+      "note": "持股数量单位沿用数据源口径（通常为股）"
+    },
+    "source": "akshare:stock_zh_a_spot_em",
+    "notes": [
+      "估值历史（PE 序列）不可得，仅展示快照市盈率"
+    ]
+  }
+]

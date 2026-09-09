@@ -1,0 +1,5305 @@
+{
+  "started_at": "2026-09-09T13:51:44+00:00",
+  "finished_at": "2026-09-09T15:00:29+00:00",
+  "config": {
+    "区间": "2025-09-09 ~ 2026-09-09",
+    "股票池": "new",
+    "指定代码": [],
+    "深度采集上限": 20,
+    "新股首日数": 7,
+    "执行步骤": [
+      "index",
+      "new",
+      "profile",
+      "sector",
+      "sentiment",
+      "report"
+    ],
+    "复权方式": "qfq",
+    "启用akshare": true,
+    "输出目录": "/home/runner/work/stock/stock/reports/ashare-yearly"
+  },
+  "akshare": {
+    "enabled": true,
+    "available": true,
+    "version": "1.18.94",
+    "import_error": null,
+    "attempts": [
+      {
+        "capability": "index_hist:000001",
+        "func": "index_zh_a_hist",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "index_hist:000001",
+        "func": "stock_zh_index_daily_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "index_hist:000001",
+        "func": "stock_zh_index_daily_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "index_hist:000001",
+        "func": "stock_zh_index_daily",
+        "ok": true,
+        "rows": 8722,
+        "error": null
+      },
+      {
+        "capability": "index_hist:399001",
+        "func": "index_zh_a_hist",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "index_hist:399001",
+        "func": "stock_zh_index_daily_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "index_hist:399001",
+        "func": "stock_zh_index_daily_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "index_hist:399001",
+        "func": "stock_zh_index_daily",
+        "ok": true,
+        "rows": 8630,
+        "error": null
+      },
+      {
+        "capability": "index_hist:399006",
+        "func": "index_zh_a_hist",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "index_hist:399006",
+        "func": "stock_zh_index_daily_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "index_hist:399006",
+        "func": "stock_zh_index_daily_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "index_hist:399006",
+        "func": "stock_zh_index_daily",
+        "ok": true,
+        "rows": 3954,
+        "error": null
+      },
+      {
+        "capability": "index_hist:000688",
+        "func": "index_zh_a_hist",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "index_hist:000688",
+        "func": "stock_zh_index_daily_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "index_hist:000688",
+        "func": "stock_zh_index_daily_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "index_hist:000688",
+        "func": "stock_zh_index_daily",
+        "ok": true,
+        "rows": 1622,
+        "error": null
+      },
+      {
+        "capability": "index_hist:000300",
+        "func": "index_zh_a_hist",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "index_hist:000300",
+        "func": "stock_zh_index_daily_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "index_hist:000300",
+        "func": "stock_zh_index_daily_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "index_hist:000300",
+        "func": "stock_zh_index_daily",
+        "ok": true,
+        "rows": 5989,
+        "error": null
+      },
+      {
+        "capability": "index_hist:000905",
+        "func": "index_zh_a_hist",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "index_hist:000905",
+        "func": "stock_zh_index_daily_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "index_hist:000905",
+        "func": "stock_zh_index_daily_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "index_hist:000905",
+        "func": "stock_zh_index_daily",
+        "ok": true,
+        "rows": 5268,
+        "error": null
+      },
+      {
+        "capability": "index_hist:000852",
+        "func": "index_zh_a_hist",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "index_hist:000852",
+        "func": "stock_zh_index_daily_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "index_hist:000852",
+        "func": "stock_zh_index_daily_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "index_hist:000852",
+        "func": "stock_zh_index_daily",
+        "ok": true,
+        "rows": 2895,
+        "error": null
+      },
+      {
+        "capability": "index_hist:899050",
+        "func": "index_zh_a_hist",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "index_hist:899050",
+        "func": "stock_zh_index_daily_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "index_hist:899050",
+        "func": "stock_zh_index_daily_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "index_hist:899050",
+        "func": "stock_zh_index_daily",
+        "ok": true,
+        "rows": 1059,
+        "error": null
+      },
+      {
+        "capability": "ipo_list",
+        "func": "stock_xgsglb_em",
+        "ok": true,
+        "rows": 4023,
+        "error": null
+      },
+      {
+        "capability": "stock_hist:920268",
+        "func": "stock_zh_a_hist",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_hist:920268",
+        "func": "stock_zh_a_daily",
+        "ok": true,
+        "rows": 1,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920268:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920268:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 239,
+        "error": null
+      },
+      {
+        "capability": "stock_hist:301699",
+        "func": "stock_zh_a_hist",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_hist:301699",
+        "func": "stock_zh_a_daily",
+        "ok": true,
+        "rows": 1,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:301699:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:301699:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 238,
+        "error": null
+      },
+      {
+        "capability": "stock_hist:920269",
+        "func": "stock_zh_a_hist",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_hist:920269",
+        "func": "stock_zh_a_daily",
+        "ok": true,
+        "rows": 3,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920269:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920269:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 714,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920269:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920269:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 714,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920269:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920269:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 714,
+        "error": null
+      },
+      {
+        "capability": "stock_hist:603448",
+        "func": "stock_zh_a_hist",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_hist:603448",
+        "func": "stock_zh_a_daily",
+        "ok": true,
+        "rows": 3,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:603448:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:603448:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 714,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:603448:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:603448:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 714,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:603448:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:603448:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 714,
+        "error": null
+      },
+      {
+        "capability": "stock_hist:920289",
+        "func": "stock_zh_a_hist",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_hist:920289",
+        "func": "stock_zh_a_daily",
+        "ok": true,
+        "rows": 4,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920289:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920289:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 956,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920289:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920289:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 956,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920289:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920289:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 956,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920289:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920289:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 956,
+        "error": null
+      },
+      {
+        "capability": "stock_hist:920071",
+        "func": "stock_zh_a_hist",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_hist:920071",
+        "func": "stock_zh_a_daily",
+        "ok": true,
+        "rows": 5,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920071:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920071:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1195,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920071:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920071:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1195,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920071:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920071:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1195,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920071:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920071:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1195,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920071:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": true,
+        "rows": 241,
+        "error": null
+      },
+      {
+        "capability": "stock_hist:301688",
+        "func": "stock_zh_a_hist",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_hist:301688",
+        "func": "stock_zh_a_daily",
+        "ok": true,
+        "rows": 6,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:301688:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": 0,
+        "error": "返回空数据"
+      },
+      {
+        "capability": "stock_minute:301688:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1428,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:301688:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:301688:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1428,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:301688:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:301688:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1428,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:301688:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:301688:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1428,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:301688:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:301688:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1428,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:301688:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:301688:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1428,
+        "error": null
+      },
+      {
+        "capability": "stock_hist:601123",
+        "func": "stock_zh_a_hist",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_hist:601123",
+        "func": "stock_zh_a_daily",
+        "ok": true,
+        "rows": 7,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:601123:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:601123:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1657,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:601123:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:601123:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1657,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:601123:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:601123:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1657,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:601123:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:601123:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1657,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:601123:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:601123:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1657,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:601123:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:601123:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1657,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:601123:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:601123:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1657,
+        "error": null
+      },
+      {
+        "capability": "stock_hist:301697",
+        "func": "stock_zh_a_hist",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_hist:301697",
+        "func": "stock_zh_a_daily",
+        "ok": true,
+        "rows": 7,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:301697:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:301697:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1666,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:301697:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:301697:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1666,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:301697:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:301697:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1666,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:301697:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:301697:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1666,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:301697:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:301697:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1666,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:301697:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:301697:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1666,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:301697:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:301697:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1666,
+        "error": null
+      },
+      {
+        "capability": "stock_hist:920288",
+        "func": "stock_zh_a_hist",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_hist:920288",
+        "func": "stock_zh_a_daily",
+        "ok": true,
+        "rows": 9,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920288:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920288:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920288:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920288:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920288:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920288:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920288:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920288:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920288:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920288:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920288:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920288:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920288:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920288:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_hist:688835",
+        "func": "stock_zh_a_hist",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_hist:688835",
+        "func": "stock_zh_a_daily",
+        "ok": true,
+        "rows": 12,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:688835:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:688835:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:688835:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:688835:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:688835:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:688835:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:688835:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:688835:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:688835:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:688835:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:688835:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:688835:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:688835:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:688835:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_hist:920093",
+        "func": "stock_zh_a_hist",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_hist:920093",
+        "func": "stock_zh_a_daily",
+        "ok": true,
+        "rows": 14,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920093:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920093:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920093:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920093:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920093:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920093:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920093:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920093:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920093:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920093:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920093:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920093:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920093:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920093:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_hist:301655",
+        "func": "stock_zh_a_hist",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_hist:301655",
+        "func": "stock_zh_a_daily",
+        "ok": true,
+        "rows": 15,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:301655:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:301655:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:301655:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:301655:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:301655:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:301655:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:301655:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:301655:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:301655:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:301655:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:301655:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:301655:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:301655:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:301655:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_hist:920059",
+        "func": "stock_zh_a_hist",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_hist:920059",
+        "func": "stock_zh_a_daily",
+        "ok": true,
+        "rows": 16,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920059:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920059:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920059:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920059:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920059:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920059:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920059:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920059:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920059:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920059:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920059:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920059:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920059:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920059:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_hist:688836",
+        "func": "stock_zh_a_hist",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_hist:688836",
+        "func": "stock_zh_a_daily",
+        "ok": true,
+        "rows": 16,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:688836:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:688836:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:688836:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:688836:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:688836:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:688836:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:688836:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:688836:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:688836:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:688836:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:688836:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:688836:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:688836:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:688836:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_hist:688826",
+        "func": "stock_zh_a_hist",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_hist:688826",
+        "func": "stock_zh_a_daily",
+        "ok": true,
+        "rows": 17,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:688826:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:688826:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:688826:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:688826:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:688826:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:688826:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:688826:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:688826:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:688826:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:688826:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:688826:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:688826:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:688826:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:688826:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_hist:920107",
+        "func": "stock_zh_a_hist",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_hist:920107",
+        "func": "stock_zh_a_daily",
+        "ok": true,
+        "rows": 18,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920107:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920107:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920107:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920107:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920107:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920107:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920107:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920107:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920107:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920107:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920107:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920107:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920107:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920107:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_hist:920138",
+        "func": "stock_zh_a_hist",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_hist:920138",
+        "func": "stock_zh_a_daily",
+        "ok": true,
+        "rows": 21,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920138:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920138:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920138:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920138:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920138:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920138:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920138:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920138:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920138:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920138:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920138:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920138:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920138:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920138:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_hist:301717",
+        "func": "stock_zh_a_hist",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_hist:301717",
+        "func": "stock_zh_a_daily",
+        "ok": true,
+        "rows": 22,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:301717:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:301717:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:301717:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:301717:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:301717:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:301717:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:301717:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:301717:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:301717:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:301717:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:301717:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:301717:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:301717:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:301717:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_hist:920165",
+        "func": "stock_zh_a_hist",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_hist:920165",
+        "func": "stock_zh_a_daily",
+        "ok": true,
+        "rows": 22,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920165:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920165:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920165:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920165:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920165:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920165:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920165:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920165:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920165:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920165:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920165:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920165:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "stock_minute:920165:1",
+        "func": "stock_zh_a_hist_min_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "stock_minute:920165:1",
+        "func": "stock_zh_a_minute",
+        "ok": true,
+        "rows": 1970,
+        "error": null
+      },
+      {
+        "capability": "spot_all",
+        "func": "stock_zh_a_spot_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "spot_all",
+        "func": "stock_zh_a_spot",
+        "ok": true,
+        "rows": 5559,
+        "error": null
+      },
+      {
+        "capability": "individual_info:920268",
+        "func": "stock_individual_info_em",
+        "ok": false,
+        "rows": null,
+        "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      },
+      {
+        "capability": "individual_info:920268",
+        "func": "stock_individual_basic_info_xq",
+        "ok": false,
+        "rows": null,
+        "error": "APIError: API Error: Xueqiu company endpoint requires a valid xq_a_token or login session; anonymous access is currently restricted, please pass a valid token via `token=`. Upstream returned 400016: 遇到错误，请刷新页面或者重新登录帐号后再试 (Status code: 400)"
+      },
+      {
+        "capability": "free_top10:920268",
+        "func": "stock_gdfx_free_top_10_em",
+        "ok": false,
+        "rows": null,
+        "error": "ValueError: Length mismatch: Expected axis has 1 elements, new values have 12 elements"
+      },
+      {
+        "capability": "free_top10:920268",
+        "func": "stock_gdfx_free_top_10_em",
+        "ok": false,
+        "rows": null,
+        "error": "ValueError: Length mismatch: Expected axis has 1 elements, new values have 12 elements"
+      },
+      {
+        "capability": "free_top10:920268",
+        "func": "stock_gdfx_free_holding_detail_em",
+        "ok": true,
+        "rows": 56167,
+        "error": null
+      },
+      {
+        "capability": "main_business:920268",
+        "func": "stock_zyjs_ths",
+        "ok": true,
+        "rows": 1,
+        "error": null
+      },
+      {
+        "capability": "valuation_hist:920268",
+        "func": "stock_a_indicator_lg",
+        "ok": false,
+        "rows": null,
+        "error": "当前 akshare 版本无此函数"
+      },
+      {
+        "capability": "valuation_hist:920268",
+        "func": "stock_zh_valuation_baidu",
+        "ok": true,
+        "rows": 1,
+        "error": null
+      },
+      {
+        "capability": "individual_info:301699",
+        "func": "stock_individual_info_em",
+        "ok": false,
+        "rows": null,
+        "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      },
+      {
+        "capability": "individual_info:301699",
+        "func": "stock_individual_basic_info_xq",
+        "ok": false,
+        "rows": null,
+        "error": "APIError: API Error: Xueqiu company endpoint requires a valid xq_a_token or login session; anonymous access is currently restricted, please pass a valid token via `token=`. Upstream returned 400016: 遇到错误，请刷新页面或者重新登录帐号后再试 (Status code: 400)"
+      },
+      {
+        "capability": "free_top10:301699",
+        "func": "stock_gdfx_free_top_10_em",
+        "ok": false,
+        "rows": null,
+        "error": "ValueError: Length mismatch: Expected axis has 1 elements, new values have 12 elements"
+      },
+      {
+        "capability": "free_top10:301699",
+        "func": "stock_gdfx_free_top_10_em",
+        "ok": false,
+        "rows": null,
+        "error": "ValueError: Length mismatch: Expected axis has 1 elements, new values have 12 elements"
+      },
+      {
+        "capability": "free_top10:301699",
+        "func": "stock_gdfx_free_holding_detail_em",
+        "ok": true,
+        "rows": 56167,
+        "error": null
+      },
+      {
+        "capability": "main_business:301699",
+        "func": "stock_zyjs_ths",
+        "ok": true,
+        "rows": 1,
+        "error": null
+      },
+      {
+        "capability": "valuation_hist:301699",
+        "func": "stock_a_indicator_lg",
+        "ok": false,
+        "rows": null,
+        "error": "当前 akshare 版本无此函数"
+      },
+      {
+        "capability": "valuation_hist:301699",
+        "func": "stock_zh_valuation_baidu",
+        "ok": true,
+        "rows": 1,
+        "error": null
+      },
+      {
+        "capability": "individual_info:920269",
+        "func": "stock_individual_info_em",
+        "ok": false,
+        "rows": null,
+        "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      },
+      {
+        "capability": "individual_info:920269",
+        "func": "stock_individual_basic_info_xq",
+        "ok": false,
+        "rows": null,
+        "error": "APIError: API Error: Xueqiu company endpoint requires a valid xq_a_token or login session; anonymous access is currently restricted, please pass a valid token via `token=`. Upstream returned 400016: 遇到错误，请刷新页面或者重新登录帐号后再试 (Status code: 400)"
+      },
+      {
+        "capability": "free_top10:920269",
+        "func": "stock_gdfx_free_top_10_em",
+        "ok": false,
+        "rows": null,
+        "error": "ValueError: Length mismatch: Expected axis has 1 elements, new values have 12 elements"
+      },
+      {
+        "capability": "free_top10:920269",
+        "func": "stock_gdfx_free_top_10_em",
+        "ok": false,
+        "rows": null,
+        "error": "ValueError: Length mismatch: Expected axis has 1 elements, new values have 12 elements"
+      },
+      {
+        "capability": "free_top10:920269",
+        "func": "stock_gdfx_free_holding_detail_em",
+        "ok": true,
+        "rows": 56167,
+        "error": null
+      },
+      {
+        "capability": "main_business:920269",
+        "func": "stock_zyjs_ths",
+        "ok": true,
+        "rows": 1,
+        "error": null
+      },
+      {
+        "capability": "valuation_hist:920269",
+        "func": "stock_a_indicator_lg",
+        "ok": false,
+        "rows": null,
+        "error": "当前 akshare 版本无此函数"
+      },
+      {
+        "capability": "valuation_hist:920269",
+        "func": "stock_zh_valuation_baidu",
+        "ok": true,
+        "rows": 3,
+        "error": null
+      },
+      {
+        "capability": "individual_info:603448",
+        "func": "stock_individual_info_em",
+        "ok": false,
+        "rows": null,
+        "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      },
+      {
+        "capability": "individual_info:603448",
+        "func": "stock_individual_basic_info_xq",
+        "ok": false,
+        "rows": null,
+        "error": "APIError: API Error: Xueqiu company endpoint requires a valid xq_a_token or login session; anonymous access is currently restricted, please pass a valid token via `token=`. Upstream returned 400016: 遇到错误，请刷新页面或者重新登录帐号后再试 (Status code: 400)"
+      },
+      {
+        "capability": "free_top10:603448",
+        "func": "stock_gdfx_free_top_10_em",
+        "ok": false,
+        "rows": null,
+        "error": "ValueError: Length mismatch: Expected axis has 1 elements, new values have 12 elements"
+      },
+      {
+        "capability": "free_top10:603448",
+        "func": "stock_gdfx_free_top_10_em",
+        "ok": false,
+        "rows": null,
+        "error": "ValueError: Length mismatch: Expected axis has 1 elements, new values have 12 elements"
+      },
+      {
+        "capability": "free_top10:603448",
+        "func": "stock_gdfx_free_holding_detail_em",
+        "ok": true,
+        "rows": 56167,
+        "error": null
+      },
+      {
+        "capability": "main_business:603448",
+        "func": "stock_zyjs_ths",
+        "ok": true,
+        "rows": 1,
+        "error": null
+      },
+      {
+        "capability": "valuation_hist:603448",
+        "func": "stock_a_indicator_lg",
+        "ok": false,
+        "rows": null,
+        "error": "当前 akshare 版本无此函数"
+      },
+      {
+        "capability": "valuation_hist:603448",
+        "func": "stock_zh_valuation_baidu",
+        "ok": true,
+        "rows": 3,
+        "error": null
+      },
+      {
+        "capability": "individual_info:920289",
+        "func": "stock_individual_info_em",
+        "ok": false,
+        "rows": null,
+        "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      },
+      {
+        "capability": "individual_info:920289",
+        "func": "stock_individual_basic_info_xq",
+        "ok": false,
+        "rows": null,
+        "error": "APIError: API Error: Xueqiu company endpoint requires a valid xq_a_token or login session; anonymous access is currently restricted, please pass a valid token via `token=`. Upstream returned 400016: 遇到错误，请刷新页面或者重新登录帐号后再试 (Status code: 400)"
+      },
+      {
+        "capability": "free_top10:920289",
+        "func": "stock_gdfx_free_top_10_em",
+        "ok": false,
+        "rows": null,
+        "error": "ValueError: Length mismatch: Expected axis has 1 elements, new values have 12 elements"
+      },
+      {
+        "capability": "free_top10:920289",
+        "func": "stock_gdfx_free_top_10_em",
+        "ok": false,
+        "rows": null,
+        "error": "ValueError: Length mismatch: Expected axis has 1 elements, new values have 12 elements"
+      },
+      {
+        "capability": "free_top10:920289",
+        "func": "stock_gdfx_free_holding_detail_em",
+        "ok": true,
+        "rows": 56167,
+        "error": null
+      },
+      {
+        "capability": "main_business:920289",
+        "func": "stock_zyjs_ths",
+        "ok": true,
+        "rows": 1,
+        "error": null
+      },
+      {
+        "capability": "valuation_hist:920289",
+        "func": "stock_a_indicator_lg",
+        "ok": false,
+        "rows": null,
+        "error": "当前 akshare 版本无此函数"
+      },
+      {
+        "capability": "valuation_hist:920289",
+        "func": "stock_zh_valuation_baidu",
+        "ok": true,
+        "rows": 6,
+        "error": null
+      },
+      {
+        "capability": "individual_info:920071",
+        "func": "stock_individual_info_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))"
+      },
+      {
+        "capability": "individual_info:920071",
+        "func": "stock_individual_basic_info_xq",
+        "ok": false,
+        "rows": null,
+        "error": "APIError: API Error: Xueqiu company endpoint requires a valid xq_a_token or login session; anonymous access is currently restricted, please pass a valid token via `token=`. Upstream returned 400016: 遇到错误，请刷新页面或者重新登录帐号后再试 (Status code: 400)"
+      },
+      {
+        "capability": "free_top10:920071",
+        "func": "stock_gdfx_free_top_10_em",
+        "ok": false,
+        "rows": null,
+        "error": "ValueError: Length mismatch: Expected axis has 1 elements, new values have 12 elements"
+      },
+      {
+        "capability": "free_top10:920071",
+        "func": "stock_gdfx_free_top_10_em",
+        "ok": false,
+        "rows": null,
+        "error": "ValueError: Length mismatch: Expected axis has 1 elements, new values have 12 elements"
+      },
+      {
+        "capability": "free_top10:920071",
+        "func": "stock_gdfx_free_holding_detail_em",
+        "ok": true,
+        "rows": 56167,
+        "error": null
+      },
+      {
+        "capability": "main_business:920071",
+        "func": "stock_zyjs_ths",
+        "ok": true,
+        "rows": 1,
+        "error": null
+      },
+      {
+        "capability": "valuation_hist:920071",
+        "func": "stock_a_indicator_lg",
+        "ok": false,
+        "rows": null,
+        "error": "当前 akshare 版本无此函数"
+      },
+      {
+        "capability": "valuation_hist:920071",
+        "func": "stock_zh_valuation_baidu",
+        "ok": true,
+        "rows": 7,
+        "error": null
+      },
+      {
+        "capability": "individual_info:301688",
+        "func": "stock_individual_info_em",
+        "ok": false,
+        "rows": null,
+        "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      },
+      {
+        "capability": "individual_info:301688",
+        "func": "stock_individual_basic_info_xq",
+        "ok": false,
+        "rows": null,
+        "error": "APIError: API Error: Xueqiu company endpoint requires a valid xq_a_token or login session; anonymous access is currently restricted, please pass a valid token via `token=`. Upstream returned 400016: 遇到错误，请刷新页面或者重新登录帐号后再试 (Status code: 400)"
+      },
+      {
+        "capability": "free_top10:301688",
+        "func": "stock_gdfx_free_top_10_em",
+        "ok": false,
+        "rows": null,
+        "error": "ValueError: Length mismatch: Expected axis has 1 elements, new values have 12 elements"
+      },
+      {
+        "capability": "free_top10:301688",
+        "func": "stock_gdfx_free_top_10_em",
+        "ok": false,
+        "rows": null,
+        "error": "ValueError: Length mismatch: Expected axis has 1 elements, new values have 12 elements"
+      },
+      {
+        "capability": "free_top10:301688",
+        "func": "stock_gdfx_free_holding_detail_em",
+        "ok": true,
+        "rows": 56167,
+        "error": null
+      },
+      {
+        "capability": "main_business:301688",
+        "func": "stock_zyjs_ths",
+        "ok": true,
+        "rows": 1,
+        "error": null
+      },
+      {
+        "capability": "valuation_hist:301688",
+        "func": "stock_a_indicator_lg",
+        "ok": false,
+        "rows": null,
+        "error": "当前 akshare 版本无此函数"
+      },
+      {
+        "capability": "valuation_hist:301688",
+        "func": "stock_zh_valuation_baidu",
+        "ok": true,
+        "rows": 8,
+        "error": null
+      },
+      {
+        "capability": "individual_info:601123",
+        "func": "stock_individual_info_em",
+        "ok": false,
+        "rows": null,
+        "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      },
+      {
+        "capability": "individual_info:601123",
+        "func": "stock_individual_basic_info_xq",
+        "ok": false,
+        "rows": null,
+        "error": "APIError: API Error: Xueqiu company endpoint requires a valid xq_a_token or login session; anonymous access is currently restricted, please pass a valid token via `token=`. Upstream returned 400016: 遇到错误，请刷新页面或者重新登录帐号后再试 (Status code: 400)"
+      },
+      {
+        "capability": "free_top10:601123",
+        "func": "stock_gdfx_free_top_10_em",
+        "ok": false,
+        "rows": null,
+        "error": "ValueError: Length mismatch: Expected axis has 1 elements, new values have 12 elements"
+      },
+      {
+        "capability": "free_top10:601123",
+        "func": "stock_gdfx_free_top_10_em",
+        "ok": false,
+        "rows": null,
+        "error": "ValueError: Length mismatch: Expected axis has 1 elements, new values have 12 elements"
+      },
+      {
+        "capability": "free_top10:601123",
+        "func": "stock_gdfx_free_holding_detail_em",
+        "ok": true,
+        "rows": 56167,
+        "error": null
+      },
+      {
+        "capability": "main_business:601123",
+        "func": "stock_zyjs_ths",
+        "ok": true,
+        "rows": 1,
+        "error": null
+      },
+      {
+        "capability": "valuation_hist:601123",
+        "func": "stock_a_indicator_lg",
+        "ok": false,
+        "rows": null,
+        "error": "当前 akshare 版本无此函数"
+      },
+      {
+        "capability": "valuation_hist:601123",
+        "func": "stock_zh_valuation_baidu",
+        "ok": true,
+        "rows": 9,
+        "error": null
+      },
+      {
+        "capability": "individual_info:301697",
+        "func": "stock_individual_info_em",
+        "ok": false,
+        "rows": null,
+        "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      },
+      {
+        "capability": "individual_info:301697",
+        "func": "stock_individual_basic_info_xq",
+        "ok": false,
+        "rows": null,
+        "error": "APIError: API Error: Xueqiu company endpoint requires a valid xq_a_token or login session; anonymous access is currently restricted, please pass a valid token via `token=`. Upstream returned 400016: 遇到错误，请刷新页面或者重新登录帐号后再试 (Status code: 400)"
+      },
+      {
+        "capability": "free_top10:301697",
+        "func": "stock_gdfx_free_top_10_em",
+        "ok": false,
+        "rows": null,
+        "error": "ValueError: Length mismatch: Expected axis has 1 elements, new values have 12 elements"
+      },
+      {
+        "capability": "free_top10:301697",
+        "func": "stock_gdfx_free_top_10_em",
+        "ok": false,
+        "rows": null,
+        "error": "ValueError: Length mismatch: Expected axis has 1 elements, new values have 12 elements"
+      },
+      {
+        "capability": "free_top10:301697",
+        "func": "stock_gdfx_free_holding_detail_em",
+        "ok": true,
+        "rows": 56167,
+        "error": null
+      },
+      {
+        "capability": "main_business:301697",
+        "func": "stock_zyjs_ths",
+        "ok": true,
+        "rows": 1,
+        "error": null
+      },
+      {
+        "capability": "valuation_hist:301697",
+        "func": "stock_a_indicator_lg",
+        "ok": false,
+        "rows": null,
+        "error": "当前 akshare 版本无此函数"
+      },
+      {
+        "capability": "valuation_hist:301697",
+        "func": "stock_zh_valuation_baidu",
+        "ok": true,
+        "rows": 9,
+        "error": null
+      },
+      {
+        "capability": "individual_info:920288",
+        "func": "stock_individual_info_em",
+        "ok": false,
+        "rows": null,
+        "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      },
+      {
+        "capability": "individual_info:920288",
+        "func": "stock_individual_basic_info_xq",
+        "ok": false,
+        "rows": null,
+        "error": "APIError: API Error: Xueqiu company endpoint requires a valid xq_a_token or login session; anonymous access is currently restricted, please pass a valid token via `token=`. Upstream returned 400016: 遇到错误，请刷新页面或者重新登录帐号后再试 (Status code: 400)"
+      },
+      {
+        "capability": "free_top10:920288",
+        "func": "stock_gdfx_free_top_10_em",
+        "ok": false,
+        "rows": null,
+        "error": "ValueError: Length mismatch: Expected axis has 1 elements, new values have 12 elements"
+      },
+      {
+        "capability": "free_top10:920288",
+        "func": "stock_gdfx_free_top_10_em",
+        "ok": false,
+        "rows": null,
+        "error": "ValueError: Length mismatch: Expected axis has 1 elements, new values have 12 elements"
+      },
+      {
+        "capability": "free_top10:920288",
+        "func": "stock_gdfx_free_holding_detail_em",
+        "ok": true,
+        "rows": 56167,
+        "error": null
+      },
+      {
+        "capability": "main_business:920288",
+        "func": "stock_zyjs_ths",
+        "ok": true,
+        "rows": 1,
+        "error": null
+      },
+      {
+        "capability": "valuation_hist:920288",
+        "func": "stock_a_indicator_lg",
+        "ok": false,
+        "rows": null,
+        "error": "当前 akshare 版本无此函数"
+      },
+      {
+        "capability": "valuation_hist:920288",
+        "func": "stock_zh_valuation_baidu",
+        "ok": true,
+        "rows": 13,
+        "error": null
+      },
+      {
+        "capability": "individual_info:688835",
+        "func": "stock_individual_info_em",
+        "ok": false,
+        "rows": null,
+        "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      },
+      {
+        "capability": "individual_info:688835",
+        "func": "stock_individual_basic_info_xq",
+        "ok": false,
+        "rows": null,
+        "error": "APIError: API Error: Xueqiu company endpoint requires a valid xq_a_token or login session; anonymous access is currently restricted, please pass a valid token via `token=`. Upstream returned 400016: 遇到错误，请刷新页面或者重新登录帐号后再试 (Status code: 400)"
+      },
+      {
+        "capability": "free_top10:688835",
+        "func": "stock_gdfx_free_top_10_em",
+        "ok": false,
+        "rows": null,
+        "error": "ValueError: Length mismatch: Expected axis has 1 elements, new values have 12 elements"
+      },
+      {
+        "capability": "free_top10:688835",
+        "func": "stock_gdfx_free_top_10_em",
+        "ok": false,
+        "rows": null,
+        "error": "ValueError: Length mismatch: Expected axis has 1 elements, new values have 12 elements"
+      },
+      {
+        "capability": "free_top10:688835",
+        "func": "stock_gdfx_free_holding_detail_em",
+        "ok": true,
+        "rows": 56167,
+        "error": null
+      },
+      {
+        "capability": "main_business:688835",
+        "func": "stock_zyjs_ths",
+        "ok": true,
+        "rows": 1,
+        "error": null
+      },
+      {
+        "capability": "valuation_hist:688835",
+        "func": "stock_a_indicator_lg",
+        "ok": false,
+        "rows": null,
+        "error": "当前 akshare 版本无此函数"
+      },
+      {
+        "capability": "valuation_hist:688835",
+        "func": "stock_zh_valuation_baidu",
+        "ok": true,
+        "rows": 16,
+        "error": null
+      },
+      {
+        "capability": "individual_info:920093",
+        "func": "stock_individual_info_em",
+        "ok": false,
+        "rows": null,
+        "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      },
+      {
+        "capability": "individual_info:920093",
+        "func": "stock_individual_basic_info_xq",
+        "ok": false,
+        "rows": null,
+        "error": "APIError: API Error: Xueqiu company endpoint requires a valid xq_a_token or login session; anonymous access is currently restricted, please pass a valid token via `token=`. Upstream returned 400016: 遇到错误，请刷新页面或者重新登录帐号后再试 (Status code: 400)"
+      },
+      {
+        "capability": "free_top10:920093",
+        "func": "stock_gdfx_free_top_10_em",
+        "ok": false,
+        "rows": null,
+        "error": "ValueError: Length mismatch: Expected axis has 1 elements, new values have 12 elements"
+      },
+      {
+        "capability": "free_top10:920093",
+        "func": "stock_gdfx_free_top_10_em",
+        "ok": false,
+        "rows": null,
+        "error": "ValueError: Length mismatch: Expected axis has 1 elements, new values have 12 elements"
+      },
+      {
+        "capability": "free_top10:920093",
+        "func": "stock_gdfx_free_holding_detail_em",
+        "ok": true,
+        "rows": 56167,
+        "error": null
+      },
+      {
+        "capability": "main_business:920093",
+        "func": "stock_zyjs_ths",
+        "ok": true,
+        "rows": 1,
+        "error": null
+      },
+      {
+        "capability": "valuation_hist:920093",
+        "func": "stock_a_indicator_lg",
+        "ok": false,
+        "rows": null,
+        "error": "当前 akshare 版本无此函数"
+      },
+      {
+        "capability": "valuation_hist:920093",
+        "func": "stock_zh_valuation_baidu",
+        "ok": true,
+        "rows": 20,
+        "error": null
+      },
+      {
+        "capability": "individual_info:301655",
+        "func": "stock_individual_info_em",
+        "ok": false,
+        "rows": null,
+        "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      },
+      {
+        "capability": "individual_info:301655",
+        "func": "stock_individual_basic_info_xq",
+        "ok": false,
+        "rows": null,
+        "error": "APIError: API Error: Xueqiu company endpoint requires a valid xq_a_token or login session; anonymous access is currently restricted, please pass a valid token via `token=`. Upstream returned 400016: 遇到错误，请刷新页面或者重新登录帐号后再试 (Status code: 400)"
+      },
+      {
+        "capability": "free_top10:301655",
+        "func": "stock_gdfx_free_top_10_em",
+        "ok": false,
+        "rows": null,
+        "error": "ValueError: Length mismatch: Expected axis has 1 elements, new values have 12 elements"
+      },
+      {
+        "capability": "free_top10:301655",
+        "func": "stock_gdfx_free_top_10_em",
+        "ok": false,
+        "rows": null,
+        "error": "ValueError: Length mismatch: Expected axis has 1 elements, new values have 12 elements"
+      },
+      {
+        "capability": "free_top10:301655",
+        "func": "stock_gdfx_free_holding_detail_em",
+        "ok": true,
+        "rows": 56167,
+        "error": null
+      },
+      {
+        "capability": "main_business:301655",
+        "func": "stock_zyjs_ths",
+        "ok": true,
+        "rows": 1,
+        "error": null
+      },
+      {
+        "capability": "valuation_hist:301655",
+        "func": "stock_a_indicator_lg",
+        "ok": false,
+        "rows": null,
+        "error": "当前 akshare 版本无此函数"
+      },
+      {
+        "capability": "valuation_hist:301655",
+        "func": "stock_zh_valuation_baidu",
+        "ok": true,
+        "rows": 21,
+        "error": null
+      },
+      {
+        "capability": "individual_info:920059",
+        "func": "stock_individual_info_em",
+        "ok": false,
+        "rows": null,
+        "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      },
+      {
+        "capability": "individual_info:920059",
+        "func": "stock_individual_basic_info_xq",
+        "ok": false,
+        "rows": null,
+        "error": "APIError: API Error: Xueqiu company endpoint requires a valid xq_a_token or login session; anonymous access is currently restricted, please pass a valid token via `token=`. Upstream returned 400016: 遇到错误，请刷新页面或者重新登录帐号后再试 (Status code: 400)"
+      },
+      {
+        "capability": "free_top10:920059",
+        "func": "stock_gdfx_free_top_10_em",
+        "ok": false,
+        "rows": null,
+        "error": "ValueError: Length mismatch: Expected axis has 1 elements, new values have 12 elements"
+      },
+      {
+        "capability": "free_top10:920059",
+        "func": "stock_gdfx_free_top_10_em",
+        "ok": false,
+        "rows": null,
+        "error": "ValueError: Length mismatch: Expected axis has 1 elements, new values have 12 elements"
+      },
+      {
+        "capability": "free_top10:920059",
+        "func": "stock_gdfx_free_holding_detail_em",
+        "ok": true,
+        "rows": 56167,
+        "error": null
+      },
+      {
+        "capability": "main_business:920059",
+        "func": "stock_zyjs_ths",
+        "ok": true,
+        "rows": 1,
+        "error": null
+      },
+      {
+        "capability": "valuation_hist:920059",
+        "func": "stock_a_indicator_lg",
+        "ok": false,
+        "rows": null,
+        "error": "当前 akshare 版本无此函数"
+      },
+      {
+        "capability": "valuation_hist:920059",
+        "func": "stock_zh_valuation_baidu",
+        "ok": true,
+        "rows": 22,
+        "error": null
+      },
+      {
+        "capability": "individual_info:688836",
+        "func": "stock_individual_info_em",
+        "ok": false,
+        "rows": null,
+        "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      },
+      {
+        "capability": "individual_info:688836",
+        "func": "stock_individual_basic_info_xq",
+        "ok": false,
+        "rows": null,
+        "error": "APIError: API Error: Xueqiu company endpoint requires a valid xq_a_token or login session; anonymous access is currently restricted, please pass a valid token via `token=`. Upstream returned 400016: 遇到错误，请刷新页面或者重新登录帐号后再试 (Status code: 400)"
+      },
+      {
+        "capability": "free_top10:688836",
+        "func": "stock_gdfx_free_top_10_em",
+        "ok": false,
+        "rows": null,
+        "error": "ValueError: Length mismatch: Expected axis has 1 elements, new values have 12 elements"
+      },
+      {
+        "capability": "free_top10:688836",
+        "func": "stock_gdfx_free_top_10_em",
+        "ok": false,
+        "rows": null,
+        "error": "ValueError: Length mismatch: Expected axis has 1 elements, new values have 12 elements"
+      },
+      {
+        "capability": "free_top10:688836",
+        "func": "stock_gdfx_free_holding_detail_em",
+        "ok": true,
+        "rows": 56167,
+        "error": null
+      },
+      {
+        "capability": "main_business:688836",
+        "func": "stock_zyjs_ths",
+        "ok": true,
+        "rows": 1,
+        "error": null
+      },
+      {
+        "capability": "valuation_hist:688836",
+        "func": "stock_a_indicator_lg",
+        "ok": false,
+        "rows": null,
+        "error": "当前 akshare 版本无此函数"
+      },
+      {
+        "capability": "valuation_hist:688836",
+        "func": "stock_zh_valuation_baidu",
+        "ok": true,
+        "rows": 22,
+        "error": null
+      },
+      {
+        "capability": "individual_info:688826",
+        "func": "stock_individual_info_em",
+        "ok": false,
+        "rows": null,
+        "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      },
+      {
+        "capability": "individual_info:688826",
+        "func": "stock_individual_basic_info_xq",
+        "ok": false,
+        "rows": null,
+        "error": "APIError: API Error: Xueqiu company endpoint requires a valid xq_a_token or login session; anonymous access is currently restricted, please pass a valid token via `token=`. Upstream returned 400016: 遇到错误，请刷新页面或者重新登录帐号后再试 (Status code: 400)"
+      },
+      {
+        "capability": "free_top10:688826",
+        "func": "stock_gdfx_free_top_10_em",
+        "ok": false,
+        "rows": null,
+        "error": "ValueError: Length mismatch: Expected axis has 1 elements, new values have 12 elements"
+      },
+      {
+        "capability": "free_top10:688826",
+        "func": "stock_gdfx_free_top_10_em",
+        "ok": false,
+        "rows": null,
+        "error": "ValueError: Length mismatch: Expected axis has 1 elements, new values have 12 elements"
+      },
+      {
+        "capability": "free_top10:688826",
+        "func": "stock_gdfx_free_holding_detail_em",
+        "ok": true,
+        "rows": 56167,
+        "error": null
+      },
+      {
+        "capability": "main_business:688826",
+        "func": "stock_zyjs_ths",
+        "ok": true,
+        "rows": 1,
+        "error": null
+      },
+      {
+        "capability": "valuation_hist:688826",
+        "func": "stock_a_indicator_lg",
+        "ok": false,
+        "rows": null,
+        "error": "当前 akshare 版本无此函数"
+      },
+      {
+        "capability": "valuation_hist:688826",
+        "func": "stock_zh_valuation_baidu",
+        "ok": true,
+        "rows": 23,
+        "error": null
+      },
+      {
+        "capability": "individual_info:920107",
+        "func": "stock_individual_info_em",
+        "ok": false,
+        "rows": null,
+        "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      },
+      {
+        "capability": "individual_info:920107",
+        "func": "stock_individual_basic_info_xq",
+        "ok": false,
+        "rows": null,
+        "error": "APIError: API Error: Xueqiu company endpoint requires a valid xq_a_token or login session; anonymous access is currently restricted, please pass a valid token via `token=`. Upstream returned 400016: 遇到错误，请刷新页面或者重新登录帐号后再试 (Status code: 400)"
+      },
+      {
+        "capability": "free_top10:920107",
+        "func": "stock_gdfx_free_top_10_em",
+        "ok": false,
+        "rows": null,
+        "error": "ValueError: Length mismatch: Expected axis has 1 elements, new values have 12 elements"
+      },
+      {
+        "capability": "free_top10:920107",
+        "func": "stock_gdfx_free_top_10_em",
+        "ok": false,
+        "rows": null,
+        "error": "ValueError: Length mismatch: Expected axis has 1 elements, new values have 12 elements"
+      },
+      {
+        "capability": "free_top10:920107",
+        "func": "stock_gdfx_free_holding_detail_em",
+        "ok": true,
+        "rows": 56167,
+        "error": null
+      },
+      {
+        "capability": "main_business:920107",
+        "func": "stock_zyjs_ths",
+        "ok": true,
+        "rows": 1,
+        "error": null
+      },
+      {
+        "capability": "valuation_hist:920107",
+        "func": "stock_a_indicator_lg",
+        "ok": false,
+        "rows": null,
+        "error": "当前 akshare 版本无此函数"
+      },
+      {
+        "capability": "valuation_hist:920107",
+        "func": "stock_zh_valuation_baidu",
+        "ok": true,
+        "rows": 24,
+        "error": null
+      },
+      {
+        "capability": "individual_info:920138",
+        "func": "stock_individual_info_em",
+        "ok": false,
+        "rows": null,
+        "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      },
+      {
+        "capability": "individual_info:920138",
+        "func": "stock_individual_basic_info_xq",
+        "ok": false,
+        "rows": null,
+        "error": "APIError: API Error: Xueqiu company endpoint requires a valid xq_a_token or login session; anonymous access is currently restricted, please pass a valid token via `token=`. Upstream returned 400016: 遇到错误，请刷新页面或者重新登录帐号后再试 (Status code: 400)"
+      },
+      {
+        "capability": "free_top10:920138",
+        "func": "stock_gdfx_free_top_10_em",
+        "ok": false,
+        "rows": null,
+        "error": "ValueError: Length mismatch: Expected axis has 1 elements, new values have 12 elements"
+      },
+      {
+        "capability": "free_top10:920138",
+        "func": "stock_gdfx_free_top_10_em",
+        "ok": false,
+        "rows": null,
+        "error": "ValueError: Length mismatch: Expected axis has 1 elements, new values have 12 elements"
+      },
+      {
+        "capability": "free_top10:920138",
+        "func": "stock_gdfx_free_holding_detail_em",
+        "ok": true,
+        "rows": 56167,
+        "error": null
+      },
+      {
+        "capability": "main_business:920138",
+        "func": "stock_zyjs_ths",
+        "ok": true,
+        "rows": 1,
+        "error": null
+      },
+      {
+        "capability": "valuation_hist:920138",
+        "func": "stock_a_indicator_lg",
+        "ok": false,
+        "rows": null,
+        "error": "当前 akshare 版本无此函数"
+      },
+      {
+        "capability": "valuation_hist:920138",
+        "func": "stock_zh_valuation_baidu",
+        "ok": true,
+        "rows": 29,
+        "error": null
+      },
+      {
+        "capability": "individual_info:301717",
+        "func": "stock_individual_info_em",
+        "ok": false,
+        "rows": null,
+        "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      },
+      {
+        "capability": "individual_info:301717",
+        "func": "stock_individual_basic_info_xq",
+        "ok": false,
+        "rows": null,
+        "error": "APIError: API Error: Xueqiu company endpoint requires a valid xq_a_token or login session; anonymous access is currently restricted, please pass a valid token via `token=`. Upstream returned 400016: 遇到错误，请刷新页面或者重新登录帐号后再试 (Status code: 400)"
+      },
+      {
+        "capability": "free_top10:301717",
+        "func": "stock_gdfx_free_top_10_em",
+        "ok": false,
+        "rows": null,
+        "error": "ValueError: Length mismatch: Expected axis has 1 elements, new values have 12 elements"
+      },
+      {
+        "capability": "free_top10:301717",
+        "func": "stock_gdfx_free_top_10_em",
+        "ok": false,
+        "rows": null,
+        "error": "ValueError: Length mismatch: Expected axis has 1 elements, new values have 12 elements"
+      },
+      {
+        "capability": "free_top10:301717",
+        "func": "stock_gdfx_free_holding_detail_em",
+        "ok": true,
+        "rows": 56167,
+        "error": null
+      },
+      {
+        "capability": "main_business:301717",
+        "func": "stock_zyjs_ths",
+        "ok": true,
+        "rows": 1,
+        "error": null
+      },
+      {
+        "capability": "valuation_hist:301717",
+        "func": "stock_a_indicator_lg",
+        "ok": false,
+        "rows": null,
+        "error": "当前 akshare 版本无此函数"
+      },
+      {
+        "capability": "valuation_hist:301717",
+        "func": "stock_zh_valuation_baidu",
+        "ok": true,
+        "rows": 30,
+        "error": null
+      },
+      {
+        "capability": "individual_info:920165",
+        "func": "stock_individual_info_em",
+        "ok": false,
+        "rows": null,
+        "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      },
+      {
+        "capability": "individual_info:920165",
+        "func": "stock_individual_basic_info_xq",
+        "ok": false,
+        "rows": null,
+        "error": "APIError: API Error: Xueqiu company endpoint requires a valid xq_a_token or login session; anonymous access is currently restricted, please pass a valid token via `token=`. Upstream returned 400016: 遇到错误，请刷新页面或者重新登录帐号后再试 (Status code: 400)"
+      },
+      {
+        "capability": "free_top10:920165",
+        "func": "stock_gdfx_free_top_10_em",
+        "ok": true,
+        "rows": 10,
+        "error": null
+      },
+      {
+        "capability": "main_business:920165",
+        "func": "stock_zyjs_ths",
+        "ok": true,
+        "rows": 1,
+        "error": null
+      },
+      {
+        "capability": "valuation_hist:920165",
+        "func": "stock_a_indicator_lg",
+        "ok": false,
+        "rows": null,
+        "error": "当前 akshare 版本无此函数"
+      },
+      {
+        "capability": "valuation_hist:920165",
+        "func": "stock_zh_valuation_baidu",
+        "ok": true,
+        "rows": 30,
+        "error": null
+      },
+      {
+        "capability": "industry_boards",
+        "func": "stock_board_industry_name_em",
+        "ok": false,
+        "rows": null,
+        "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      {
+        "capability": "industry_boards",
+        "func": "stock_board_industry_summary_ths",
+        "ok": true,
+        "rows": 90,
+        "error": null
+      },
+      {
+        "capability": "stock_comment_em",
+        "func": "stock_comment_em",
+        "ok": true,
+        "rows": 5196,
+        "error": null
+      },
+      {
+        "capability": "hot_rank",
+        "func": "stock_hot_rank_em",
+        "ok": true,
+        "rows": 100,
+        "error": null
+      },
+      {
+        "capability": "stock_news:920268",
+        "func": "stock_news_em",
+        "ok": true,
+        "rows": 10,
+        "error": null
+      },
+      {
+        "capability": "stock_news:301699",
+        "func": "stock_news_em",
+        "ok": true,
+        "rows": 10,
+        "error": null
+      },
+      {
+        "capability": "stock_news:920269",
+        "func": "stock_news_em",
+        "ok": true,
+        "rows": 10,
+        "error": null
+      },
+      {
+        "capability": "stock_news:603448",
+        "func": "stock_news_em",
+        "ok": true,
+        "rows": 10,
+        "error": null
+      },
+      {
+        "capability": "stock_news:920289",
+        "func": "stock_news_em",
+        "ok": true,
+        "rows": 10,
+        "error": null
+      },
+      {
+        "capability": "stock_news:920071",
+        "func": "stock_news_em",
+        "ok": true,
+        "rows": 10,
+        "error": null
+      },
+      {
+        "capability": "stock_news:301688",
+        "func": "stock_news_em",
+        "ok": true,
+        "rows": 10,
+        "error": null
+      },
+      {
+        "capability": "stock_news:601123",
+        "func": "stock_news_em",
+        "ok": true,
+        "rows": 10,
+        "error": null
+      },
+      {
+        "capability": "stock_news:301697",
+        "func": "stock_news_em",
+        "ok": true,
+        "rows": 10,
+        "error": null
+      },
+      {
+        "capability": "stock_news:920288",
+        "func": "stock_news_em",
+        "ok": true,
+        "rows": 10,
+        "error": null
+      },
+      {
+        "capability": "ths_news",
+        "func": "stock_info_global_ths",
+        "ok": true,
+        "rows": 20,
+        "error": null
+      },
+      {
+        "capability": "ths_hot",
+        "func": "stock_hot_rank_wc",
+        "ok": false,
+        "rows": null,
+        "error": "当前 akshare 版本无此函数"
+      },
+      {
+        "capability": "ths_hot",
+        "func": "stock_fund_flow_concept",
+        "ok": true,
+        "rows": 387,
+        "error": null
+      }
+    ]
+  },
+  "counts": {
+    "events": 241,
+    "ok": 220,
+    "fallback": 0,
+    "missing_or_error": 21
+  },
+  "events": [
+    {
+      "time": "2026-09-09T13:51:55+00:00",
+      "step": "index:000001",
+      "status": "ok",
+      "source": "akshare:index_hist(000001)",
+      "rows": 8722,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:52:07+00:00",
+      "step": "index:399001",
+      "status": "ok",
+      "source": "akshare:index_hist(399001)",
+      "rows": 8630,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:52:17+00:00",
+      "step": "index:399006",
+      "status": "ok",
+      "source": "akshare:index_hist(399006)",
+      "rows": 3954,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:52:28+00:00",
+      "step": "index:000688",
+      "status": "ok",
+      "source": "akshare:index_hist(000688)",
+      "rows": 1622,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:52:36+00:00",
+      "step": "index:000300",
+      "status": "ok",
+      "source": "akshare:index_hist(000300)",
+      "rows": 5989,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:52:48+00:00",
+      "step": "index:000905",
+      "status": "ok",
+      "source": "akshare:index_hist(000905)",
+      "rows": 5268,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:53:02+00:00",
+      "step": "index:000852",
+      "status": "ok",
+      "source": "akshare:index_hist(000852)",
+      "rows": 2895,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:53:13+00:00",
+      "step": "index:899050",
+      "status": "ok",
+      "source": "akshare:index_hist(899050)",
+      "rows": 1059,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:53:18+00:00",
+      "step": "ipo_list",
+      "status": "ok",
+      "source": "akshare:stock_xgsglb_em",
+      "rows": 4023,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:53:18+00:00",
+      "step": "universe",
+      "status": "ok",
+      "source": "ipo_list",
+      "rows": 20,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:53:24+00:00",
+      "step": "new_hist:920268",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist",
+      "rows": 1,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:53:29+00:00",
+      "step": "intraday:920268:2026-09-09",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 239,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:53:32+00:00",
+      "step": "new_hist:301699",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist",
+      "rows": 1,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:53:36+00:00",
+      "step": "intraday:301699:2026-09-09",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 238,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:53:39+00:00",
+      "step": "new_hist:920269",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist",
+      "rows": 3,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:53:49+00:00",
+      "step": "intraday:920269:2026-09-07",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 714,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:53:54+00:00",
+      "step": "intraday:920269:2026-09-08",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 714,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:53:59+00:00",
+      "step": "intraday:920269:2026-09-09",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 714,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:54:06+00:00",
+      "step": "new_hist:603448",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist",
+      "rows": 3,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:54:10+00:00",
+      "step": "intraday:603448:2026-09-07",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 714,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:54:13+00:00",
+      "step": "intraday:603448:2026-09-08",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 714,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:54:18+00:00",
+      "step": "intraday:603448:2026-09-09",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 714,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:54:21+00:00",
+      "step": "new_hist:920289",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist",
+      "rows": 4,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:54:28+00:00",
+      "step": "intraday:920289:2026-09-04",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 956,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:54:33+00:00",
+      "step": "intraday:920289:2026-09-07",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 956,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:54:36+00:00",
+      "step": "intraday:920289:2026-09-08",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 956,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:54:40+00:00",
+      "step": "intraday:920289:2026-09-09",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 956,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:54:42+00:00",
+      "step": "new_hist:920071",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist",
+      "rows": 5,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:54:48+00:00",
+      "step": "intraday:920071:2026-09-03",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1195,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:54:52+00:00",
+      "step": "intraday:920071:2026-09-04",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1195,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:54:58+00:00",
+      "step": "intraday:920071:2026-09-07",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1195,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:55:05+00:00",
+      "step": "intraday:920071:2026-09-08",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1195,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:55:07+00:00",
+      "step": "intraday:920071:2026-09-09",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 241,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:55:10+00:00",
+      "step": "new_hist:301688",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist",
+      "rows": 6,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:55:15+00:00",
+      "step": "intraday:301688:2026-09-02",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1428,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:55:20+00:00",
+      "step": "intraday:301688:2026-09-03",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1428,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:55:23+00:00",
+      "step": "intraday:301688:2026-09-04",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1428,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:55:27+00:00",
+      "step": "intraday:301688:2026-09-07",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1428,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:55:31+00:00",
+      "step": "intraday:301688:2026-09-08",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1428,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:55:36+00:00",
+      "step": "intraday:301688:2026-09-09",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1428,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:55:39+00:00",
+      "step": "new_hist:601123",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist",
+      "rows": 7,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:55:43+00:00",
+      "step": "intraday:601123:2026-09-01",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1657,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:55:56+00:00",
+      "step": "intraday:601123:2026-09-02",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1657,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:56:01+00:00",
+      "step": "intraday:601123:2026-09-03",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1657,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:56:06+00:00",
+      "step": "intraday:601123:2026-09-04",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1657,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:56:10+00:00",
+      "step": "intraday:601123:2026-09-07",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1657,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:56:15+00:00",
+      "step": "intraday:601123:2026-09-08",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1657,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:56:19+00:00",
+      "step": "intraday:601123:2026-09-09",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1657,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:56:21+00:00",
+      "step": "new_hist:301697",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist",
+      "rows": 7,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:56:26+00:00",
+      "step": "intraday:301697:2026-09-01",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1666,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:56:29+00:00",
+      "step": "intraday:301697:2026-09-02",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1666,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:56:36+00:00",
+      "step": "intraday:301697:2026-09-03",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1666,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:56:46+00:00",
+      "step": "intraday:301697:2026-09-04",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1666,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:56:53+00:00",
+      "step": "intraday:301697:2026-09-07",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1666,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:56:57+00:00",
+      "step": "intraday:301697:2026-09-08",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1666,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:57:01+00:00",
+      "step": "intraday:301697:2026-09-09",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1666,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:57:03+00:00",
+      "step": "new_hist:920288",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist",
+      "rows": 9,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:57:13+00:00",
+      "step": "intraday:920288:2026-08-28",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:57:17+00:00",
+      "step": "intraday:920288:2026-08-31",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:57:20+00:00",
+      "step": "intraday:920288:2026-09-01",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:57:23+00:00",
+      "step": "intraday:920288:2026-09-02",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:57:29+00:00",
+      "step": "intraday:920288:2026-09-03",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:57:35+00:00",
+      "step": "intraday:920288:2026-09-04",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:57:42+00:00",
+      "step": "intraday:920288:2026-09-07",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:57:45+00:00",
+      "step": "new_hist:688835",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist",
+      "rows": 12,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:57:49+00:00",
+      "step": "intraday:688835:2026-08-25",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:57:52+00:00",
+      "step": "intraday:688835:2026-08-26",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:57:57+00:00",
+      "step": "intraday:688835:2026-08-27",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:58:01+00:00",
+      "step": "intraday:688835:2026-08-28",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:58:05+00:00",
+      "step": "intraday:688835:2026-08-31",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:58:08+00:00",
+      "step": "intraday:688835:2026-09-01",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:58:16+00:00",
+      "step": "intraday:688835:2026-09-02",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:58:19+00:00",
+      "step": "new_hist:920093",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist",
+      "rows": 14,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:58:22+00:00",
+      "step": "intraday:920093:2026-08-21",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:58:27+00:00",
+      "step": "intraday:920093:2026-08-24",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:58:32+00:00",
+      "step": "intraday:920093:2026-08-25",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:58:41+00:00",
+      "step": "intraday:920093:2026-08-26",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:58:45+00:00",
+      "step": "intraday:920093:2026-08-27",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:58:48+00:00",
+      "step": "intraday:920093:2026-08-28",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:58:53+00:00",
+      "step": "intraday:920093:2026-08-31",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:58:55+00:00",
+      "step": "new_hist:301655",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist",
+      "rows": 15,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:58:58+00:00",
+      "step": "intraday:301655:2026-08-20",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:59:01+00:00",
+      "step": "intraday:301655:2026-08-21",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:59:05+00:00",
+      "step": "intraday:301655:2026-08-24",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:59:08+00:00",
+      "step": "intraday:301655:2026-08-25",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:59:12+00:00",
+      "step": "intraday:301655:2026-08-26",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:59:17+00:00",
+      "step": "intraday:301655:2026-08-27",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:59:23+00:00",
+      "step": "intraday:301655:2026-08-28",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:59:26+00:00",
+      "step": "new_hist:920059",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist",
+      "rows": 16,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:59:31+00:00",
+      "step": "intraday:920059:2026-08-19",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:59:36+00:00",
+      "step": "intraday:920059:2026-08-20",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:59:38+00:00",
+      "step": "intraday:920059:2026-08-21",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:59:43+00:00",
+      "step": "intraday:920059:2026-08-24",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:59:46+00:00",
+      "step": "intraday:920059:2026-08-25",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:59:50+00:00",
+      "step": "intraday:920059:2026-08-26",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T13:59:55+00:00",
+      "step": "intraday:920059:2026-08-27",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:00:00+00:00",
+      "step": "new_hist:688836",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist",
+      "rows": 16,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:00:04+00:00",
+      "step": "intraday:688836:2026-08-19",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:00:10+00:00",
+      "step": "intraday:688836:2026-08-20",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:00:14+00:00",
+      "step": "intraday:688836:2026-08-21",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:00:20+00:00",
+      "step": "intraday:688836:2026-08-24",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:00:23+00:00",
+      "step": "intraday:688836:2026-08-25",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:00:28+00:00",
+      "step": "intraday:688836:2026-08-26",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:00:31+00:00",
+      "step": "intraday:688836:2026-08-27",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:00:33+00:00",
+      "step": "new_hist:688826",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist",
+      "rows": 17,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:00:38+00:00",
+      "step": "intraday:688826:2026-08-18",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:00:43+00:00",
+      "step": "intraday:688826:2026-08-19",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:00:47+00:00",
+      "step": "intraday:688826:2026-08-20",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:00:55+00:00",
+      "step": "intraday:688826:2026-08-21",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:01:03+00:00",
+      "step": "intraday:688826:2026-08-24",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:01:08+00:00",
+      "step": "intraday:688826:2026-08-25",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:01:11+00:00",
+      "step": "intraday:688826:2026-08-26",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:01:14+00:00",
+      "step": "new_hist:920107",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist",
+      "rows": 18,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:01:19+00:00",
+      "step": "intraday:920107:2026-08-17",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:01:25+00:00",
+      "step": "intraday:920107:2026-08-18",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:01:30+00:00",
+      "step": "intraday:920107:2026-08-19",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:01:34+00:00",
+      "step": "intraday:920107:2026-08-20",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:01:37+00:00",
+      "step": "intraday:920107:2026-08-21",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:01:41+00:00",
+      "step": "intraday:920107:2026-08-24",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:01:45+00:00",
+      "step": "intraday:920107:2026-08-25",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:01:48+00:00",
+      "step": "new_hist:920138",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist",
+      "rows": 21,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:01:52+00:00",
+      "step": "intraday:920138:2026-08-12",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:01:57+00:00",
+      "step": "intraday:920138:2026-08-13",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:02:00+00:00",
+      "step": "intraday:920138:2026-08-14",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:02:03+00:00",
+      "step": "intraday:920138:2026-08-17",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:02:10+00:00",
+      "step": "intraday:920138:2026-08-18",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:02:13+00:00",
+      "step": "intraday:920138:2026-08-19",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:02:20+00:00",
+      "step": "intraday:920138:2026-08-20",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:02:22+00:00",
+      "step": "new_hist:301717",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist",
+      "rows": 22,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:02:25+00:00",
+      "step": "intraday:301717:2026-08-11",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:02:28+00:00",
+      "step": "intraday:301717:2026-08-12",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:02:33+00:00",
+      "step": "intraday:301717:2026-08-13",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:02:37+00:00",
+      "step": "intraday:301717:2026-08-14",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:02:40+00:00",
+      "step": "intraday:301717:2026-08-17",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:02:45+00:00",
+      "step": "intraday:301717:2026-08-18",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:02:49+00:00",
+      "step": "intraday:301717:2026-08-19",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:02:52+00:00",
+      "step": "new_hist:920165",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist",
+      "rows": 22,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:02:56+00:00",
+      "step": "intraday:920165:2026-08-11",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:03:02+00:00",
+      "step": "intraday:920165:2026-08-12",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:03:07+00:00",
+      "step": "intraday:920165:2026-08-13",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:03:12+00:00",
+      "step": "intraday:920165:2026-08-14",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:03:19+00:00",
+      "step": "intraday:920165:2026-08-17",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:03:25+00:00",
+      "step": "intraday:920165:2026-08-18",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:03:29+00:00",
+      "step": "intraday:920165:2026-08-19",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_hist_min_em(1分钟)",
+      "rows": 1970,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:04:38+00:00",
+      "step": "spot",
+      "status": "ok",
+      "source": "akshare:stock_zh_a_spot_em",
+      "rows": 5559,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:04:42+00:00",
+      "step": "individual_info:920268",
+      "status": "missing",
+      "source": null,
+      "rows": null,
+      "detail": "akshare:stock_individual_info_em: SourceUnavailable: individual_info:920268 在 akshare 上全部尝试失败：stock_individual_info_em: JSONDecodeError: Expecting value: line 1 column 1 (char 0) | stock_individual_basic_info_xq: APIError: API Error: Xueqiu"
+    },
+    {
+      "time": "2026-09-09T14:06:52+00:00",
+      "step": "holders:920268",
+      "status": "ok",
+      "source": "akshare:stock_gdfx_free_top_10_em(20260630)",
+      "rows": 56167,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:06:56+00:00",
+      "step": "main_business:920268",
+      "status": "ok",
+      "source": "akshare:stock_zyjs_ths",
+      "rows": 1,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:06:59+00:00",
+      "step": "valuation:920268",
+      "status": "ok",
+      "source": "akshare:stock_a_indicator_lg",
+      "rows": 1,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:07:03+00:00",
+      "step": "individual_info:301699",
+      "status": "missing",
+      "source": null,
+      "rows": null,
+      "detail": "akshare:stock_individual_info_em: SourceUnavailable: individual_info:301699 在 akshare 上全部尝试失败：stock_individual_info_em: JSONDecodeError: Expecting value: line 1 column 1 (char 0) | stock_individual_basic_info_xq: APIError: API Error: Xueqiu"
+    },
+    {
+      "time": "2026-09-09T14:09:40+00:00",
+      "step": "holders:301699",
+      "status": "ok",
+      "source": "akshare:stock_gdfx_free_top_10_em(20260630)",
+      "rows": 56167,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:09:43+00:00",
+      "step": "main_business:301699",
+      "status": "ok",
+      "source": "akshare:stock_zyjs_ths",
+      "rows": 1,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:09:45+00:00",
+      "step": "valuation:301699",
+      "status": "ok",
+      "source": "akshare:stock_a_indicator_lg",
+      "rows": 1,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:09:49+00:00",
+      "step": "individual_info:920269",
+      "status": "missing",
+      "source": null,
+      "rows": null,
+      "detail": "akshare:stock_individual_info_em: SourceUnavailable: individual_info:920269 在 akshare 上全部尝试失败：stock_individual_info_em: JSONDecodeError: Expecting value: line 1 column 1 (char 0) | stock_individual_basic_info_xq: APIError: API Error: Xueqiu"
+    },
+    {
+      "time": "2026-09-09T14:12:10+00:00",
+      "step": "holders:920269",
+      "status": "ok",
+      "source": "akshare:stock_gdfx_free_top_10_em(20260630)",
+      "rows": 56167,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:12:13+00:00",
+      "step": "main_business:920269",
+      "status": "ok",
+      "source": "akshare:stock_zyjs_ths",
+      "rows": 1,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:12:21+00:00",
+      "step": "valuation:920269",
+      "status": "ok",
+      "source": "akshare:stock_a_indicator_lg",
+      "rows": 3,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:12:25+00:00",
+      "step": "individual_info:603448",
+      "status": "missing",
+      "source": null,
+      "rows": null,
+      "detail": "akshare:stock_individual_info_em: SourceUnavailable: individual_info:603448 在 akshare 上全部尝试失败：stock_individual_info_em: JSONDecodeError: Expecting value: line 1 column 1 (char 0) | stock_individual_basic_info_xq: APIError: API Error: Xueqiu"
+    },
+    {
+      "time": "2026-09-09T14:14:42+00:00",
+      "step": "holders:603448",
+      "status": "ok",
+      "source": "akshare:stock_gdfx_free_top_10_em(20260630)",
+      "rows": 56167,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:14:46+00:00",
+      "step": "main_business:603448",
+      "status": "ok",
+      "source": "akshare:stock_zyjs_ths",
+      "rows": 1,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:14:48+00:00",
+      "step": "valuation:603448",
+      "status": "ok",
+      "source": "akshare:stock_a_indicator_lg",
+      "rows": 3,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:14:52+00:00",
+      "step": "individual_info:920289",
+      "status": "missing",
+      "source": null,
+      "rows": null,
+      "detail": "akshare:stock_individual_info_em: SourceUnavailable: individual_info:920289 在 akshare 上全部尝试失败：stock_individual_info_em: JSONDecodeError: Expecting value: line 1 column 1 (char 0) | stock_individual_basic_info_xq: APIError: API Error: Xueqiu"
+    },
+    {
+      "time": "2026-09-09T14:17:17+00:00",
+      "step": "holders:920289",
+      "status": "ok",
+      "source": "akshare:stock_gdfx_free_top_10_em(20260630)",
+      "rows": 56167,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:17:21+00:00",
+      "step": "main_business:920289",
+      "status": "ok",
+      "source": "akshare:stock_zyjs_ths",
+      "rows": 1,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:17:23+00:00",
+      "step": "valuation:920289",
+      "status": "ok",
+      "source": "akshare:stock_a_indicator_lg",
+      "rows": 6,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:23:04+00:00",
+      "step": "individual_info:920071",
+      "status": "missing",
+      "source": null,
+      "rows": null,
+      "detail": "akshare:stock_individual_info_em: SourceUnavailable: individual_info:920071 在 akshare 上全部尝试失败：stock_individual_info_em: ConnectionError: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer')) | stock_individual_basic"
+    },
+    {
+      "time": "2026-09-09T14:25:28+00:00",
+      "step": "holders:920071",
+      "status": "ok",
+      "source": "akshare:stock_gdfx_free_top_10_em(20260630)",
+      "rows": 56167,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:25:31+00:00",
+      "step": "main_business:920071",
+      "status": "ok",
+      "source": "akshare:stock_zyjs_ths",
+      "rows": 1,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:25:34+00:00",
+      "step": "valuation:920071",
+      "status": "ok",
+      "source": "akshare:stock_a_indicator_lg",
+      "rows": 7,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:25:38+00:00",
+      "step": "individual_info:301688",
+      "status": "missing",
+      "source": null,
+      "rows": null,
+      "detail": "akshare:stock_individual_info_em: SourceUnavailable: individual_info:301688 在 akshare 上全部尝试失败：stock_individual_info_em: JSONDecodeError: Expecting value: line 1 column 1 (char 0) | stock_individual_basic_info_xq: APIError: API Error: Xueqiu"
+    },
+    {
+      "time": "2026-09-09T14:27:53+00:00",
+      "step": "holders:301688",
+      "status": "ok",
+      "source": "akshare:stock_gdfx_free_top_10_em(20260630)",
+      "rows": 56167,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:27:56+00:00",
+      "step": "main_business:301688",
+      "status": "ok",
+      "source": "akshare:stock_zyjs_ths",
+      "rows": 1,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:27:59+00:00",
+      "step": "valuation:301688",
+      "status": "ok",
+      "source": "akshare:stock_a_indicator_lg",
+      "rows": 8,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:28:03+00:00",
+      "step": "individual_info:601123",
+      "status": "missing",
+      "source": null,
+      "rows": null,
+      "detail": "akshare:stock_individual_info_em: SourceUnavailable: individual_info:601123 在 akshare 上全部尝试失败：stock_individual_info_em: JSONDecodeError: Expecting value: line 1 column 1 (char 0) | stock_individual_basic_info_xq: APIError: API Error: Xueqiu"
+    },
+    {
+      "time": "2026-09-09T14:30:23+00:00",
+      "step": "holders:601123",
+      "status": "ok",
+      "source": "akshare:stock_gdfx_free_top_10_em(20260630)",
+      "rows": 56167,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:30:27+00:00",
+      "step": "main_business:601123",
+      "status": "ok",
+      "source": "akshare:stock_zyjs_ths",
+      "rows": 1,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:30:29+00:00",
+      "step": "valuation:601123",
+      "status": "ok",
+      "source": "akshare:stock_a_indicator_lg",
+      "rows": 9,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:30:33+00:00",
+      "step": "individual_info:301697",
+      "status": "missing",
+      "source": null,
+      "rows": null,
+      "detail": "akshare:stock_individual_info_em: SourceUnavailable: individual_info:301697 在 akshare 上全部尝试失败：stock_individual_info_em: JSONDecodeError: Expecting value: line 1 column 1 (char 0) | stock_individual_basic_info_xq: APIError: API Error: Xueqiu"
+    },
+    {
+      "time": "2026-09-09T14:32:59+00:00",
+      "step": "holders:301697",
+      "status": "ok",
+      "source": "akshare:stock_gdfx_free_top_10_em(20260630)",
+      "rows": 56167,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:33:02+00:00",
+      "step": "main_business:301697",
+      "status": "ok",
+      "source": "akshare:stock_zyjs_ths",
+      "rows": 1,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:33:05+00:00",
+      "step": "valuation:301697",
+      "status": "ok",
+      "source": "akshare:stock_a_indicator_lg",
+      "rows": 9,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:33:09+00:00",
+      "step": "individual_info:920288",
+      "status": "missing",
+      "source": null,
+      "rows": null,
+      "detail": "akshare:stock_individual_info_em: SourceUnavailable: individual_info:920288 在 akshare 上全部尝试失败：stock_individual_info_em: JSONDecodeError: Expecting value: line 1 column 1 (char 0) | stock_individual_basic_info_xq: APIError: API Error: Xueqiu"
+    },
+    {
+      "time": "2026-09-09T14:35:45+00:00",
+      "step": "holders:920288",
+      "status": "ok",
+      "source": "akshare:stock_gdfx_free_top_10_em(20260630)",
+      "rows": 56167,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:35:48+00:00",
+      "step": "main_business:920288",
+      "status": "ok",
+      "source": "akshare:stock_zyjs_ths",
+      "rows": 1,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:35:53+00:00",
+      "step": "valuation:920288",
+      "status": "ok",
+      "source": "akshare:stock_a_indicator_lg",
+      "rows": 13,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:35:56+00:00",
+      "step": "individual_info:688835",
+      "status": "missing",
+      "source": null,
+      "rows": null,
+      "detail": "akshare:stock_individual_info_em: SourceUnavailable: individual_info:688835 在 akshare 上全部尝试失败：stock_individual_info_em: JSONDecodeError: Expecting value: line 1 column 1 (char 0) | stock_individual_basic_info_xq: APIError: API Error: Xueqiu"
+    },
+    {
+      "time": "2026-09-09T14:38:28+00:00",
+      "step": "holders:688835",
+      "status": "ok",
+      "source": "akshare:stock_gdfx_free_top_10_em(20260630)",
+      "rows": 56167,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:38:31+00:00",
+      "step": "main_business:688835",
+      "status": "ok",
+      "source": "akshare:stock_zyjs_ths",
+      "rows": 1,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:38:33+00:00",
+      "step": "valuation:688835",
+      "status": "ok",
+      "source": "akshare:stock_a_indicator_lg",
+      "rows": 16,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:38:37+00:00",
+      "step": "individual_info:920093",
+      "status": "missing",
+      "source": null,
+      "rows": null,
+      "detail": "akshare:stock_individual_info_em: SourceUnavailable: individual_info:920093 在 akshare 上全部尝试失败：stock_individual_info_em: JSONDecodeError: Expecting value: line 1 column 1 (char 0) | stock_individual_basic_info_xq: APIError: API Error: Xueqiu"
+    },
+    {
+      "time": "2026-09-09T14:40:55+00:00",
+      "step": "holders:920093",
+      "status": "ok",
+      "source": "akshare:stock_gdfx_free_top_10_em(20260630)",
+      "rows": 56167,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:40:58+00:00",
+      "step": "main_business:920093",
+      "status": "ok",
+      "source": "akshare:stock_zyjs_ths",
+      "rows": 1,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:41:01+00:00",
+      "step": "valuation:920093",
+      "status": "ok",
+      "source": "akshare:stock_a_indicator_lg",
+      "rows": 20,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:41:05+00:00",
+      "step": "individual_info:301655",
+      "status": "missing",
+      "source": null,
+      "rows": null,
+      "detail": "akshare:stock_individual_info_em: SourceUnavailable: individual_info:301655 在 akshare 上全部尝试失败：stock_individual_info_em: JSONDecodeError: Expecting value: line 1 column 1 (char 0) | stock_individual_basic_info_xq: APIError: API Error: Xueqiu"
+    },
+    {
+      "time": "2026-09-09T14:43:33+00:00",
+      "step": "holders:301655",
+      "status": "ok",
+      "source": "akshare:stock_gdfx_free_top_10_em(20260630)",
+      "rows": 56167,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:43:36+00:00",
+      "step": "main_business:301655",
+      "status": "ok",
+      "source": "akshare:stock_zyjs_ths",
+      "rows": 1,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:43:40+00:00",
+      "step": "valuation:301655",
+      "status": "ok",
+      "source": "akshare:stock_a_indicator_lg",
+      "rows": 21,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:43:44+00:00",
+      "step": "individual_info:920059",
+      "status": "missing",
+      "source": null,
+      "rows": null,
+      "detail": "akshare:stock_individual_info_em: SourceUnavailable: individual_info:920059 在 akshare 上全部尝试失败：stock_individual_info_em: JSONDecodeError: Expecting value: line 1 column 1 (char 0) | stock_individual_basic_info_xq: APIError: API Error: Xueqiu"
+    },
+    {
+      "time": "2026-09-09T14:46:25+00:00",
+      "step": "holders:920059",
+      "status": "ok",
+      "source": "akshare:stock_gdfx_free_top_10_em(20260630)",
+      "rows": 56167,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:46:30+00:00",
+      "step": "main_business:920059",
+      "status": "ok",
+      "source": "akshare:stock_zyjs_ths",
+      "rows": 1,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:46:33+00:00",
+      "step": "valuation:920059",
+      "status": "ok",
+      "source": "akshare:stock_a_indicator_lg",
+      "rows": 22,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:46:37+00:00",
+      "step": "individual_info:688836",
+      "status": "missing",
+      "source": null,
+      "rows": null,
+      "detail": "akshare:stock_individual_info_em: SourceUnavailable: individual_info:688836 在 akshare 上全部尝试失败：stock_individual_info_em: JSONDecodeError: Expecting value: line 1 column 1 (char 0) | stock_individual_basic_info_xq: APIError: API Error: Xueqiu"
+    },
+    {
+      "time": "2026-09-09T14:49:15+00:00",
+      "step": "holders:688836",
+      "status": "ok",
+      "source": "akshare:stock_gdfx_free_top_10_em(20260630)",
+      "rows": 56167,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:49:18+00:00",
+      "step": "main_business:688836",
+      "status": "ok",
+      "source": "akshare:stock_zyjs_ths",
+      "rows": 1,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:49:20+00:00",
+      "step": "valuation:688836",
+      "status": "ok",
+      "source": "akshare:stock_a_indicator_lg",
+      "rows": 22,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:49:25+00:00",
+      "step": "individual_info:688826",
+      "status": "missing",
+      "source": null,
+      "rows": null,
+      "detail": "akshare:stock_individual_info_em: SourceUnavailable: individual_info:688826 在 akshare 上全部尝试失败：stock_individual_info_em: JSONDecodeError: Expecting value: line 1 column 1 (char 0) | stock_individual_basic_info_xq: APIError: API Error: Xueqiu"
+    },
+    {
+      "time": "2026-09-09T14:51:21+00:00",
+      "step": "holders:688826",
+      "status": "ok",
+      "source": "akshare:stock_gdfx_free_top_10_em(20260630)",
+      "rows": 56167,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:51:25+00:00",
+      "step": "main_business:688826",
+      "status": "ok",
+      "source": "akshare:stock_zyjs_ths",
+      "rows": 1,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:51:27+00:00",
+      "step": "valuation:688826",
+      "status": "ok",
+      "source": "akshare:stock_a_indicator_lg",
+      "rows": 23,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:51:31+00:00",
+      "step": "individual_info:920107",
+      "status": "missing",
+      "source": null,
+      "rows": null,
+      "detail": "akshare:stock_individual_info_em: SourceUnavailable: individual_info:920107 在 akshare 上全部尝试失败：stock_individual_info_em: JSONDecodeError: Expecting value: line 1 column 1 (char 0) | stock_individual_basic_info_xq: APIError: API Error: Xueqiu"
+    },
+    {
+      "time": "2026-09-09T14:53:59+00:00",
+      "step": "holders:920107",
+      "status": "ok",
+      "source": "akshare:stock_gdfx_free_top_10_em(20260630)",
+      "rows": 56167,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:54:02+00:00",
+      "step": "main_business:920107",
+      "status": "ok",
+      "source": "akshare:stock_zyjs_ths",
+      "rows": 1,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:54:04+00:00",
+      "step": "valuation:920107",
+      "status": "ok",
+      "source": "akshare:stock_a_indicator_lg",
+      "rows": 24,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:54:08+00:00",
+      "step": "individual_info:920138",
+      "status": "missing",
+      "source": null,
+      "rows": null,
+      "detail": "akshare:stock_individual_info_em: SourceUnavailable: individual_info:920138 在 akshare 上全部尝试失败：stock_individual_info_em: JSONDecodeError: Expecting value: line 1 column 1 (char 0) | stock_individual_basic_info_xq: APIError: API Error: Xueqiu"
+    },
+    {
+      "time": "2026-09-09T14:56:32+00:00",
+      "step": "holders:920138",
+      "status": "ok",
+      "source": "akshare:stock_gdfx_free_top_10_em(20260630)",
+      "rows": 56167,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:56:36+00:00",
+      "step": "main_business:920138",
+      "status": "ok",
+      "source": "akshare:stock_zyjs_ths",
+      "rows": 1,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:56:39+00:00",
+      "step": "valuation:920138",
+      "status": "ok",
+      "source": "akshare:stock_a_indicator_lg",
+      "rows": 29,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:56:43+00:00",
+      "step": "individual_info:301717",
+      "status": "missing",
+      "source": null,
+      "rows": null,
+      "detail": "akshare:stock_individual_info_em: SourceUnavailable: individual_info:301717 在 akshare 上全部尝试失败：stock_individual_info_em: JSONDecodeError: Expecting value: line 1 column 1 (char 0) | stock_individual_basic_info_xq: APIError: API Error: Xueqiu"
+    },
+    {
+      "time": "2026-09-09T14:59:17+00:00",
+      "step": "holders:301717",
+      "status": "ok",
+      "source": "akshare:stock_gdfx_free_top_10_em(20260630)",
+      "rows": 56167,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:59:20+00:00",
+      "step": "main_business:301717",
+      "status": "ok",
+      "source": "akshare:stock_zyjs_ths",
+      "rows": 1,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:59:23+00:00",
+      "step": "valuation:301717",
+      "status": "ok",
+      "source": "akshare:stock_a_indicator_lg",
+      "rows": 30,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:59:27+00:00",
+      "step": "individual_info:920165",
+      "status": "missing",
+      "source": null,
+      "rows": null,
+      "detail": "akshare:stock_individual_info_em: SourceUnavailable: individual_info:920165 在 akshare 上全部尝试失败：stock_individual_info_em: JSONDecodeError: Expecting value: line 1 column 1 (char 0) | stock_individual_basic_info_xq: APIError: API Error: Xueqiu"
+    },
+    {
+      "time": "2026-09-09T14:59:27+00:00",
+      "step": "holders:920165",
+      "status": "ok",
+      "source": "akshare:stock_gdfx_free_top_10_em(20260630)",
+      "rows": 10,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:59:29+00:00",
+      "step": "main_business:920165",
+      "status": "ok",
+      "source": "akshare:stock_zyjs_ths",
+      "rows": 1,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:59:31+00:00",
+      "step": "valuation:920165",
+      "status": "ok",
+      "source": "akshare:stock_a_indicator_lg",
+      "rows": 30,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:59:40+00:00",
+      "step": "industry_boards",
+      "status": "ok",
+      "source": "akshare:stock_board_industry_name_em",
+      "rows": 90,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T14:59:40+00:00",
+      "step": "sector",
+      "status": "missing",
+      "source": null,
+      "rows": null,
+      "detail": "个股画像里没有可用的行业字段"
+    },
+    {
+      "time": "2026-09-09T15:00:04+00:00",
+      "step": "em_comment",
+      "status": "ok",
+      "source": "akshare:stock_comment_em",
+      "rows": 5196,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T15:00:08+00:00",
+      "step": "em_hot",
+      "status": "ok",
+      "source": "akshare:stock_hot_rank_em",
+      "rows": 100,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T15:00:10+00:00",
+      "step": "em_news:920268",
+      "status": "ok",
+      "source": "akshare:stock_news_em",
+      "rows": 10,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T15:00:11+00:00",
+      "step": "em_news:301699",
+      "status": "ok",
+      "source": "akshare:stock_news_em",
+      "rows": 10,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T15:00:13+00:00",
+      "step": "em_news:920269",
+      "status": "ok",
+      "source": "akshare:stock_news_em",
+      "rows": 10,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T15:00:13+00:00",
+      "step": "em_news:603448",
+      "status": "ok",
+      "source": "akshare:stock_news_em",
+      "rows": 10,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T15:00:15+00:00",
+      "step": "em_news:920289",
+      "status": "ok",
+      "source": "akshare:stock_news_em",
+      "rows": 10,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T15:00:16+00:00",
+      "step": "em_news:920071",
+      "status": "ok",
+      "source": "akshare:stock_news_em",
+      "rows": 10,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T15:00:17+00:00",
+      "step": "em_news:301688",
+      "status": "ok",
+      "source": "akshare:stock_news_em",
+      "rows": 10,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T15:00:19+00:00",
+      "step": "em_news:601123",
+      "status": "ok",
+      "source": "akshare:stock_news_em",
+      "rows": 10,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T15:00:20+00:00",
+      "step": "em_news:301697",
+      "status": "ok",
+      "source": "akshare:stock_news_em",
+      "rows": 10,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T15:00:22+00:00",
+      "step": "em_news:920288",
+      "status": "ok",
+      "source": "akshare:stock_news_em",
+      "rows": 10,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T15:00:23+00:00",
+      "step": "ths_news",
+      "status": "ok",
+      "source": "akshare:stock_info_global_ths",
+      "rows": 20,
+      "detail": null
+    },
+    {
+      "time": "2026-09-09T15:00:29+00:00",
+      "step": "ths_boards",
+      "status": "ok",
+      "source": "akshare:stock_hot_rank_wc",
+      "rows": 387,
+      "detail": null
+    }
+  ]
+}
