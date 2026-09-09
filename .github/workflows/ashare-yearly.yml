@@ -1,0 +1,53 @@
+name: A股近一年报告
+
+on:
+  workflow_dispatch:
+  schedule:
+    # UTC 09:30 = 北京时间 17:30（收盘后），工作日执行
+    - cron: "30 9 * * 1-5"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: 拉取代码
+        uses: actions/checkout@v4
+
+      - name: 安装 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: 安装依赖
+        run: pip install -r ashare_yearly/requirements.txt
+
+      - name: 接口自检（失败不中止，仅用于诊断）
+        continue-on-error: true
+        run: python -m ashare_yearly.main --self-check
+
+      - name: 离线自测
+        run: python -m pytest ashare_yearly/tests -q
+
+      - name: 采集并生成报告
+        run: python -m ashare_yearly.main --universe new --deep-limit 20
+
+      - name: 提交报告
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add reports/ashare-yearly
+          git diff --cached --quiet || git commit -m "chore(ashare-yearly): 更新A股近一年报告"
+          git push
+
+      - name: 上传报告产物
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ashare-yearly-report
+          path: reports/ashare-yearly
+          if-no-files-found: warn
