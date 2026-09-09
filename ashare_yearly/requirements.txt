@@ -1,0 +1,10 @@
+# ashare_yearly 子项目依赖（Python 3.10+）
+# akshare 为首选数据源；安装失败或接口不可用时，程序会自动兜底到东财/同花顺公开接口。
+akshare>=1.14.0
+pandas>=2.0.0
+requests>=2.31.0
+# 同花顺概念榜页面需要解析 HTML（缺少时仅该条能力降级，不影响其他步骤）
+beautifulsoup4>=4.12.0
+lxml>=4.9.0
+# 开发/自检
+pytest>=8.0.0
