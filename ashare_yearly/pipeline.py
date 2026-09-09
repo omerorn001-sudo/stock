@@ -64,8 +64,8 @@ def _valuation_svg(ctx: Context, code: str, name: str | None) -> tuple[str | Non
     if df is None:
         return None, None
     frame = pd.DataFrame(df)
-    date_col = pick_column(frame, ["trade_date", "date", "\u65e5\u671f"])
-    value_col = pick_column(frame, ["pe_ttm", "pe", "\u5e02\u76c8\u7387"])
+    date_col = pick_column(frame, ["trade_date", "date", "日期"])
+    value_col = pick_column(frame, ["pe_ttm", "pe", "市盈率"])
     if not date_col or not value_col:
         return None, source
     tidy = pd.DataFrame(
@@ -78,7 +78,7 @@ def _valuation_svg(ctx: Context, code: str, name: str | None) -> tuple[str | Non
     return (
         charts.line_chart(
             series_points(tidy),
-            title=f"{name or code} \u5e02\u76c8\u7387\u8fd1\u4e00\u5e74",
+            title=f"{name or code} 市盈率近一年",
             color="#2f6fd0",
             area=False,
         ),
@@ -95,20 +95,20 @@ def collect_profiles(ctx: Context, universe: Sequence[Mapping[str, Any]]) -> lis
         notes: list[str] = []
         row = spot_row(ctx, code)
         info = _individual_info(ctx, code)
-        name = entry.get("name") or row.get("name") or row_value(info, ["\u80a1\u7968\u7b80\u79f0", "\u540d\u79f0"])
+        name = entry.get("name") or row.get("name") or row_value(info, ["股票简称", "名称"])
 
-        total_mv = safe_float(row.get("total_mv")) or safe_float(row_value(info, ["\u603b\u5e02\u503c"]))
-        float_mv = safe_float(row.get("float_mv")) or safe_float(row_value(info, ["\u6d41\u901a\u5e02\u503c"]))
-        industry = row.get("industry") or row_value(info, ["\u884c\u4e1a"])
-        list_date = entry.get("list_date") or row.get("list_date") or ymd(row_value(info, ["\u4e0a\u5e02\u65f6\u95f4"]) or "")
+        total_mv = safe_float(row.get("total_mv")) or safe_float(row_value(info, ["总市值"]))
+        float_mv = safe_float(row.get("float_mv")) or safe_float(row_value(info, ["流通市值"]))
+        industry = row.get("industry") or row_value(info, ["行业"])
+        list_date = entry.get("list_date") or row.get("list_date") or ymd(row_value(info, ["上市时间"]) or "")
         if not row:
-            notes.append("\u5168\u5e02\u573a\u5feb\u7167\u672a\u547d\u4e2d\u8be5\u4ee3\u7801\uff0c\u884c\u60c5\u7c7b\u5b57\u6bb5\u53ef\u80fd\u7f3a\u5931")
+            notes.append("全市场快照未命中该代码，行情类字段可能缺失")
 
         holders = _holders(ctx, code)
         business, business_source = _main_business(ctx, code, name)
         valuation_svg, valuation_source = _valuation_svg(ctx, code, name)
         if valuation_svg is None:
-            notes.append("\u4f30\u503c\u5386\u53f2\uff08PE \u5e8f\u5217\uff09\u4e0d\u53ef\u5f97\uff0c\u4ec5\u5c55\u793a\u5feb\u7167\u5e02\u76c8\u7387")
+            notes.append("估值历史（PE 序列）不可得，仅展示快照市盈率")
 
         items.append(
             {
@@ -139,7 +139,7 @@ def collect_profiles(ctx: Context, universe: Sequence[Mapping[str, Any]]) -> lis
     return items
 
 
-# ---------------- 4. \u677f\u5757 ----------------
+# ---------------- 4. 板块 ----------------
 def _board_map(ctx: Context) -> dict[str, str]:
     if ctx.board_map:
         return ctx.board_map
@@ -154,8 +154,8 @@ def _board_map(ctx: Context) -> dict[str, str]:
     if df is None:
         return {}
     frame = pd.DataFrame(df)
-    name_col = pick_column(frame, ["board_name", "\u677f\u5757\u540d\u79f0", "name", "\u540d\u79f0"])
-    code_col = pick_column(frame, ["board_code", "\u677f\u5757\u4ee3\u7801", "code", "\u4ee3\u7801"])
+    name_col = pick_column(frame, ["board_name", "板块名称", "name", "名称"])
+    code_col = pick_column(frame, ["board_code", "板块代码", "code", "代码"])
     if not name_col:
         return {}
     mapping = {}
@@ -180,7 +180,7 @@ def collect_sectors(
             continue
         grouped.setdefault(industry, []).append(str(profile.get("code")))
     if not grouped:
-        ctx.store.record("sector", status="missing", detail="\u4e2a\u80a1\u753b\u50cf\u91cc\u6ca1\u6709\u53ef\u7528\u7684\u884c\u4e1a\u5b57\u6bb5")
+        ctx.store.record("sector", status="missing", detail="个股画像里没有可用的行业字段")
         return [], None
 
     ordered = sorted(grouped.items(), key=lambda kv: len(kv[1]), reverse=True)[:limit]
@@ -209,8 +209,8 @@ def collect_sectors(
                     "code": board_code or None,
                     "source": None,
                     "members": members,
-                    "line_svg": charts.empty_chart(f"{board_name} \u677f\u5757\u884c\u60c5\u4e0d\u53ef\u5f97"),
-                    "note": "akshare \u4e0e\u4e1c\u8d22\u677f\u5757 K \u7ebf\u5747\u672a\u8fd4\u56de\u6570\u636e\uff08\u884c\u4e1a\u540d\u79f0\u53ef\u80fd\u4e0e\u4e1c\u8d22\u677f\u5757\u540d\u4e0d\u4e00\u81f4\uff09",
+                    "line_svg": charts.empty_chart(f"{board_name} 板块行情不可得"),
+                    "note": "akshare 与东财板块 K 线均未返回数据（行业名称可能与东财板块名不一致）",
                 }
             )
             continue
@@ -226,25 +226,25 @@ def collect_sectors(
                 "pct_chg": period_return(df),
                 "last_close": points[-1][1] if points else None,
                 "members": members,
-                "line_svg": charts.line_chart(points, title=f"{board_name} \u8fd1\u4e00\u5e74\u8d70\u52bf"),
+                "line_svg": charts.line_chart(points, title=f"{board_name} 近一年走势"),
                 "note": None,
             }
         )
         if points:
             series[board_name] = points
-    compare = charts.multi_line_chart(series, title="\u677f\u5757\u5bf9\u6bd4") if series else None
+    compare = charts.multi_line_chart(series, title="板块对比") if series else None
     return items, compare
 
 
-# ---------------- 5. \u70ed\u70b9\u4e0e\u8bc4\u8bba ----------------
+# ---------------- 5. 热点与评论 ----------------
 def _normalize_comment(frame: pd.DataFrame, codes: set[str]) -> list[dict[str, Any]]:
-    code_col = pick_column(frame, ["code", "\u4ee3\u7801", "SECURITY_CODE"])
-    name_col = pick_column(frame, ["name", "\u540d\u79f0", "SECURITY_NAME_ABBR"])
-    score_col = pick_column(frame, ["\u7efc\u5408\u5f97\u5206", "TOTAL_SCORE", "score"])
-    rank_col = pick_column(frame, ["\u76ee\u524d\u6392\u540d", "RANK", "\u6392\u540d"])
-    org_col = pick_column(frame, ["\u673a\u6784\u53c2\u4e0e\u5ea6", "ORG_PARTICIPATE"])
-    focus_col = pick_column(frame, ["\u5173\u6ce8\u6307\u6570", "FOCUS"])
-    text_col = pick_column(frame, ["\u8bca\u65ad", "\u8bc4\u8bba", "COMMENT", "\u4e3b\u529b\u6210\u672c"])
+    code_col = pick_column(frame, ["code", "代码", "SECURITY_CODE"])
+    name_col = pick_column(frame, ["name", "名称", "SECURITY_NAME_ABBR"])
+    score_col = pick_column(frame, ["综合得分", "TOTAL_SCORE", "score"])
+    rank_col = pick_column(frame, ["目前排名", "RANK", "排名"])
+    org_col = pick_column(frame, ["机构参与度", "ORG_PARTICIPATE"])
+    focus_col = pick_column(frame, ["关注指数", "FOCUS"])
+    text_col = pick_column(frame, ["诊断", "评论", "COMMENT", "主力成本"])
     if not code_col:
         return []
     rows: list[dict[str, Any]] = []
@@ -271,10 +271,10 @@ def _normalize_comment(frame: pd.DataFrame, codes: set[str]) -> list[dict[str, A
 
 
 def _normalize_news(frame: pd.DataFrame, limit: int) -> list[dict[str, Any]]:
-    title_col = pick_column(frame, ["title", "\u65b0\u95fb\u6807\u9898", "\u6807\u9898"])
-    url_col = pick_column(frame, ["url", "\u65b0\u95fb\u94fe\u63a5", "\u94fe\u63a5"])
-    time_col = pick_column(frame, ["time", "\u53d1\u5e03\u65f6\u95f4", "\u65f6\u95f4", "\u65e5\u671f"])
-    media_col = pick_column(frame, ["media", "\u6587\u7ae0\u6765\u6e90", "\u6765\u6e90", "source"])
+    title_col = pick_column(frame, ["title", "新闻标题", "标题"])
+    url_col = pick_column(frame, ["url", "新闻链接", "链接"])
+    time_col = pick_column(frame, ["time", "发布时间", "时间", "日期"])
+    media_col = pick_column(frame, ["media", "文章来源", "来源", "source"])
     if not title_col:
         return []
     rows = []
@@ -309,19 +309,19 @@ def collect_sentiment(ctx: Context, universe: Sequence[Mapping[str, Any]]) -> di
         rows = _normalize_comment(frame, codes)
         if not rows:
             rows = _normalize_comment(frame, set())[:30]
-            result["eastmoney"]["comment_note"] = "\u672c\u6b21\u80a1\u7968\u6c60\u5728\u5343\u80a1\u5343\u8bc4\u91cc\u672a\u547d\u4e2d\uff08\u65b0\u80a1\u5e38\u89c1\uff09\uff0c\u6539\u4e3a\u5c55\u793a\u5f97\u5206\u524d\u5217\u4e2a\u80a1"
+            result["eastmoney"]["comment_note"] = "本次股票池在千股千评里未命中（新股常见），改为展示得分前列个股"
         result["eastmoney"]["comment"] = rows
         result["eastmoney"]["comment_source"] = comment_source
     else:
         result["eastmoney"]["comment"] = []
-        result["eastmoney"]["comment_note"] = "\u5343\u80a1\u5343\u8bc4\u63a5\u53e3\u4e0d\u53ef\u5f97"
+        result["eastmoney"]["comment_note"] = "千股千评接口不可得"
 
     hot_df, hot_source = try_chain(
         ctx,
         "em_hot",
         [
             ("akshare:stock_hot_rank_em", lambda: ctx.ak.hot_rank()),
-            ("eastmoney:clist(\u6210\u4ea4\u989d\u699c)", lambda: em.most_active(ctx.http, top=30)),
+            ("eastmoney:clist(成交额榜)", lambda: em.most_active(ctx.http, top=30)),
         ],
     )
     if hot_df is not None:
@@ -329,7 +329,7 @@ def collect_sentiment(ctx: Context, universe: Sequence[Mapping[str, Any]]) -> di
         if not len(frame):
             frame = pd.DataFrame(hot_df)
         ctx.store.write_csv(pd.DataFrame(hot_df), "sentiment/em_hot_raw.csv")
-        rank_col = pick_column(pd.DataFrame(hot_df), ["\u5f53\u524d\u6392\u540d", "\u6392\u540d", "rank"])
+        rank_col = pick_column(pd.DataFrame(hot_df), ["当前排名", "排名", "rank"])
         raw_rows = records(pd.DataFrame(hot_df))
         rows = []
         for index, normalized in enumerate(records(frame)):
@@ -346,7 +346,7 @@ def collect_sentiment(ctx: Context, universe: Sequence[Mapping[str, Any]]) -> di
             )
         result["eastmoney"]["hot"] = rows
         result["eastmoney"]["hot_note"] = (
-            "\u4e1c\u8d22\u4eba\u6c14\u699c\u9700 POST \u63a5\u53e3\uff0cakshare \u4e0d\u53ef\u7528\u65f6\u4ee5\u6210\u4ea4\u989d\u6d3b\u8dc3\u5ea6\u699c\u4f5c\u516c\u5f00\u66ff\u4ee3"
+            "东财人气榜需 POST 接口，akshare 不可用时以成交额活跃度榜作公开替代"
             if hot_source and hot_source.startswith("eastmoney")
             else None
         )
@@ -388,23 +388,23 @@ def collect_sentiment(ctx: Context, universe: Sequence[Mapping[str, Any]]) -> di
         result["ths"]["news_source"] = ths_source
     else:
         result["ths"]["news"] = []
-        result["ths"]["news_note"] = "\u540c\u82b1\u987a\u5feb\u8baf\u63a5\u53e3\u4e0d\u53ef\u5f97\uff08\u90e8\u5206\u9875\u9762\u9700 hexin-v Cookie\uff09"
+        result["ths"]["news_note"] = "同花顺快讯接口不可得（部分页面需 hexin-v Cookie）"
 
     boards_df, boards_source = try_chain(
         ctx,
         "ths_boards",
         [
             ("akshare:stock_hot_rank_wc", lambda: ctx.ak.ths_hot_rank()),
-            ("ths:q.10jqka\u6982\u5ff5\u699c", lambda: ths.concept_rank(ctx.http, pages=1)),
+            ("ths:q.10jqka概念榜", lambda: ths.concept_rank(ctx.http, pages=1)),
         ],
     )
     if boards_df is not None:
         frame = pd.DataFrame(boards_df)
         ctx.store.write_csv(frame, "sentiment/ths_boards.csv")
-        board_col = pick_column(frame, ["board", "\u677f\u5757", "\u6982\u5ff5\u540d\u79f0", "\u80a1\u7968\u540d\u79f0", "name", "\u540d\u79f0"])
-        pct_col = pick_column(frame, ["pct_chg", "\u6da8\u8dcc\u5e45", "\u6da8\u5e45"])
-        rank_col = pick_column(frame, ["rank", "\u6392\u540d", "\u5e8f\u53f7"])
-        detail_col = pick_column(frame, ["detail", "\u5907\u6ce8", "\u9886\u6da8\u80a1", "\u6d41\u5165\u8d44\u91d1"])
+        board_col = pick_column(frame, ["board", "板块", "概念名称", "股票名称", "name", "名称"])
+        pct_col = pick_column(frame, ["pct_chg", "涨跌幅", "涨幅"])
+        rank_col = pick_column(frame, ["rank", "排名", "序号"])
+        detail_col = pick_column(frame, ["detail", "备注", "领涨股", "流入资金"])
         rows = []
         for raw in records(frame)[:25]:
             rows.append(
@@ -419,15 +419,15 @@ def collect_sentiment(ctx: Context, universe: Sequence[Mapping[str, Any]]) -> di
         result["ths"]["boards_source"] = boards_source
     else:
         result["ths"]["boards"] = []
-        result["ths"]["boards_note"] = "\u540c\u82b1\u987a\u70ed\u95e8\u677f\u5757\u699c\u4e0d\u53ef\u5f97"
+        result["ths"]["boards_note"] = "同花顺热门板块榜不可得"
 
     result["notes"] = [
-        "\u8d44\u8baf\u4e0e\u8bc4\u8bba\u4e3a\u7b2c\u4e09\u65b9\u5e73\u53f0\u5185\u5bb9\u539f\u6587\u94fe\u63a5\uff0c\u672a\u505a\u60c5\u611f\u52a0\u5de5\uff0c\u4e0d\u4ee3\u8868\u672c\u9879\u76ee\u89c2\u70b9",
+        "资讯与评论为第三方平台内容原文链接，未做情感加工，不代表本项目观点",
     ]
     return result
 
 
-# ---------------- \u62a5\u544a\u7ec4\u88c5 ----------------
+# ---------------- 报告组装 ----------------
 def _strip_svg(value: Any) -> Any:
     if isinstance(value, dict):
         return {k: _strip_svg(v) for k, v in value.items() if not str(k).endswith("_svg") and k != "svg"}
@@ -440,7 +440,7 @@ def build_payload(ctx: Context, sections: Mapping[str, Any]) -> dict[str, Any]:
     cfg = ctx.config
     return {
         "meta": {
-            "title": f"A \u80a1\u8fd1\u4e00\u5e74\u8be6\u7ec6\u4fe1\u606f\u62a5\u544a\uff08{cfg.start_dash} ~ {cfg.end_dash}\uff09",
+            "title": f"A 股近一年详细信息报告（{cfg.start_dash} ~ {cfg.end_dash}）",
             "generated_at": datetime.now().astimezone().isoformat(timespec="seconds"),
             "config": cfg.summary(),
             "akshare": ctx.ak.info(),
@@ -457,7 +457,7 @@ def build_payload(ctx: Context, sections: Mapping[str, Any]) -> dict[str, Any]:
 
 
 def run(config: Config) -> dict[str, Any]:
-    """\u6267\u884c\u4e00\u6b21\u5b8c\u6574\u91c7\u96c6\u5e76\u751f\u6210\u62a5\u544a\u3002"""
+    """执行一次完整采集并生成报告。"""
     ak = AkAdapter(enabled=config.use_akshare)
     http = Http(
         min_interval=config.min_interval,
@@ -468,7 +468,7 @@ def run(config: Config) -> dict[str, Any]:
     store = Store(out_dir=config.out_dir, data_dir=config.data_dir or config.out_dir / "data")
     ctx = Context(config=config, ak=ak, http=http, store=store)
     if not ak.available:
-        store.record("akshare", status="fallback", detail=f"akshare \u4e0d\u53ef\u7528\uff0c\u5df2\u5207\u6362\u5230\u516c\u5f00\u63a5\u53e3\u515c\u5e95\uff1a{ak.import_error}")
+        store.record("akshare", status="fallback", detail=f"akshare 不可用，已切换到公开接口兜底：{ak.import_error}")
 
     sections: dict[str, Any] = {}
     universe: list[dict[str, Any]] = []
@@ -510,7 +510,7 @@ def run(config: Config) -> dict[str, Any]:
 
 
 def self_check(config: Config) -> dict[str, Any]:
-    """\u8f7b\u91cf\u81ea\u68c0\uff1a\u9010\u4e2a\u63a2\u6d4b\u5173\u952e\u80fd\u529b\uff0c\u4e0d\u5199\u62a5\u544a\uff0c\u4fbf\u4e8e\u9996\u6b21\u90e8\u7f72\u9a8c\u8bc1\u3002"""
+    """轻量自检：逐个探测关键能力，不写报告，便于首次部署验证。"""
     ak = AkAdapter(enabled=config.use_akshare)
     http = Http(
         min_interval=config.min_interval,
@@ -523,25 +523,25 @@ def self_check(config: Config) -> dict[str, Any]:
     spec = config.indexes[0]
     probes: list[tuple[str, list[Provider]]] = [
         (
-            "\u6307\u6570\u65e5\u7ebf",
+            "指数日线",
             [
                 ("akshare:index_hist", lambda: ak.index_hist(spec.code, spec.ak_symbol, config.start_ymd, config.end_ymd)),
                 ("eastmoney:kline", lambda: em.kline(http, spec.secid, config.start_ymd, config.end_ymd, fqt=0)),
             ],
         ),
         (
-            "\u5168\u5e02\u573a\u5feb\u7167",
+            "全市场快照",
             [
                 ("akshare:stock_zh_a_spot_em", lambda: _normalize_spot(ak.spot_all())),
                 ("eastmoney:clist", lambda: _normalize_spot(em.spot_all(http))),
             ],
         ),
         (
-            "\u65b0\u80a1\u540d\u5355",
+            "新股名单",
             [("akshare:stock_xgsglb_em", lambda: ak.ipo_list())],
         ),
         (
-            "\u540c\u82b1\u987a\u5feb\u8baf",
+            "同花顺快讯",
             [
                 ("akshare:stock_info_global_ths", lambda: ak.ths_news()),
                 ("ths:news.10jqka", lambda: ths.hot_news(http, pages=1)),
