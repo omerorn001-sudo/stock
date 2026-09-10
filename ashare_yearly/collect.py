@@ -1,7 +1,7 @@
 """采集编排：akshare 优先，不可用时兜底东方财富 / 同花顺，逐步落盘并渲染报告。
 
 每个能力都走 ``try_chain``：按顺序尝试多个提供者，第一个成功的生效；
-全部失败则记录 missing 事件，报告里用 — 占位，绝不编造数据。
+全部失败则记录 missing 事件，报告里用 — 占位，绡不编造数据。
 """
 
 from __future__ import annotations
@@ -155,7 +155,7 @@ def _normalize_spot(df: pd.DataFrame | None) -> pd.DataFrame:
     out = out.rename(columns=mapping)
     if "code" not in out.columns:
         return pd.DataFrame()
-    out["code"] = out["code"].astype(str).str.extract(r"(\d{6})", expand=False)
+    out["code"] = out["code"].astype(str).str.extract(r"(\\d{6})", expand=False)
     out = out.dropna(subset=["code"])
     for col in NUMERIC_SPOT:
         if col in out.columns:
@@ -283,7 +283,7 @@ def _ipo_frame(ctx: Context) -> pd.DataFrame | None:
         return None
     out = pd.DataFrame(
         {
-            "code": frame[code_col].astype(str).str.extract(r"(\d{6})", expand=False),
+            "code": frame[code_col].astype(str).str.extract(r"(\\d{6})", expand=False),
             "name": frame[name_col] if name_col else None,
             "list_date": frame[date_col].map(ymd),
         }
@@ -294,12 +294,16 @@ def _ipo_frame(ctx: Context) -> pd.DataFrame | None:
 
 
 def resolve_universe(ctx: Context) -> list[dict[str, Any]]:
-    """确定本次采集的股票池，返回 ``[{code, name, list_date}]``。"""
-    cfg = ctx.config
-    limit = max(1, cfg.deep_limit)
+    """确定本次要采集的新股池，返回 ``[{code, name, list_date}]``。
 
-    if cfg.universe == "codes":
-        picked = []
+    本项目只采集新股：取上市日期落在区间内（默认近一年）的**全部**个股，按上市日倒序。
+    ``--deep-limit`` 仅在需要压缩耗时时截断；``--codes`` 仅用于复跑单只股票（调试）。
+    """
+    cfg = ctx.config
+    limit = cfg.deep_limit if cfg.deep_limit > 0 else None
+
+    if cfg.codes:
+        picked: list[dict[str, Any]] = []
         for raw in cfg.codes:
             try:
                 code = codeutil.normalize(raw)
@@ -311,33 +315,29 @@ def resolve_universe(ctx: Context) -> list[dict[str, Any]]:
                 {"code": code, "name": row.get("name"), "list_date": row.get("list_date") or None}
             )
         ctx.store.record("universe", status="ok", source="cli:--codes", rows=len(picked))
-        return picked[:limit]
+        return picked[:limit] if limit else picked
 
-    if cfg.universe == "new":
-        ipo = _ipo_frame(ctx)
-        if ipo is None or not len(ipo):
-            ctx.store.record("universe", status="missing", detail="无法获取新股上市名单")
-            return []
-        recent = ipo[ipo["list_date"] >= cfg.start_dash]
-        recent = recent[recent["list_date"] <= cfg.end_dash]
-        recent = recent.sort_values("list_date", ascending=False).head(limit)
-        ctx.store.write_csv(recent, "new/ipo_list.csv")
-        ctx.store.record("universe", status="ok", source="ipo_list", rows=len(recent))
-        return records(recent)
-
-    spot = load_spot(ctx)
-    if spot is None or not len(spot):
-        ctx.store.record("universe", status="missing", detail="快照不可用，无法确定股票池")
+    ipo = _ipo_frame(ctx)
+    if ipo is None or not len(ipo):
+        ctx.store.record("universe", status="missing", detail="无法获取新股上市名单")
         return []
-    frame = spot.copy()
-    if cfg.universe == "active" and "amount" in frame.columns:
-        frame = frame.sort_values("amount", ascending=False)
-    frame = frame.head(limit)
-    ctx.store.record("universe", status="ok", source=f"spot:{cfg.universe}", rows=len(frame))
-    return [
-        {"code": row.get("code"), "name": row.get("name"), "list_date": row.get("list_date") or None}
-        for row in records(frame)
-    ]
+    recent = ipo[ipo["list_date"] >= cfg.start_dash]
+    recent = recent[recent["list_date"] <= cfg.end_dash]
+    recent = recent.sort_values("list_date", ascending=False).reset_index(drop=True)
+    total = len(recent)
+    if limit and total > limit:
+        recent = recent.head(limit)
+        ctx.store.record(
+            "universe",
+            status="fallback",
+            source="ipo_list",
+            rows=len(recent),
+            detail=f"区间内共 {total} 只新股，按 --deep-limit 截断为 {limit} 只",
+        )
+    else:
+        ctx.store.record("universe", status="ok", source="ipo_list", rows=total)
+    ctx.store.write_csv(recent, "new/ipo_list.csv")
+    return records(recent)
 
 
 def _em_minute_day(ctx: Context, secid: str, day: str, klt: int) -> pd.DataFrame:
@@ -355,7 +355,28 @@ def _em_trends_day(ctx: Context, secid: str, day: str) -> pd.DataFrame:
     return df.reset_index(drop=True)
 
 
+def _intraday_skip_reason(cfg: Config, day: str) -> str | None:
+    """分时/分钟数据只在近期可回溯：超窗直接跳过，避免对 200+ 只新股做无效请求。"""
+    if cfg.intraday_days <= 0:
+        return "已按配置关闭分时采集（--intraday-days 0）"
+    try:
+        target = datetime.strptime(day, "%Y-%m-%d").date()
+    except ValueError:
+        return None
+    age = (cfg.end - target).days
+    if age > cfg.intraday_days:
+        return (
+            f"该交易日距今 {age} 天，超出分时/分钟接口保留期（阈值 {cfg.intraday_days} 天），"
+            "已跳过请求；当日日 K 仍然保留，不编造分时"
+        )
+    return None
+
+
 def _intraday(ctx: Context, code: str, name: str | None, day: str, prev_close: float | None) -> dict[str, Any]:
+    skip = _intraday_skip_reason(ctx.config, day)
+    if skip:
+        ctx.store.record(f"intraday:{code}:{day}", status="missing", source="skipped", detail=skip)
+        return {"svg": charts.empty_chart(f"{day} 分时数据不可回溯"), "granularity": None, "note": skip}
     secid = codeutil.secid(code)
     df, source = try_chain(
         ctx,
