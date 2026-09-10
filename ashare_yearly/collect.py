@@ -1,7 +1,7 @@
 """采集编排：akshare 优先，不可用时兜底东方财富 / 同花顺，逐步落盘并渲染报告。
 
 每个能力都走 ``try_chain``：按顺序尝试多个提供者，第一个成功的生效；
-全部失败则记录 missing 事件，报告里用 — 占位，绡不编造数据。
+全部失败则记录 missing 事件，报告里用 — 占位，绝不编造数据。
 """
 
 from __future__ import annotations
@@ -155,7 +155,7 @@ def _normalize_spot(df: pd.DataFrame | None) -> pd.DataFrame:
     out = out.rename(columns=mapping)
     if "code" not in out.columns:
         return pd.DataFrame()
-    out["code"] = out["code"].astype(str).str.extract(r"(\\d{6})", expand=False)
+    out["code"] = out["code"].astype(str).str.extract(r"(\d{6})", expand=False)
     out = out.dropna(subset=["code"])
     for col in NUMERIC_SPOT:
         if col in out.columns:
@@ -283,7 +283,7 @@ def _ipo_frame(ctx: Context) -> pd.DataFrame | None:
         return None
     out = pd.DataFrame(
         {
-            "code": frame[code_col].astype(str).str.extract(r"(\\d{6})", expand=False),
+            "code": frame[code_col].astype(str).str.extract(r"(\d{6})", expand=False),
             "name": frame[name_col] if name_col else None,
             "list_date": frame[date_col].map(ymd),
         }
