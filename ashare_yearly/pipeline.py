@@ -24,7 +24,7 @@ from .frames import (
     ymd,
 )
 from .netutil import Http
-from .report import render_report
+from .report import render_report, render_stock_page
 from .sources import AkAdapter
 from .sources import eastmoney as em
 from .sources import ths
@@ -352,7 +352,7 @@ def collect_sentiment(ctx: Context, universe: Sequence[Mapping[str, Any]]) -> di
         )
 
     news_map: dict[str, list[dict[str, Any]]] = {}
-    for entry in list(universe)[: min(10, len(universe))]:
+    for entry in list(universe)[: max(0, cfg.news_limit)]:
         code = str(entry.get("code") or "")
         if not code:
             continue
@@ -440,7 +440,8 @@ def build_payload(ctx: Context, sections: Mapping[str, Any]) -> dict[str, Any]:
     cfg = ctx.config
     return {
         "meta": {
-            "title": f"A 股近一年详细信息报告（{cfg.start_dash} ~ {cfg.end_dash}）",
+            "title": f"A 股新股报告：近一年上市新股（{cfg.start_dash} ~ {cfg.end_dash}）",
+            "detail_dir": "stocks",
             "generated_at": datetime.now().astimezone().isoformat(timespec="seconds"),
             "config": cfg.summary(),
             "akshare": ctx.ak.info(),
@@ -456,8 +457,24 @@ def build_payload(ctx: Context, sections: Mapping[str, Any]) -> dict[str, Any]:
     }
 
 
+def write_stock_pages(store: Store, payload: Mapping[str, Any], sections: Mapping[str, Any]) -> list[str]:
+    """每只新股单独出一页明细。
+
+    近一年新股常常 200~300 只，若全部图表塞进单页，HTML 会到几十 MB；
+    因此总览页只留汇总表，明细按代码拆到 ``stocks/<代码>.html``。
+    """
+    new_map = {str(item.get("code")): item for item in (sections.get("new_stocks") or []) if item.get("code")}
+    profile_map = {str(item.get("code")): item for item in (sections.get("profiles") or []) if item.get("code")}
+    ordered = list(new_map) + [code for code in profile_map if code not in new_map]
+    paths: list[str] = []
+    for code in ordered:
+        page = render_stock_page(payload, new_map.get(code), profile_map.get(code))
+        paths.append(str(store.write_text(page, f"stocks/{code}.html")))
+    return paths
+
+
 def run(config: Config) -> dict[str, Any]:
-    """执行一次完整采集并生成报告。"""
+    """执行一次完整采集并生成报告（只采集新股）。"""
     ak = AkAdapter(enabled=config.use_akshare)
     http = Http(
         min_interval=config.min_interval,
@@ -502,6 +519,7 @@ def run(config: Config) -> dict[str, Any]:
         result["report"] = store.write_text(html, "index.html")
         result["dated_report"] = store.write_text(html, f"ashare-yearly-{config.end_dash}.html")
         result["payload_json"] = store.write_json(_strip_svg(payload), "payload.json")
+        result["stock_pages"] = write_stock_pages(store, payload, sections)
 
     result["manifest"] = store.save_manifest(config.summary(), ak.info())
     result["events"] = store.events
