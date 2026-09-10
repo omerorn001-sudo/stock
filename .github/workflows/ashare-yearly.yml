@@ -1,4 +1,4 @@
-name: A股近一年报告
+name: A股新股报告（近一年上市）
 
 on:
   workflow_dispatch:
@@ -12,7 +12,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 300
     steps:
       - name: 拉取代码
         uses: actions/checkout@v4
@@ -34,14 +34,16 @@ jobs:
         run: python -m pytest ashare_yearly/tests -q
 
       - name: 采集并生成报告
-        run: python -m ashare_yearly.main --universe new --deep-limit 20
+        run: python -m ashare_yearly.main --deep-limit 0 --intraday-days 10
 
       - name: 提交报告
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add reports/ashare-yearly
-          git diff --cached --quiet || git commit -m "chore(ashare-yearly): 更新A股近一年报告"
+          git add -A reports/ashare-yearly
+          # 原始 CSV（data/）只随 artifact 下载，不入库，避免上千个文件撑大仓库
+          git reset -q -- reports/ashare-yearly/data || true
+          git diff --cached --quiet || git commit -m "chore(ashare-yearly): 更新A股新股报告"
           git push
 
       - name: 上传报告产物

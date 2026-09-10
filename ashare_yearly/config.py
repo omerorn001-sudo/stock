@@ -14,7 +14,6 @@ DEFAULT_CACHE_DIR = PROJECT_DIR / ".cache"
 
 ALL_STEPS: tuple[str, ...] = ("index", "new", "profile", "sector", "sentiment", "report")
 DEFAULT_STEPS: tuple[str, ...] = ALL_STEPS
-UNIVERSES: tuple[str, ...] = ("new", "codes", "active", "all")
 
 
 @dataclass(frozen=True)
@@ -46,14 +45,18 @@ INDEXES: tuple[IndexSpec, ...] = (
 
 @dataclass
 class Config:
-    """一次采集运行的全部参数。"""
+    """一次采集运行的全部参数。
+
+    本项目只采集新股：股票池固定为上市日落在区间内（默认近一年）的全部个股。
+    """
 
     end: date = field(default_factory=date.today)
     lookback_days: int = 365
-    universe: str = "new"
     codes: tuple[str, ...] = ()
-    deep_limit: int = 30
+    deep_limit: int = 0
     first_days: int = 7
+    intraday_days: int = 10
+    news_limit: int = 20
     steps: tuple[str, ...] = DEFAULT_STEPS
     out_dir: Path = DEFAULT_OUT_DIR
     data_dir: Path | None = None
@@ -71,8 +74,6 @@ class Config:
         self.out_dir = Path(self.out_dir)
         self.data_dir = Path(self.data_dir) if self.data_dir else self.out_dir / "data"
         self.cache_dir = Path(self.cache_dir)
-        if self.universe not in UNIVERSES:
-            raise ValueError(f"universe 需为 {UNIVERSES} 之一，收到 {self.universe!r}")
         bad = [s for s in self.steps if s not in ALL_STEPS]
         if bad:
             raise ValueError(f"未知步骤 {bad}，可选 {ALL_STEPS}")
@@ -104,10 +105,12 @@ class Config:
     def summary(self) -> dict[str, object]:
         return {
             "区间": f"{self.start_dash} ~ {self.end_dash}",
-            "股票池": self.universe,
+            "股票池": "近一年上市新股" + ("（仅指定代码）" if self.codes else "（全部）"),
             "指定代码": list(self.codes),
-            "深度采集上限": self.deep_limit,
+            "采集上限": self.deep_limit if self.deep_limit > 0 else "不限",
             "新股首日数": self.first_days,
+            "分时回溯天数": self.intraday_days,
+            "个股资讯取最新": self.news_limit,
             "执行步骤": list(self.steps),
             "复权方式": self.adjust or "不复权",
             "启用akshare": self.use_akshare,
