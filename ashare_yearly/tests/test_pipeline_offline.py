@@ -6,6 +6,7 @@ from datetime import date
 
 import pandas as pd
 
+from ashare_yearly import collect
 from ashare_yearly import main as cli
 from ashare_yearly import pipeline
 from ashare_yearly.config import Config
@@ -144,16 +145,51 @@ def test_build_payload_shape(tmp_path):
         assert key in payload
 
 
-def test_cli_parses_codes_universe():
-    args = cli.build_parser().parse_args(["--universe", "codes", "--codes", "600519,300750", "--steps", "index,report"])
+def test_cli_parses_codes_for_debug_replay():
+    args = cli.build_parser().parse_args(["--codes", "600519,300750", "--steps", "index,report"])
     config = cli.config_from_args(args)
     assert config.codes == ("600519", "300750")
     assert config.steps == ("index", "report")
     assert config.enabled("new") is False
+    assert not hasattr(config, "universe")  # 只采集新股，不再有股票池选项
 
 
-def test_cli_requires_codes_for_codes_universe(capsys):
-    assert cli.main(["--universe", "codes"]) == 2
+def test_cli_defaults_to_all_new_stocks():
+    config = cli.config_from_args(cli.build_parser().parse_args([]))
+    assert config.deep_limit == 0  # 0 = 近一年全部新股
+    assert config.intraday_days == 10
+    assert config.news_limit == 20
+
+
+def test_cli_rejects_negative_deep_limit():
+    assert cli.main(["--deep-limit", "-1"]) == 2
+
+
+def test_resolve_universe_keeps_every_new_stock(tmp_path):
+    frame = pd.DataFrame(
+        {
+            "code": [f"30{i:04d}" for i in range(40)],
+            "name": [f"新股{i}" for i in range(40)],
+            "list_date": [f"2026-0{(i % 9) + 1}-01" for i in range(40)],
+            "source": ["test"] * 40,
+        }
+    )
+    original = collect._ipo_frame
+    collect._ipo_frame = lambda ctx: frame
+    try:
+        assert len(collect.resolve_universe(_context(tmp_path))) == 40
+        assert len(collect.resolve_universe(_context(tmp_path, deep_limit=5))) == 5
+    finally:
+        collect._ipo_frame = original
+
+
+def test_intraday_skips_dates_outside_retention(tmp_path):
+    ctx = _context(tmp_path)
+    result = collect._intraday(ctx, "301999", "演示新股", "2026-01-05", 10.0)
+    assert result["granularity"] is None
+    assert "保留期" in (result["note"] or "")
+    assert result["svg"].startswith("<svg")
+    assert ctx.store.events[-1]["status"] == "missing"
 
 
 def test_cli_offline_demo_writes_html(tmp_path):

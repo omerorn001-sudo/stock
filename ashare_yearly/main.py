@@ -1,8 +1,11 @@
 """命令行入口。
 
+本程序只采集新股：默认股票池为近一年内上市的全部新股。
+
 常用命令：
-    python -m ashare_yearly.main --universe new --deep-limit 30
-    python -m ashare_yearly.main --universe codes --codes 600519,300750,688111
+    python -m ashare_yearly.main                     # 近一年全部新股
+    python -m ashare_yearly.main --deep-limit 30     # 只取最近上市的 30 只
+    python -m ashare_yearly.main --codes 301999      # 只复跑指定新股（调试）
     python -m ashare_yearly.main --steps index,sentiment
     python -m ashare_yearly.main --self-check
     python -m ashare_yearly.main --offline-demo
@@ -16,7 +19,7 @@ import sys
 from datetime import date, datetime
 from pathlib import Path
 
-from .config import ALL_STEPS, DEFAULT_CACHE_DIR, DEFAULT_OUT_DIR, UNIVERSES, Config
+from .config import ALL_STEPS, DEFAULT_CACHE_DIR, DEFAULT_OUT_DIR, Config
 
 
 def _parse_date(text: str) -> date:
@@ -36,12 +39,13 @@ def _split(text: str) -> tuple[str, ...]:
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="ashare_yearly",
-        description="采集 A 股近一年详细信息（akshare 优先，东财/同花顺 兜底）并生成 HTML 报告",
+        description="采集 A 股近一年新股的详细信息（akshare 优先，东财/同花顺 兜底）并生成 HTML 报告",
     )
-    parser.add_argument("--universe", choices=list(UNIVERSES), default="new", help="股票池：默认 new（近一年新股）")
-    parser.add_argument("--codes", type=_split, default=(), help="配合 --universe codes 使用，逗号分隔")
-    parser.add_argument("--deep-limit", type=int, default=30, help="深度采集的个股上限，默认 30")
+    parser.add_argument("--codes", type=_split, default=(), help="只采集这些新股代码（调试用，逗号分隔）")
+    parser.add_argument("--deep-limit", type=int, default=0, help="新股数量上限，0=近一年全部（默认）")
     parser.add_argument("--first-days", type=int, default=7, help="新股上市后采集的交易日数，默认 7")
+    parser.add_argument("--intraday-days", type=int, default=10, help="只对距今 N 天内的交易日取分时，0=不取，默认 10")
+    parser.add_argument("--news-limit", type=int, default=20, help="只为最近上市的前 N 只新股抓个股资讯，默认 20")
     parser.add_argument("--steps", type=_split, default=None, help=f"执行步骤，可选 {','.join(ALL_STEPS)}")
     parser.add_argument("--end", type=_parse_date, default=None, help="区间结束日，默认今天")
     parser.add_argument("--lookback-days", type=int, default=365, help="回看天数，默认 365")
@@ -63,10 +67,11 @@ def config_from_args(args: argparse.Namespace) -> Config:
     return Config(
         end=args.end or date.today(),
         lookback_days=args.lookback_days,
-        universe=args.universe,
         codes=tuple(args.codes or ()),
         deep_limit=args.deep_limit,
         first_days=args.first_days,
+        intraday_days=args.intraday_days,
+        news_limit=args.news_limit,
         steps=tuple(args.steps) if args.steps else tuple(ALL_STEPS),
         out_dir=args.out,
         cache_dir=args.cache_dir,
@@ -90,8 +95,8 @@ def main(argv: list[str] | None = None) -> int:
         print(f"已生成离线演示报告：{path}")
         return 0
 
-    if args.universe == "codes" and not args.codes:
-        print("--universe codes 需要同时传入 --codes", file=sys.stderr)
+    if args.deep_limit < 0:
+        print("--deep-limit 不能为负数（0 表示近一年全部新股）", file=sys.stderr)
         return 2
 
     config = config_from_args(args)
@@ -106,10 +111,11 @@ def main(argv: list[str] | None = None) -> int:
     from .pipeline import run  # noqa: PLC0415
 
     result = run(config)
-    print(f"区间：{config.start_dash} ~ {config.end_dash}｜股票池：{config.universe}（{len(result.get('universe') or [])} 只）")
+    print(f"区间：{config.start_dash} ~ {config.end_dash}｜近一年新股 {len(result.get('universe') or [])} 只")
     if result.get("report"):
-        print(f"报告：{result['report']}")
+        print(f"总览：{result['report']}")
         print(f"归档：{result['dated_report']}")
+        print(f"明细：{len(result.get('stock_pages') or [])} 页（stocks/<代码>.html）")
     print(f"清单：{result['manifest']}")
     failures = [e for e in result["events"] if e["status"] in ("missing", "error")]
     fallbacks = [e for e in result["events"] if e["status"] == "fallback"]
