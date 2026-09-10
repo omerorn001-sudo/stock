@@ -1,112 +1,114 @@
-# ashare_yearly —— A 股近一年详细信息采集与报告
+# ashare_yearly：A 股新股近一年数据采集与报告
 
-子项目目标：把“指数近一年行情 + 新股上市至今行情（含上市前 7 个交易日日内图）+ 个股画像（股东/市值/估值/主营/换手）+ 所属板块行情 + 东方财富与同花顺热点评论”汇总成一份自包含的 HTML 报告，并把原始数据落盘为 CSV/JSON。
+本项目**只用于搜集新股**：股票池 = 近一年（默认 365 天）内上市的**全部**新股，按上市日倒序。
+指数、板块、热点章节仍然保留，但都围绕新股服务（做对比基准与情绪背景）。
 
-**数据源策略**：`akshare` 优先；当 akshare 未安装、接口改名或临时不可用时，自动兜底到**东方财富**（push2 / push2his / datacenter / F10 / 搜索）与**同花顺**（news.10jqka / q.10jqka / basic.10jqka）公开接口。
+数据源优先 [akshare](https://github.com/akfamily/akshare)，接口不可用时兜底东方财富 / 同花顺公开接口；
+仍然取不到的字段一律标 `—`，并在报告第 6 节列出原因，**不估算、不编造**。
 
-**诚实性约定（与仓库现有报告一致）**：不可得的数据一律显示 `—`，并在报告第 6 节“数据源与缺失说明”里列出具体原因（哪个接口失败、是否兜底），**绝不估算、不插值、不编造**。
+## 报告内容
+
+总览页 `index.html`：
+
+1. **指数近一年行情** —— 上证、深证成指、创业板指、科创 50、沪深 300、中证 500/1000、北证 50 的收盘线、日 K 与相对走势对比（首日=100）
+2. **新股总览** —— 一行一只：上市日期、首日/最新收盘、上市以来涨跌、交易日数、首 N 日中取到分时的天数
+3. **个股画像总览** —— 所属板块、行业、最新价、涨跌幅、总市值、流通市值、市盈率（静/动/TTM）、换手率、股东行数
+4. **所属板块行情** —— 按新股行业聚合出前 8 个板块的近一年走势与命中成分股
+5. **热点与评论** —— 东方财富千股千评、热度/活跃度榜、个股资讯；同花顺快讯与热门板块/概念
+6. **数据源与缺失说明** —— 每一步的实际数据源、兜底次数与缺失原因
+
+每只新股另有明细页 `stocks/<代码>.html`：上市至今收盘线与日 K、上市初期逐日行情与每日分时图、
+前十大流通股东、主营业务、市盈率走势；总览表里点股票名即可进入。
+
+> 为什么拆页：近一年新股常有 200~300 只，全部图表塞进单页会让 HTML 涨到几十 MB，浏览器根本打不开。
 
 ## 目录结构
 
-```text
+```
 ashare_yearly/
-├─ main.py            # 命令行入口（argparse）
-├─ config.py          # 运行配置、区间计算、指数清单
-├─ pipeline.py        # 编排：try_chain 多源兜底 + 各步骤采集
-├─ report.py          # HTML 渲染（无模板引擎，内嵌 SVG）
-├─ charts.py          # 线图/多线对比/K 线/分时图，纯手写 SVG
-├─ store.py           # 落盘（CSV/JSON/HTML）与采集事件记录、manifest
-├─ frames.py          # 中英文列名归一、数值清洗、区间裁剪
-├─ codes.py           # 股票代码归一（600519 / sh600519 / 600519.SH）与 secid
-├─ netutil.py         # 限速、重试、磁盘缓存、JSON/JSONP 解析
-├─ demo.py            # 离线演示（合成数据，不联网）
-├─ sources/
-│  ├─ ak.py           # akshare 适配层：同一能力尝试多个函数名，免受版本改名影响
-│  ├─ eastmoney.py    # 东财行情/快照/F10 股东/板块/千股千评/搜索资讯
-│  └─ ths.py          # 同花顺快讯/概念榜/F10 主营
-└─ tests/             # 全部离线单测（不请求网络）
+├── main.py            # CLI 入口
+├── config.py          # 运行配置、指数清单
+├── collect.py         # 采集：指数、新股名单、日线与分时
+├── pipeline.py        # 画像/板块/热点采集 + 报告组装与执行
+├── report.py          # HTML 渲染（总览页 + 新股明细页）
+├── charts.py          # 纯 SVG 图表（折线/K 线/分时/多线对比）
+├── frames.py          # DataFrame 归一化工具
+├── codes.py           # 股票代码与板块判断
+├── netutil.py         # 限速、重试、磁盘缓存的 HTTP 客户端
+├── store.py           # 落盘与采集事件清单
+├── demo.py            # 离线合成数据演示
+├── sources/
+│   ├── ak.py          # akshare 适配层
+│   ├── eastmoney.py   # 东方财富公开接口
+│   └── ths.py         # 同花顺公开接口
+├── tests/             # 离线单测（不联网）
+└── requirements.txt
 ```
 
-输出（默认）：
-
-```text
-reports/ashare-yearly/
-├─ index.html                    # 最新报告
-├─ ashare-yearly-YYYY-MM-DD.html # 按日归档
-├─ payload.json                  # 报告数据（已剔除 SVG）
-├─ manifest.json                 # 本次运行的配置、akshare 状态、全部采集事件
-└─ data/                         # 原始落盘 CSV（指数/新股/股东/板块/评论……）
-```
-
-## 快速开始
+## 安装与运行
 
 ```bash
 pip install -r ashare_yearly/requirements.txt
 
-# 0) 不联网预览报告样式（合成数据，仅自检用）
-python -m ashare_yearly.main --offline-demo
-
-# 1) 首次部署强烈建议：先自检接口可用性
-python -m ashare_yearly.main --self-check
-
-# 2) 默认：近一年新股（最多 30 只）全量采集
-python -m ashare_yearly.main --universe new --deep-limit 30
-
-# 3) 指定个股
-python -m ashare_yearly.main --universe codes --codes 600519,300750,688111
-
-# 4) 只跑部分步骤
-python -m ashare_yearly.main --steps index,sentiment,report
-
-# 5) 禁用 akshare，直接走公开接口兜底（用于排查 akshare 问题）
-python -m ashare_yearly.main --no-akshare
+python -m ashare_yearly.main                        # 采集近一年全部新股并生成报告
+python -m ashare_yearly.main --deep-limit 30        # 只跑最近 30 只（压缩耗时）
+python -m ashare_yearly.main --codes 301999 688008  # 只跑指定代码（调试）
+python -m ashare_yearly.main --steps index new      # 只跑部分章节
+python -m ashare_yearly.main --self-check           # 接口可用性自检，不写报告
+python -m ashare_yearly.main --offline-demo         # 合成数据演示（只渲染总览页）
 ```
 
-常用参数：`--universe new|codes|active|all`、`--codes`、`--deep-limit`、`--first-days`、`--steps index,new,profile,sector,sentiment,report`、`--end`、`--lookback-days`、`--adjust qfq|hfq`、`--out`、`--no-cache`、`--min-interval`、`--timeout`、`--retries`。
+### 主要参数
 
-## 对应需求的字段与来源
+| 参数 | 默认 | 说明 |
+| --- | --- | --- |
+| `--lookback-days` | 365 | 区间长度（天） |
+| `--end` | 今天 | 区间结束日 |
+| `--deep-limit` | 0 | 0 = 不限，采集区间内全部新股；>0 时按上市日倒序截断 |
+| `--first-days` | 7 | 每只新股采集上市初期的交易日数 |
+| `--intraday-days` | 10 | 只对距今 N 天内的交易日请求分时；超期直接跳过并注明理由（0 = 关闭分时） |
+| `--news-limit` | 20 | 个股资讯只取最新上市的 N 只新股 |
+| `--news-per-stock` | 8 | 每只股票的资讯条数 |
+| `--codes` | 无 | 只跑指定代码，用于单只复跑与调试 |
+| `--steps` | 全部 | `index new profile sector sentiment report` 任选 |
+| `--adjust` | qfq | 复权方式（qfq/hfq/空） |
+| `--no-akshare` | - | 强制走公开接口兜底路径 |
+| `--no-cache` | - | 关闭磁盘缓存 |
+| `--min-interval` / `--timeout` / `--retries` | 0.35 / 20 / 3 | 请求限速与重试 |
+| `--out` / `--cache-dir` | `reports/ashare-yearly` / `.cache` | 输出与缓存目录 |
 
-| 需求 | 实现 | 首选（akshare） | 兜底 |
-| --- | --- | --- | --- |
-| 指数近一年图 | 8 大宽基（上证/深证/创业板/科创 50/沪深 300/中证 500/中证 1000/北证 50）收盘线 + 日 K + 归一对比 | `index_zh_a_hist` 等 | 东财 `stock/kline` |
-| 新股自上市至今 | 上市日起全段日 K + 收盘线 | `stock_zh_a_hist` | 东财 `stock/kline`（前复权） |
-| 上市前 7 个交易日日内图 | 每日一张分时/分钟图 + 当日行情表 | `stock_zh_a_hist_min_em`（1/5 分钟） | 东财 `kline(klt=1/5)` → `trends2` |
-| 前十大流通股东 | 名次/名称/持股数/占比/增减/性质，自动回退到上一报告期 | `stock_gdfx_free_top_10_em` | 东财 `RPT_F10_EH_FREEHOLDERS` |
-| 市值/流通市值/市盈率/换手率 | 全市场快照字段 + 个股详情补充 | `stock_zh_a_spot_em`、`stock_individual_info_em` | 东财 `clist`（f20/f21/f9/f114/f115/f8） |
-| 主营业务 | 主营描述文本 | `stock_zyjs_ths`/`stock_zygc_em` | 东财 F10 业务分析 → 同花顺 F10 |
-| 估值走势 | 近一年 PE(TTM) 曲线 | `stock_a_indicator_lg` | 无公开充分兜底，缺失时标 `—` |
-| 所属板块行情图 | 按个股行业聚合，取行业板块近一年走势 | `stock_board_industry_hist_em` | 东财 `90.BKxxxx` K 线 |
-| 东财热点评论 | 千股千评（得分/排名/机构参与度/关注指数）+ 人气榜 + 个股资讯 | `stock_comment_em`、`stock_hot_rank_em`、`stock_news_em` | 东财 datacenter / 成交额活跃榜 / 搜索 API |
-| 同花顺热点评论 | 快讯流 + 热门概念/板块榜 | `stock_info_global_ths`、`stock_hot_rank_wc` | `news.10jqka` 推送、`q.10jqka` 概念榜 |
+## 输出
 
-## 字段口径（必读）
-
-- **市盈率(静)**：LYR，上一完整年度利润；**市盈率(动)**：东财“动态市盈率”，当期利润年化推算；**市盈率(TTM)**：最近四个季度滚动。三者**不可直接比较**，亏损股可能为空或负值。东财兜底时使用 `f9`（动）、`f114`（静）、`f115`（TTM），这组字段含义基于公开推断，建议首次使用时与网页端交叉校验一次。
-- **市值单位**：接口返回元，报告按亿元展示（保留 2 位）。
-- **持股数量**：沿用数据源口径（通常为股），报告按万股展示；占比为占流通股本比例。
-- **复权**：个股日 K 默认前复权（`--adjust qfq`）；指数不复权。
-- **区间**：默认 `今天 - 365 天` 至今天，可用 `--end` / `--lookback-days` 调整。
-
-## 已知限制
-
-1. **历史日内数据不一定可回溯**。东财 `trends2` 仅保留近 5 个交易日，分钟 K 线保留期也有限；akshare 的分钟接口能回溯更久但并非无限。因此“上市前 7 个交易日每日分时图”对**较早上市**的新股可能取不到：程序会依次尝试 `1 分钟 → 5 分钟 → trends2`，全部失败时画空图并标注原因，当日日 K（开/高/低/收/换手/成交额）仍然保留。若需长期回溯，建议按日定时运行并将 `data/` 归档。
-2. **同花顺部分页面需 `hexin-v` Cookie**（由 JS 生成）。本项目只用无需验证的公开端点（快讯推送、概念榜 ajax、F10 主营页），仍可能被风控拦截；失败时优先走 akshare，否则标为缺失。
-3. **第三方接口无 SLA**，akshare 函数名与东财字段可能变动。`sources/ak.py` 对同一能力登记了多个候选函数名，少量改名不会直接崩溃；若全部失效，`--self-check` 会直接指出。
-4. **并发与频控**：默认串行、请求最小间隔 0.35s、失败指数退避重试 3 次、磁盘缓存 6 小时。不建议降低 `--min-interval`。全量深度采集（30 只×7 天分时）约需十几到几十分钟。
-5. **当前开发环境无外网**，因此代码只完成了编译检查 + 离线单测 + 离线演示渲染，**尚未与 akshare / 东财 / 同花顺 真实联调**。请先跑 `--self-check` 确认可用性。
-
-## 开发与测试
-
-```bash
-python -m compileall ashare_yearly
-python -m pytest ashare_yearly/tests -q     # 全部离线，不请求网络
-python -m ashare_yearly.main --offline-demo # 生成 demo.html 预览样式
+```
+reports/ashare-yearly/
+├── index.html                  # 总览页
+├── ashare-yearly-<日期>.html   # 当日归档
+├── stocks/<代码>.html         # 每只新股明细页
+├── payload.json                # 结构化数据（已剔除 SVG）
+├── manifest.json               # 运行参数 + 采集事件清单
+└── data/                       # 原始 CSV/JSON（体积大，不入库）
 ```
 
 ## 自动化
 
-`.github/workflows/ashare-yearly.yml`：工作日北京时间 17:30 自动运行（也可手动触发），流程为：安装依赖 → 接口自检（不中断）→ 离线单测 → 采集生成 → 提交 `reports/ashare-yearly` → 上传 artifact。若不希望机器提交报告，删除“提交报告”步骤即可，产物仍会上传。
+工作流 `.github/workflows/ashare-yearly.yml`：工作日 17:30（北京时间）自动运行，也可在 Actions 页手动 Run workflow。
+超时上限 300 分钟；提交时只提交 `reports/ashare-yearly` 下的报告，`data/` 原始数据不入库，
+完整结果（含 `data/`）在 artifact `ashare-yearly-report` 里下载。
+
+## 离线自测
+
+```bash
+python -m pytest ashare_yearly/tests -q   # 全部不联网
+```
+
+## 已知限制
+
+- 近一年新股约 200~300 只，逐只拉日线 + 画像 + 股东，受接口限速影响，完整跑一次通常需 1~3 小时。
+- 分时/分钟数据只在近期可回溯（东财分时约 5 个交易日），较早上市的新股取不到首日分时，按约定标 `—` 并写明原因。
+- 千股千评经常不覆盖新股，此时改为展示得分前列个股并注明。
+- 新股在首份定期报告发布前没有十大流通股东明细，属于正常缺失。
+- 第三方接口字段定义会变，市盈率（静/动/TTM）口径不可直接比较，使用前请与原站交叉校验。
 
 ## 免责声明
 
-本项目仅做公开数据汇总与展示，不构成投资建议；请遵守数据源的使用条款与频率限制。
+本项目仅做公开数据汇总与展示，不构成任何投资建议。第三方接口内容版权属原平台。

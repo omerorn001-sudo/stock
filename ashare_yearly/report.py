@@ -1,7 +1,7 @@
 """HTML 报告渲染（无模板引擎依赖）。
 
 诚实性约定（与仓库现有报告一致）：不可得的数据一律显示 ``—``，
-并在“数据源与缺失说明”里列出原因，绝不编造数值。
+并在“数据源与缺失说明”里列出原因，绍不编造数值。
 """
 
 from __future__ import annotations
@@ -179,96 +179,65 @@ def _section_indexes(payload: Mapping[str, Any]) -> str:
     return "".join(parts)
 
 
+def _stock_href(code: Any) -> str:
+    return f"stocks/{html.escape(str(code or ''), quote=True)}.html"
+
+
+def _stock_cell(code: Any, name: Any) -> str:
+    return f'<a href="{_stock_href(code)}">{esc(name)}</a> <span class="sub">{esc(code)}</span>'
+
+
 def _section_new_stocks(payload: Mapping[str, Any]) -> str:
+    """新股总览：一行一只，明细拆到 stocks/<代码>.html。"""
     items = payload.get("new_stocks") or []
-    parts = ['<h2 id="new">2. 新股：上市至今行情与上市初期日内图</h2>']
+    parts = ['<h2 id="new">2. 新股总览（上市至今行情）</h2>']
     if not items:
         parts.append(f'<div class="card"><p class="note">{MISSING} 未采集到新股数据</p></div>')
         return "".join(parts)
 
-    summary_rows = []
+    rows = []
     for it in items:
         since = it.get("since_ipo") or {}
-        summary_rows.append(
+        first_days = it.get("first_days") or []
+        with_intraday = sum(1 for day in first_days if (day.get("intraday") or {}).get("granularity"))
+        rows.append(
             [
-                f"{esc(it.get('name'))} <span class=\"sub\">{esc(it.get('code'))}</span>",
+                _stock_cell(it.get("code"), it.get("name")),
                 esc(it.get("list_date")),
                 fmt_num(since.get("first_close")),
                 fmt_num(since.get("last_close")),
                 fmt_pct(since.get("pct_chg")),
                 esc(since.get("rows")),
+                f"{len(first_days)} / {with_intraday}",
                 esc(it.get("source")),
             ]
         )
     parts.append(
-        '<div class="card"><h3>新股汇总</h3>'
+        f'<div class="card"><h3>近一年上市新股 {len(items)} 只</h3>'
         + _table(
-            ["股票", "上市日期", "首日收盘", "最新收盘", "上市以来涨跌", "交易日数", "数据源"],
-            summary_rows,
-            text_columns=(0, 1, 6),
+            ["股票", "上市日期", "首日收盘", "最新收盘", "上市以来涨跌", "交易日数", "首N日/其中有分时", "数据源"],
+            rows,
+            text_columns=(0, 1, 7),
         )
-        + "</div>"
+        + '<p class="note">点击股票名进入明细页（stocks/&lt;代码&gt;.html）：上市至今收盘线与日 K、'
+        "上市初期逐日行情与分时图、十大流通股东、主营业务、估值走势。"
+        "「首N日/其中有分时」= 已采集的上市初期交易日数 / 其中成功取到分时的天数；"
+        "分时接口只保留近期数据，较早上市的新股取不到，按约定标 — 而不编造。</p></div>"
     )
-
-    for it in items:
-        since = it.get("since_ipo") or {}
-        parts.append('<div class="card">')
-        parts.append(
-            f"<h3>{esc(it.get('name'))}（{esc(it.get('code'))}）上市日 {esc(it.get('list_date'))} "
-            f"{_source_tag(it.get('source'))}</h3>"
-        )
-        parts.append(since.get("line_svg") or "")
-        if since.get("candle_svg"):
-            parts.append("<h4>上市至今日 K 线</h4>" + since["candle_svg"])
-
-        first_days = it.get("first_days") or []
-        if first_days:
-            rows = [
-                [
-                    esc(day.get("date")),
-                    fmt_num(day.get("open")),
-                    fmt_num(day.get("high")),
-                    fmt_num(day.get("low")),
-                    fmt_num(day.get("close")),
-                    fmt_pct(day.get("pct_chg")),
-                    fmt_num(day.get("turnover"), 2, "%"),
-                    fmt_money(day.get("amount")),
-                ]
-                for day in first_days
-            ]
-            parts.append(
-                f"<h4>上市前 {len(first_days)} 个交易日行情</h4>"
-                + _table(
-                    ["日期", "开盘", "最高", "最低", "收盘", "涨跌幅", "换手率", "成交额"],
-                    rows,
-                )
-            )
-            for day in first_days:
-                intraday = day.get("intraday") or {}
-                label = f"{esc(day.get('date'))} 分时图"
-                granularity = intraday.get("granularity")
-                if granularity:
-                    label += f'<span class="tag">{esc(granularity)}</span>'
-                parts.append(f"<h4>{label}</h4>")
-                parts.append(intraday.get("svg") or "")
-                parts.append(_note(intraday.get("note")))
-        else:
-            parts.append(f'<p class="note">{MISSING} 未取到上市初期日线数据</p>')
-        parts.append(_note(it.get("notes") or it.get("note")))
-        parts.append("</div>")
     return "".join(parts)
 
 
 def _section_profiles(payload: Mapping[str, Any]) -> str:
+    """个股画像总览：一行一只，字段明细见各股明细页。"""
     items = payload.get("profiles") or []
-    parts = ['<h2 id="profile">3. 个股画像：市值、估值、股东、主营与板块</h2>']
+    parts = ['<h2 id="profile">3. 个股画像总览（市值 / 估值 / 换手 / 板块）</h2>']
     if not items:
         parts.append(f'<div class="card"><p class="note">{MISSING} 未采集到个股画像</p></div>')
         return "".join(parts)
 
-    overview_rows = [
+    rows = [
         [
-            f"{esc(it.get('name'))} <span class=\"sub\">{esc(it.get('code'))}</span>",
+            _stock_cell(it.get("code"), it.get("name")),
             esc(it.get("board")),
             esc(it.get("industry")),
             fmt_num(it.get("price")),
@@ -279,11 +248,12 @@ def _section_profiles(payload: Mapping[str, Any]) -> str:
             fmt_num(it.get("pe_dynamic")),
             fmt_num(it.get("pe_ttm")),
             fmt_num(it.get("turnover"), 2, "%"),
+            esc(len((it.get("holders") or {}).get("rows") or []) or MISSING),
         ]
         for it in items
     ]
     parts.append(
-        '<div class="card"><h3>汇总表</h3>'
+        f'<div class="card"><h3>汇总表（{len(items)} 只）</h3>'
         + _table(
             [
                 "股票",
@@ -297,70 +267,15 @@ def _section_profiles(payload: Mapping[str, Any]) -> str:
                 "市盈率(动)",
                 "市盈率(TTM)",
                 "换手率",
+                "股东行数",
             ],
-            overview_rows,
+            rows,
             text_columns=(0, 1, 2),
         )
         + '<p class="note">口径：市盈率(静)=LYR（上一完整年度）；市盈率(动)=东财“动态市盈率”（当期年化推算）；'
-        "TTM=最近四个季度滚动。三者不可直接比较；亏损股可能为空或负值。</p></div>"
+        "TTM=最近四个季度滚动。三者不可直接比较；亏损股可能为空或负值。"
+        "「股东行数」为已取到的十大流通股东行数；股东明细、主营业务与估值走势见各股明细页。</p></div>"
     )
-
-    for it in items:
-        parts.append('<div class="card">')
-        parts.append(f"<h3>{esc(it.get('name'))}（{esc(it.get('code'))}） {_source_tag(it.get('source'))}</h3>")
-        parts.append(
-            '<div class="grid">'
-            + _kv("最新价", fmt_num(it.get("price")))
-            + _kv("涨跌幅", fmt_pct(it.get("pct_chg")))
-            + _kv("总市值", fmt_money(it.get("total_mv")))
-            + _kv("流通市值", fmt_money(it.get("float_mv")))
-            + _kv("市盈率(静)", fmt_num(it.get("pe_static")))
-            + _kv("市盈率(动)", fmt_num(it.get("pe_dynamic")))
-            + _kv("市盈率(TTM)", fmt_num(it.get("pe_ttm")))
-            + _kv("市净率", fmt_num(it.get("pb")))
-            + _kv("换手率", fmt_num(it.get("turnover"), 2, "%"))
-            + _kv("所属板块", esc(it.get("board")))
-            + _kv("所属行业", esc(it.get("industry")))
-            + _kv("上市日期", esc(it.get("list_date")))
-            + "</div>"
-        )
-
-        holders = it.get("holders") or {}
-        holder_rows = [
-            [
-                esc(h.get("holder")),
-                esc(h.get("rank")),
-                fmt_shares(h.get("shares")),
-                fmt_num(h.get("ratio"), 2, "%"),
-                esc(h.get("change")),
-                esc(h.get("holder_type")),
-            ]
-            for h in (holders.get("rows") or [])
-        ]
-        parts.append(
-            f"<h4>前十大流通股东（报告期 {esc(holders.get('report_date'))}，来源 {esc(holders.get('source'))}）</h4>"
-            + _table(
-                ["股东名称", "名次", "持股数量", "占流通股比例", "增减情况", "股东性质"],
-                holder_rows,
-                text_columns=(0, 4, 5),
-            )
-            + _note(holders.get("note"))
-        )
-
-        business = it.get("main_business")
-        parts.append("<h4>主营业务</h4>")
-        if business:
-            parts.append(
-                f'<p class="sub" style="font-size:12.5px;color:var(--ink)">{esc(business)}</p>'
-                + _source_tag(it.get("main_business_source"))
-            )
-        else:
-            parts.append(f'<p class="note">{MISSING} 未取到主营业务描述</p>')
-
-        if it.get("valuation_svg"):
-            parts.append("<h4>估值（市盈率）走势</h4>" + it["valuation_svg"])
-        parts.append(_note(it.get("notes") or it.get("note")))
-        parts.append("</div>")
     return "".join(parts)
 
 
@@ -464,7 +379,7 @@ def _section_sentiment(payload: Mapping[str, Any]) -> str:
             blocks.append(
                 f"<details><summary>{esc(code)}（{esc(len(items))} 条）</summary>{_news_list(items)}</details>"
             )
-        parts.append('<div class="card"><h3>东方财富个股资讯与评论摘要</h3>' + "".join(blocks) + "</div>")
+        parts.append('<div class="card"><h3>东方财富个股资讯</h3>' + "".join(blocks) + "</div>")
 
     parts.append(
         '<div class="card"><h3>同花顺热点快讯</h3>'
@@ -539,9 +454,10 @@ def render_report(payload: Mapping[str, Any]) -> str:
         f'<p class="sub">生成时间：{esc(generated_at)}｜数据源：akshare 优先，不可用时兜底东方财富 / 同花顺 公开接口。'
         "本报告仅作数据汇总，不构成投资建议。</p>",
         f'<div class="grid">{kvs}</div>',
-        '<p class="sub">目录：<a href="#index">指数</a> ｜ <a href="#new">新股</a> ｜ '
+        '<p class="sub">目录：<a href="#index">指数</a> ｜ <a href="#new">新股总览</a> ｜ '
         '<a href="#profile">个股画像</a> ｜ <a href="#sector">板块</a> ｜ '
-        '<a href="#sentiment">热点评论</a> ｜ <a href="#sources">数据源说明</a></p>',
+        '<a href="#sentiment">热点评论</a> ｜ <a href="#sources">数据源说明</a>'
+        '<br/>本程序只采集新股：股票池为近一年内上市的全部新股；每只新股的明细单独成页（stocks/&lt;代码&gt;.html）。</p>',
     ]
     body = [
         _section_indexes(payload),
@@ -557,3 +473,142 @@ def render_report(payload: Mapping[str, Any]) -> str:
         "</div></body></html>"
     )
     return "".join(head + body + [footer])
+
+
+def _stock_detail_body(stock: Mapping[str, Any], profile: Mapping[str, Any]) -> list[str]:
+    """单只新股明细页的正文块。"""
+    since = stock.get("since_ipo") or {}
+    parts: list[str] = ['<div class="card">']
+    parts.append(
+        '<div class="grid">'
+        + _kv("上市日期", esc(stock.get("list_date") or profile.get("list_date")))
+        + _kv("最新价", fmt_num(profile.get("price")))
+        + _kv("涨跌幅", fmt_pct(profile.get("pct_chg")))
+        + _kv("上市以来涨跌", fmt_pct(since.get("pct_chg")))
+        + _kv("首日收盘", fmt_num(since.get("first_close")))
+        + _kv("最新收盘", fmt_num(since.get("last_close")))
+        + _kv("总市值", fmt_money(profile.get("total_mv")))
+        + _kv("流通市值", fmt_money(profile.get("float_mv")))
+        + _kv("市盈率(静)", fmt_num(profile.get("pe_static")))
+        + _kv("市盈率(动)", fmt_num(profile.get("pe_dynamic")))
+        + _kv("市盈率(TTM)", fmt_num(profile.get("pe_ttm")))
+        + _kv("市净率", fmt_num(profile.get("pb")))
+        + _kv("换手率", fmt_num(profile.get("turnover"), 2, "%"))
+        + _kv("所属板块", esc(profile.get("board")))
+        + _kv("所属行业", esc(profile.get("industry")))
+        + _kv("交易日数", esc(since.get("rows")))
+        + "</div>"
+        + _source_tag(stock.get("source") or profile.get("source"))
+    )
+    parts.append("</div>")
+
+    parts.append('<div class="card"><h3>上市至今行情</h3>')
+    if since.get("line_svg") or since.get("candle_svg"):
+        parts.append(since.get("line_svg") or "")
+        if since.get("candle_svg"):
+            parts.append("<h4>上市至今日 K 线</h4>" + since["candle_svg"])
+    else:
+        parts.append(f'<p class="note">{MISSING} 未取到上市至今日线数据</p>')
+    parts.append(_note(stock.get("notes") or stock.get("note")))
+    parts.append("</div>")
+
+    first_days = stock.get("first_days") or []
+    parts.append('<div class="card"><h3>上市初期逐日行情与分时</h3>')
+    if first_days:
+        rows = [
+            [
+                esc(day.get("date")),
+                fmt_num(day.get("open")),
+                fmt_num(day.get("high")),
+                fmt_num(day.get("low")),
+                fmt_num(day.get("close")),
+                fmt_pct(day.get("pct_chg")),
+                fmt_num(day.get("turnover"), 2, "%"),
+                fmt_money(day.get("amount")),
+            ]
+            for day in first_days
+        ]
+        parts.append(
+            f"<h4>上市前 {len(first_days)} 个交易日</h4>"
+            + _table(["日期", "开盘", "最高", "最低", "收盘", "涨跌幅", "换手率", "成交额"], rows)
+        )
+        for day in first_days:
+            intraday = day.get("intraday") or {}
+            label = f"{esc(day.get('date'))} 分时图"
+            if intraday.get("granularity"):
+                label += f'<span class="tag">{esc(intraday["granularity"])}</span>'
+            parts.append(f"<h4>{label}</h4>")
+            parts.append(intraday.get("svg") or "")
+            parts.append(_note(intraday.get("note")))
+    else:
+        parts.append(f'<p class="note">{MISSING} 未取到上市初期日线数据</p>')
+    parts.append("</div>")
+
+    holders = profile.get("holders") or {}
+    holder_rows = [
+        [
+            esc(h.get("holder")),
+            esc(h.get("rank")),
+            fmt_shares(h.get("shares")),
+            fmt_num(h.get("ratio"), 2, "%"),
+            esc(h.get("change")),
+            esc(h.get("holder_type")),
+        ]
+        for h in (holders.get("rows") or [])
+    ]
+    parts.append(
+        '<div class="card">'
+        + f"<h3>前十大流通股东（报告期 {esc(holders.get('report_date'))}，来源 {esc(holders.get('source'))}）</h3>"
+        + _table(
+            ["股东名称", "名次", "持股数量", "占流通股比例", "增减情况", "股东性质"],
+            holder_rows,
+            text_columns=(0, 4, 5),
+        )
+        + _note(holders.get("note"))
+        + "</div>"
+    )
+
+    business = profile.get("main_business")
+    parts.append('<div class="card"><h3>主营业务</h3>')
+    if business:
+        parts.append(
+            f'<p class="sub" style="font-size:12.5px;color:var(--ink)">{esc(business)}</p>'
+            + _source_tag(profile.get("main_business_source"))
+        )
+    else:
+        parts.append(f'<p class="note">{MISSING} 未取到主营业务描述</p>')
+    if profile.get("valuation_svg"):
+        parts.append("<h4>估值（市盈率）走势</h4>" + profile["valuation_svg"])
+    parts.append(_note(profile.get("notes") or profile.get("note")))
+    parts.append("</div>")
+    return parts
+
+
+def render_stock_page(
+    payload: Mapping[str, Any],
+    stock: Mapping[str, Any] | None = None,
+    profile: Mapping[str, Any] | None = None,
+) -> str:
+    """渲染单只新股的明细页（总览页只留汇总表，避免单页体积失控）。"""
+    stock = stock or {}
+    profile = profile or {}
+    code = stock.get("code") or profile.get("code")
+    name = stock.get("name") or profile.get("name")
+    meta = payload.get("meta") or {}
+    generated_at = meta.get("generated_at") or datetime.now().astimezone().isoformat(timespec="seconds")
+    title = f"{esc(name)}（{esc(code)}）新股明细"
+    head = [
+        "<!DOCTYPE html>",
+        '<html lang="zh-CN"><head><meta charset="utf-8"/>',
+        '<meta name="viewport" content="width=device-width,initial-scale=1"/>',
+        f"<title>{title}</title>",
+        f'<style>{CSS}</style></head><body><div class="wrap">',
+        f"<h1>{title}</h1>",
+        f'<p class="sub">生成时间：{esc(generated_at)}｜<a href="../index.html">返回总览</a>｜'
+        "数据源：akshare 优先，不可用时兜底东方财富 / 同花顺公开接口；不可得字段一律标 —，不估算、不编造。</p>",
+    ]
+    footer = (
+        "<footer>本页由 ashare_yearly 自动生成，仅作公开数据汇总，不构成投资建议。"
+        "缺失原因汇总见总览页“数据源与缺失说明”。</footer></div></body></html>"
+    )
+    return "".join(head + _stock_detail_body(stock, profile) + [footer])
