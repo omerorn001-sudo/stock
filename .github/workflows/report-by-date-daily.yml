@@ -3,19 +3,54 @@ name: A股指定日期报告（每日自动）
 on:
   schedule:
     # GitHub Actions 的 cron 使用 UTC；UTC 11:30 = 北京时间 19:30
-    # 定时任务可能因 GitHub Actions 调度而延迟数分钟至数十分钟
+    # 调度可能延迟数小时；report_date.py 按任务创建时间还原最近的计划日期
     - cron: '30 11 * * *'
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      date:
+        description: '可选：补跑日期 YYYY-MM-DD；留空使用已收盘日期'
+        required: false
+        type: string
+      upload_artifact:
+        description: '额外保存 GitHub PDF 附件（需要可用的 Artifact 存储额度）'
+        type: boolean
+        default: false
+  push:
+    paths:
+      - '.github/workflows/report-by-date*.yml'
+      - 'scripts/report_date.py'
+      - 'tests/test_report_date.py'
+  pull_request:
+    paths:
+      - '.github/workflows/report-by-date*.yml'
+      - 'scripts/report_date.py'
+      - 'tests/test_report_date.py'
 
 permissions:
   contents: write
+  actions: read
 
 concurrency:
-  group: report-by-date-daily
+  group: report-by-date-daily-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - name: 验证定时报告日期回归用例
+        run: python -m unittest discover -s tests -p test_report_date.py -v
+
   report:
+    needs: validate
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     timeout-minutes: 75
     concurrency:
@@ -42,8 +77,11 @@ jobs:
       - name: 确定北京时间报告日期
         id: report-date
         shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REQUESTED_DATE: ${{ inputs.date }}
         run: |
-          report_date="$(TZ=Asia/Shanghai date +%F)"
+          report_date="$(python scripts/report_date.py --date "$REQUESTED_DATE")"
           echo "date=${report_date}" >> "$GITHUB_OUTPUT"
           echo "北京时间报告日期：${report_date}"
 
@@ -53,12 +91,17 @@ jobs:
         env:
           REPORT_DATE: ${{ steps.report-date.outputs.date }}
         run: |
+          rm -f "reports/${REPORT_DATE}.html"
           set +e
           bun run src/report-by-date.ts "$REPORT_DATE" 2>&1 | tee /tmp/report-by-date.log
           status=${PIPESTATUS[0]}
           set -e
 
           if [ "$status" -eq 0 ]; then
+            if [ ! -s "reports/${REPORT_DATE}.html" ]; then
+              echo "::error::脚本成功退出但没有生成 HTML 报告"
+              exit 1
+            fi
             echo "generated=true" >> "$GITHUB_OUTPUT"
             exit 0
           fi
@@ -71,27 +114,6 @@ jobs:
 
           echo "报告生成失败，退出码：${status}"
           exit "$status"
-
-      - name: 生成 PDF 并上传 Google Drive
-        if: steps.generate.outputs.generated == 'true'
-        shell: bash
-        env:
-          REPORT_DATE: ${{ steps.report-date.outputs.date }}
-        run: |
-          python scripts/pdf_drive.py report \
-            --html "reports/${REPORT_DATE}.html" \
-            --pdf "reports/${REPORT_DATE}.pdf" \
-            --date "$REPORT_DATE" \
-            --upload-drive
-
-      - name: 保存 PDF Artifact
-        if: steps.generate.outputs.generated == 'true'
-        uses: actions/upload-artifact@v5
-        with:
-          name: a-share-report-${{ steps.report-date.outputs.date }}
-          path: reports/${{ steps.report-date.outputs.date }}.pdf
-          if-no-files-found: error
-          retention-days: 30
 
       - name: 提交 HTML 报告
         if: steps.generate.outputs.generated == 'true'
@@ -112,3 +134,32 @@ jobs:
           git commit -m "report(${REPORT_DATE}): 每日自动指定日期报告"
           git pull --rebase origin "$TARGET_BRANCH"
           git push origin "HEAD:${TARGET_BRANCH}"
+
+      - name: 生成 PDF 并上传 Google Drive
+        id: pdf
+        if: ${{ !cancelled() && steps.generate.outputs.generated == 'true' }}
+        shell: bash
+        env:
+          REPORT_DATE: ${{ steps.report-date.outputs.date }}
+        run: |
+          python scripts/pdf_drive.py report \
+            --html "reports/${REPORT_DATE}.html" \
+            --pdf "reports/${REPORT_DATE}.pdf" \
+            --date "$REPORT_DATE" \
+            --upload-drive
+
+      - name: 可选的 GitHub PDF 备份
+        id: artifact
+        if: ${{ !cancelled() && inputs.upload_artifact == true && steps.pdf.outcome == 'success' }}
+        continue-on-error: true
+        uses: actions/upload-artifact@v5
+        with:
+          name: a-share-report-${{ steps.report-date.outputs.date }}
+          path: reports/${{ steps.report-date.outputs.date }}.pdf
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: 提示附件备份失败
+        if: ${{ !cancelled() && steps.artifact.outcome == 'failure' }}
+        run: |
+          echo "::warning::GitHub 附件备份失败。HTML 提交和云盘归档步骤已独立执行，请分别查看其状态。"

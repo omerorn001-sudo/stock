@@ -42,9 +42,33 @@ CONCURRENCY=6 bun run src/report-by-date.ts 2026-07-29
 
 GitHub 上手动跑：**Actions → A股指定日期报告（手动）→ Run workflow**，填入日期即可。
 
+## 每日自动运行与报告交付
+
+- 自动工作流：[A股指定日期报告（每日自动）](https://github.com/zencolab/stock/actions/workflows/report-by-date-daily.yml)，每天 UTC 11:30（北京时间 19:30）调度。
+- GitHub 可能延迟创建任务；日期根据该次任务的 `created_at` 对应的最近一个计划时刻确定。即使晚到北京时间次日凌晨，或任务排队跨日，仍生成原计划日期的报告。工作流需要 `actions: read` 读取自身创建时间；读取失败会明确报错。
+- 自动工作流也支持手动填写 `date` 补跑。手动留空时，北京时间15:00前取前一天，15:00及以后取当天；是否为交易日仍由原报告脚本检查，周末和节假日正常跳过。
+- HTML 生成后先提交到 `reports/YYYY-MM-DD.html`，随后生成 PDF 并上传 Google Drive。PDF 或云盘步骤失败会保留已经提交的 HTML，并使任务显示失败，便于排查。
+- GitHub PDF Artifact 是额外备份，默认关闭。手动运行可勾选 `upload_artifact`，保留7天；备份失败显示警告，不阻断 HTML 提交或云盘归档。若手动关闭 `upload_drive`，又需要下载 PDF，请开启此备份选项。
+- 修改这两个工作流、日期脚本或对应测试时，会自动运行日期回归测试；普通代码检查不会触发行情采集。
+
+### 2026-09-20 自动运行修复
+
+实际日志确认了两类问题：
+
+1. [9月17日任务](https://github.com/zencolab/stock/actions/runs/35241146021)已生成 HTML 和 PDF，云盘归档步骤成功，但 GitHub Artifact 存储额度已满，导致旧工作流后面的 HTML 提交被跳过。
+2. [9月14日任务](https://github.com/zencolab/stock/actions/runs/34871933230)延迟到北京时间9月15日00:58创建，旧逻辑选择尚未开盘的9月15日，随后误以“非交易日”跳过。
+
+本次修复调整日期选择和交付顺序，保留原有行情计算、报告内容及独立的 `daily-report.yml` 工作流。GitHub 账户限制或 runner 不可用导致的启动失败，需要在 GitHub Actions 页面另行处理；代码修改不能解除平台限制。
+
+日期回归测试：
+
+```bash
+python -m unittest discover -s tests -p test_report_date.py -v
+```
+
 ## 耗时与限制
 
-- 全市场约 5500 只股票，每只 2 次请求（不复权 + 前复权），入选 200 只再各 2 次，共约 1.1 万次请求；并发 8 时实测约 **7～10 分钟**。工作流已设 timeout 60 分钟。
+- 全市场约 5500 只股票，每只 2 次请求（不复权 + 前复权），入选 200 只再各 2 次，共约 1.1 万次请求；并发 8 时实测约 **7～10 分钟**。采集工作流的 timeout 为75分钟，实际耗时受接口和增强数据采集影响。
 - 若当日有效样本不足 100 只，脚本直接报错退出，**不会产出残缺报告**。
 
 ## 口径说明（报告页内也会写明）

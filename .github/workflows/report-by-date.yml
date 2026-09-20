@@ -12,6 +12,10 @@ on:
         required: true
         type: boolean
         default: true
+      upload_artifact:
+        description: '额外保存 GitHub PDF 附件（需要可用的 Artifact 存储额度）'
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -45,34 +49,68 @@ jobs:
       - name: 安装 Drive 上传依赖
         run: python -m pip install --disable-pip-version-check 'requests>=2.32.0'
 
+      - name: 校验报告日期
+        id: report-date
+        env:
+          REQUESTED_DATE: ${{ inputs.date }}
+        run: |
+          report_date="$(python scripts/report_date.py --date "$REQUESTED_DATE")"
+          echo "date=${report_date}" >> "$GITHUB_OUTPUT"
+
       - name: 生成指定日期 HTML 报告
-        run: bun run src/report-by-date.ts "${{ inputs.date }}"
+        id: generate
+        env:
+          REPORT_DATE: ${{ steps.report-date.outputs.date }}
+        run: |
+          rm -f "reports/${REPORT_DATE}.html"
+          bun run src/report-by-date.ts "$REPORT_DATE"
+          test -s "reports/${REPORT_DATE}.html"
+
+      - name: 提交 HTML 报告
+        env:
+          REPORT_DATE: ${{ steps.report-date.outputs.date }}
+          TARGET_BRANCH: ${{ github.ref_name }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "reports/${REPORT_DATE}.html"
+          if git diff --cached --quiet; then
+            echo "报告没有变化，跳过提交。"
+            exit 0
+          fi
+          git commit -m "report(${REPORT_DATE}): 指定日期报告"
+          git pull --rebase origin "$TARGET_BRANCH"
+          git push origin "HEAD:${TARGET_BRANCH}"
 
       - name: 生成 PDF 并按需上传 Google Drive
+        id: pdf
+        if: ${{ !cancelled() && steps.generate.outcome == 'success' }}
         shell: bash
+        env:
+          REPORT_DATE: ${{ steps.report-date.outputs.date }}
+          UPLOAD_DRIVE: ${{ inputs.upload_drive }}
         run: |
           args=(report
-            --html "reports/${{ inputs.date }}.html"
-            --pdf "reports/${{ inputs.date }}.pdf"
-            --date "${{ inputs.date }}")
-          if [[ "${{ inputs.upload_drive }}" == "true" ]]; then
+            --html "reports/${REPORT_DATE}.html"
+            --pdf "reports/${REPORT_DATE}.pdf"
+            --date "$REPORT_DATE")
+          if [[ "$UPLOAD_DRIVE" == "true" ]]; then
             args+=(--upload-drive)
           fi
           python scripts/pdf_drive.py "${args[@]}"
 
-      - name: 保存 PDF Artifact
+      - name: 可选的 GitHub PDF 备份
+        id: artifact
+        if: ${{ !cancelled() && inputs.upload_artifact == true && steps.pdf.outcome == 'success' }}
+        continue-on-error: true
         uses: actions/upload-artifact@v5
         with:
-          name: a-share-report-${{ inputs.date }}
-          path: reports/${{ inputs.date }}.pdf
+          name: a-share-report-${{ steps.report-date.outputs.date }}
+          path: reports/${{ steps.report-date.outputs.date }}.pdf
           if-no-files-found: error
-          retention-days: 30
+          retention-days: 7
 
-      - name: 提交 HTML 报告
+      - name: 提示附件备份失败
+        if: ${{ !cancelled() && steps.artifact.outcome == 'failure' }}
         run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add "reports/${{ inputs.date }}.html"
-          git diff --staged --quiet || git commit -m "report(${{ inputs.date }}): 指定日期报告"
-          git pull --rebase --autostash || true
-          git push
+          echo "::warning::GitHub 附件备份失败。HTML 提交和云盘归档步骤已独立执行，请分别查看其状态。"
