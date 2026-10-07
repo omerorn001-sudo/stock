@@ -211,6 +211,10 @@ class EastmoneyDragonTigerClient:
             if not isinstance(payload, dict):
                 raise DragonTigerError(f"东方财富{label}响应结构异常")
             if payload.get("success") is False:
+                message = str(payload.get("message") or "")
+                if "数据为空" in message:
+                    # 非交易日或数据尚未发布：东方财富返回 success=false，按无数据处理
+                    return {**payload, "result": None}
                 raise DragonTigerError(
                     f"东方财富{label}接口失败：{payload.get('message') or 'unknown'}"
                 )
