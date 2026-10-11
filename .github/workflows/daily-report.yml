@@ -2,19 +2,28 @@ name: A股每日涨跌幅报告
 
 on:
   schedule:
-    # UTC 08:30 = 北京时间 16:30，周一至周五（收盘后运行；非交易日脚本会自动跳过）
-    # 注意：GitHub Actions 定时任务可能有数分钟至数十分钟延迟
+    # UTC 08:30 = 北京时间 16:30，周一至周五（收盘后运行；非交易日自动跳过）
     - cron: '30 8 * * 1-5'
   workflow_dispatch:
     inputs:
       date:
-        description: '报告日期 YYYY-MM-DD；留空 = 今天（北京时间）。填历史交易日会按当天行情全市场回算'
+        description: '单日：报告日期 YYYY-MM-DD；留空 = 今天（北京时间）'
         required: false
-        type: string
         default: ''
+      start:
+        description: '批量补全：开始日期 YYYY-MM-DD（填了就按区间补全，忽略上面的单日）'
+        required: false
+        default: ''
+      end:
+        description: '批量补全：结束日期 YYYY-MM-DD；留空 = 今天'
+        required: false
+        default: ''
+      regenerate:
+        description: '已存在的 HTML 也重新生成（默认只补缺失的，已有的只补 PDF 和 Drive）'
+        type: boolean
+        default: false
       upload_drive:
-        description: '上传到 Google Drive（CNINFO/A股每日涨跌幅报告）'
-        required: true
+        description: '上传 HTML + PDF 到 Google Drive（CNINFO/A股每日涨跌幅报告）'
         type: boolean
         default: true
 
@@ -22,95 +31,113 @@ permissions:
   contents: write
 
 concurrency:
-  group: daily-report-${{ inputs.date || 'today' }}
+  group: daily-report-${{ inputs.start || inputs.date || 'today' }}
   cancel-in-progress: false
 
+env:
+  TZ: Asia/Shanghai
+
 jobs:
-  report:
+  plan:
     runs-on: ubuntu-latest
-    timeout-minutes: 75
-    env:
-      TZ: Asia/Shanghai
-      GDRIVE_APPS_SCRIPT_URL: ${{ secrets.GDRIVE_APPS_SCRIPT_URL }}
-      GDRIVE_APPS_SCRIPT_TOKEN: ${{ secrets.GDRIVE_APPS_SCRIPT_TOKEN }}
-      GDRIVE_APPS_SCRIPT_MAX_BYTES: ${{ vars.GDRIVE_APPS_SCRIPT_MAX_BYTES || '36700160' }}
+    timeout-minutes: 10
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
     steps:
       - uses: actions/checkout@v4
-
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
-
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-
-      - name: 确定报告日期与模式
-        id: params
+      - id: plan
         shell: bash
         env:
-          REQUESTED_DATE: ${{ inputs.date }}
+          IN_DATE: ${{ inputs.date }}
+          IN_START: ${{ inputs.start }}
+          IN_END: ${{ inputs.end }}
         run: |
-          today=$(TZ=Asia/Shanghai date +%F)
-          requested="$(echo "${REQUESTED_DATE:-}" | tr -d '[:space:]')"
-          if [[ -z "$requested" || "$requested" == "$today" ]]; then
-            echo "date=$today" >> "$GITHUB_OUTPUT"
-            echo "mode=today" >> "$GITHUB_OUTPUT"
-            echo "报告日期：$today（当日实时榜单）"
+          today=$(date +%F)
+          start=$(echo "${IN_START:-}" | tr -d '[:space:]'); end=$(echo "${IN_END:-}" | tr -d '[:space:]')
+          single=$(echo "${IN_DATE:-}" | tr -d '[:space:]')
+          if [[ -n "$start" ]]; then
+            matrix=$(python scripts/trading_days.py --start "$start" --end "${end:-$today}" --chunk 8 --matrix)
           else
-            d="$(python scripts/report_date.py --date "$requested")"
-            echo "date=$d" >> "$GITHUB_OUTPUT"
-            echo "mode=history" >> "$GITHUB_OUTPUT"
-            echo "报告日期：$d（历史日期，全市场回算）"
+            d="${single:-$today}"
+            if [[ "$d" != "$today" ]]; then python scripts/report_date.py --date "$d" >/dev/null; fi
+            matrix=$(jq -cn --arg d "$d" '{include:[{label:$d,dates:$d}]}')
           fi
-          if [[ "${{ github.event_name }}" == "schedule" || "${{ inputs.upload_drive }}" == "true" ]]; then
-            echo "upload=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "upload=false" >> "$GITHUB_OUTPUT"
-          fi
+          echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
+          echo "$matrix" | jq -r '.include[].label'
 
-      - name: 生成报告（当日）
-        if: steps.params.outputs.mode == 'today'
-        run: bun run src/main.ts
-
-      - name: 生成报告（历史日期）
-        if: steps.params.outputs.mode == 'history'
-        env:
-          REPORT_DATE: ${{ steps.params.outputs.date }}
+  report:
+    needs: plan
+    name: report ${{ matrix.label }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix: ${{ fromJson(needs.plan.outputs.matrix) }}
+    env:
+      GDRIVE_APPS_SCRIPT_URL: ${{ secrets.GDRIVE_APPS_SCRIPT_URL }}
+      GDRIVE_APPS_SCRIPT_TOKEN: ${{ secrets.GDRIVE_APPS_SCRIPT_TOKEN }}
+      GDRIVE_APPS_SCRIPT_MAX_BYTES: ${{ vars.GDRIVE_APPS_SCRIPT_MAX_BYTES || '36700160' }}
+      UPLOAD: ${{ github.event_name == 'schedule' || inputs.upload_drive }}
+      REGENERATE: ${{ inputs.regenerate }}
+      DATES: ${{ matrix.dates }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: 安装 PDF 中文字体与上传依赖
         run: |
-          rm -f "reports/${REPORT_DATE}.html"
-          bun run src/report-by-date.ts "$REPORT_DATE"
-          test -s "reports/${REPORT_DATE}.html"
+          sudo apt-get update -qq && sudo apt-get install -y -qq fonts-noto-cjk >/dev/null
+          python -m pip install --quiet "requests>=2.32,<3"
 
-      - name: 提交报告到仓库
-        env:
-          REPORT_DATE: ${{ steps.params.outputs.date }}
+      - name: 生成 HTML 报告
+        shell: bash
+        run: |
+          today=$(date +%F); failed=0
+          for d in $DATES; do
+            if [[ -f "reports/$d.html" && "$REGENERATE" != "true" && "$d" != "$today" ]]; then
+              echo "✓ $d 已有 HTML，跳过生成"; continue
+            fi
+            if [[ "$d" == "$today" ]]; then
+              bun run src/main.ts || { echo "::error::$d 当日报告生成失败"; failed=1; }
+            else
+              REPORT_DATE="$d" bun run src/report-by-date.ts "$d" || { echo "::error::$d 历史报告生成失败"; failed=1; }
+            fi
+          done
+          echo "FAILED=$failed" >> "$GITHUB_ENV"
+
+      - name: 提交 HTML 到仓库
+        shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add reports/ || true
-          if git diff --cached --quiet; then
-            echo "无新报告（可能为非交易日），跳过提交"
-          else
-            git commit -m "report: ${REPORT_DATE}"
-            for attempt in 1 2 3; do
-              if git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}"; then
-                exit 0
-              fi
-              git rebase --abort || true
-              sleep 5
-            done
-            exit 1
-          fi
+          git add reports/*.html || true
+          if git diff --cached --quiet; then echo "没有新的 HTML"; exit 0; fi
+          git commit -q -m "report: ${{ matrix.label }}"
+          for attempt in 1 2 3 4 5 6; do
+            git pull -q --rebase origin "${GITHUB_REF_NAME}" && git push -q origin "HEAD:${GITHUB_REF_NAME}" && exit 0
+            git rebase --abort 2>/dev/null || true
+            sleep $((RANDOM % 20 + 5))
+          done
+          exit 1
 
-      - name: 归档到 Google Drive（CNINFO/A股每日涨跌幅报告）
-        if: steps.params.outputs.upload == 'true'
+      - name: 归档 HTML + PDF 到 Google Drive
+        if: env.UPLOAD == 'true'
         shell: bash
-        env:
-          REPORT_DATE: ${{ steps.params.outputs.date }}
         run: |
-          if [[ ! -f "reports/${REPORT_DATE}.html" ]]; then
-            echo "没有 ${REPORT_DATE} 的报告（非交易日），跳过 Drive 归档"; exit 0
-          fi
-          python -m pip install --quiet "requests>=2.32,<3"
-          python scripts/drive_archive.py --dataset daily_report --date "$REPORT_DATE" "reports/${REPORT_DATE}.html"
+          for d in $DATES; do
+            if [[ ! -f "reports/$d.html" ]]; then echo "没有 $d 的报告（非交易日或生成失败），跳过"; continue; fi
+            python scripts/drive_archive.py --dataset daily_report --date "$d" "reports/$d.html" \
+              || echo "FAILED=1" >> "$GITHUB_ENV"
+          done
+
+      - name: 汇总
+        if: always()
+        run: test "${FAILED:-0}" = "0"
