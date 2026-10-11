@@ -173,7 +173,7 @@ const CLIST_HOSTS = ["https://push2delay.eastmoney.com", "https://push2.eastmone
 type Stock = { code: string; name: string; total: number; float: number };
 const universe: Stock[] = [];
 {
-  let total = 0, hostOK = "";
+  let total = 0, hostOK = "", lastErr = "";
   for (const host of CLIST_HOSTS) {
     universe.length = 0;
     let page = 1, failed = false;
@@ -185,7 +185,7 @@ const universe: Stock[] = [];
       );
       const diff = j?.data?.diff;
       if (!diff?.length) {
-        if (page === 1) failed = true;
+        if (page === 1) { failed = true; lastErr = j?.__error || (j ? "空响应" : ""); }
         break;
       }
       total = j.data.total || total;
@@ -197,7 +197,35 @@ const universe: Stock[] = [];
       await sleep(120);
     }
     if (!failed && universe.length) { hostOK = host; break; }
-    console.warn(`名单接口 ${host} 失败，尝试下一个镜像…`);
+    console.warn(`名单接口 ${host} 失败，尝试下一个镜像…${lastErr ? "（" + lastErr + "）" : ""}`);
+  }
+  if (!universe.length) {
+    // 东财全部镜像失败（常见于数据中心 IP 被限流）→ 新浪财经沪深A股列表兜底。
+    // 新浪只给市值（万元）与价格，股本 = 市值 ÷ 价格；剔除北交所（bj 前缀）。
+    console.warn("东财名单不可用，改用新浪财经名单兜底…");
+    universe.length = 0;
+    for (let page = 1; page <= 100; page++) {
+      const rows = await getJSON(
+        `https://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeData?page=${page}&num=100&sort=symbol&asc=1&node=hs_a`,
+        "https://finance.sina.com.cn/",
+        3
+      );
+      if (!Array.isArray(rows) || !rows.length) {
+        if (page === 1) console.warn(`新浪名单接口失败：${rows?.__error || "空响应"}`);
+        break;
+      }
+      for (const r of rows) {
+        const sym = String(r.symbol || "");
+        if (!/^(sh|sz)\d{6}$/.test(sym)) continue;
+        const price = Number(r.trade) > 0 ? Number(r.trade) : Number(r.settlement);
+        const totalShares = price > 0 ? (Number(r.mktcap) * 1e4) / price : NaN;
+        const floatShares = price > 0 ? (Number(r.nmc) * 1e4) / price : NaN;
+        universe.push({ code: sym.slice(2), name: String(r.name), total: totalShares, float: floatShares });
+      }
+      await sleep(150);
+    }
+    total = universe.length;
+    hostOK = "新浪财经（兜底）";
   }
   if (!universe.length) {
     console.error("全市场名单获取失败：所有镜像域名均未返回数据");
