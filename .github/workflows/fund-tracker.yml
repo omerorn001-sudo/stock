@@ -47,6 +47,9 @@ jobs:
       contents: write
     env:
       TZ: Asia/Shanghai
+      GDRIVE_APPS_SCRIPT_URL: ${{ secrets.GDRIVE_APPS_SCRIPT_URL }}
+      GDRIVE_APPS_SCRIPT_TOKEN: ${{ secrets.GDRIVE_APPS_SCRIPT_TOKEN }}
+      GDRIVE_APPS_SCRIPT_MAX_BYTES: ${{ vars.GDRIVE_APPS_SCRIPT_MAX_BYTES || '36700160' }}
       CATEGORY: ${{ inputs.category || '全部' }}
     steps:
       - uses: actions/checkout@v4
@@ -100,3 +103,10 @@ jobs:
           done
           echo '提交失败：检查仓库写权限/分支保护；报告仍保存在本次 Actions 附件中。'
           exit 1
+      - name: 归档到 Google Drive（CNINFO/基金TOP50与持仓分析）
+        if: success()
+        shell: bash
+        run: |
+          dir=$(ls -d reports/funds/20??-??-?? 2>/dev/null | sort | tail -1)
+          if [[ -z "$dir" ]]; then echo "没有找到基金报告，跳过 Drive 归档"; exit 0; fi
+          python scripts/drive_archive.py --dataset fund_tracker --date "$(basename "$dir")" "$dir"
