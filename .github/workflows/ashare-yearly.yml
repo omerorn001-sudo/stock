@@ -1,22 +1,101 @@
 name: A股新股报告（近一年上市）
 
 on:
-  workflow_dispatch:
   schedule:
-    # UTC 09:30 = 北京时间 17:30（收盘后），工作日执行
-    - cron: "30 9 * * 1-5"
+    # 每周一次：UTC 周五 09:30 = 北京时间周五 17:30（收盘后）
+    - cron: "30 9 * * 5"
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "单次：报告截止日期 YYYY-MM-DD；留空 = 今天（最新报告，会更新 index.html）"
+        required: false
+        default: ""
+      start:
+        description: "批量补全：开始日期 YYYY-MM-DD（按每周最后一个交易日各出一份；填了就忽略单次日期）"
+        required: false
+        default: ""
+      end:
+        description: "批量补全：结束日期 YYYY-MM-DD；留空 = 今天"
+        required: false
+        default: ""
+      regenerate:
+        description: "已存在的周报也重新生成（默认跳过已有的）"
+        type: boolean
+        default: false
+      upload_drive:
+        description: "上传 HTML + PDF 到 Google Drive（CNINFO/A股新股报告）"
+        type: boolean
+        default: true
 
 permissions:
   contents: write
 
+concurrency:
+  group: ashare-yearly-${{ inputs.start || inputs.date || 'latest' }}
+  cancel-in-progress: false
+
+env:
+  TZ: Asia/Shanghai
+
 jobs:
-  build:
+  plan:
     runs-on: ubuntu-latest
-    timeout-minutes: 300
+    timeout-minutes: 10
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+      empty: ${{ steps.plan.outputs.empty }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - id: plan
+        shell: bash
+        env:
+          IN_DATE: ${{ inputs.date }}
+          IN_START: ${{ inputs.start }}
+          IN_END: ${{ inputs.end }}
+          REGENERATE: ${{ inputs.regenerate }}
+        run: |
+          today=$(date +%F)
+          start=$(echo "${IN_START:-}" | tr -d '[:space:]'); end=$(echo "${IN_END:-}" | tr -d '[:space:]')
+          single=$(echo "${IN_DATE:-}" | tr -d '[:space:]')
+          if [[ -n "$start" ]]; then
+            skip=()
+            if [[ "$REGENERATE" != "true" ]]; then skip=(--skip-existing 'reports/ashare-yearly/ashare-yearly-{date}.html'); fi
+            matrix=$(python scripts/trading_days.py --start "$start" --end "${end:-$today}" --weekly --chunk 1 --matrix "${skip[@]}" \
+              | jq -c '.include |= map(. + {mode:"history"})')
+          elif [[ -n "$single" && "$single" != "$today" ]]; then
+            python scripts/report_date.py --date "$single" >/dev/null
+            matrix=$(jq -cn --arg d "$single" '{include:[{label:$d,dates:$d,mode:"history"}]}')
+          else
+            matrix=$(jq -cn --arg d "$today" '{include:[{label:$d,dates:$d,mode:"latest"}]}')
+          fi
+          if [[ $(echo "$matrix" | jq '.include | length') == 0 ]]; then
+            echo "empty=true" >> "$GITHUB_OUTPUT"; matrix='{"include":[{"label":"none","dates":"","mode":"none"}]}'
+          else
+            echo "empty=false" >> "$GITHUB_OUTPUT"
+          fi
+          echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
+          echo "$matrix" | jq -r '.include[].label'
+
+  build:
+    needs: plan
+    if: needs.plan.outputs.empty != 'true'
+    name: build ${{ matrix.label }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix: ${{ fromJson(needs.plan.outputs.matrix) }}
     env:
       GDRIVE_APPS_SCRIPT_URL: ${{ secrets.GDRIVE_APPS_SCRIPT_URL }}
       GDRIVE_APPS_SCRIPT_TOKEN: ${{ secrets.GDRIVE_APPS_SCRIPT_TOKEN }}
       GDRIVE_APPS_SCRIPT_MAX_BYTES: ${{ vars.GDRIVE_APPS_SCRIPT_MAX_BYTES || '36700160' }}
+      UPLOAD: ${{ github.event_name == 'schedule' || inputs.upload_drive }}
+      REPORT_DATE: ${{ matrix.dates }}
+      MODE: ${{ matrix.mode }}
     steps:
       - name: 拉取代码
         uses: actions/checkout@v4
@@ -28,43 +107,65 @@ jobs:
           cache: pip
 
       - name: 安装依赖
-        run: pip install -r ashare_yearly/requirements.txt
+        run: |
+          pip install -r ashare_yearly/requirements.txt
+          sudo apt-get update -qq && sudo apt-get install -y -qq fonts-noto-cjk >/dev/null
 
       - name: 接口自检（失败不中止，仅用于诊断）
+        if: matrix.mode == 'latest'
         continue-on-error: true
         run: python -m ashare_yearly.main --self-check
 
       - name: 离线自测
         run: python -m pytest ashare_yearly/tests -q
 
-      - name: 采集并生成报告
+      - name: 采集并生成报告（最新）
+        if: matrix.mode == 'latest'
         run: python -m ashare_yearly.main --deep-limit 0 --intraday-days 10
 
-      - name: 提交报告
+      - name: 采集并生成报告（历史周报）
+        if: matrix.mode == 'history'
+        run: |
+          # 历史日期没有分时数据（接口只保留近期），因此不取分时；输出到临时目录，不覆盖最新 index.html / stocks/
+          python -m ashare_yearly.main --deep-limit 0 --intraday-days 0 --end "$REPORT_DATE" --out "artifacts/ashare-yearly-$REPORT_DATE"
+          cp "artifacts/ashare-yearly-$REPORT_DATE/ashare-yearly-$REPORT_DATE.html" reports/ashare-yearly/
+
+      - name: 提交报告（仓库只保留 HTML）
+        shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A reports/ashare-yearly
-          # 原始 CSV（data/）只随 artifact 下载，不入库，避免上千个文件撑大仓库
-          git reset -q -- reports/ashare-yearly/data || true
-          git diff --cached --quiet || git commit -m "chore(ashare-yearly): 更新A股新股报告"
-          git push
+          # 原始 CSV / JSON（data/、manifest.json）只随 Actions 附件下载，不入库
+          git ls-files reports/ashare-yearly | grep -vE '\.html$' | xargs -r git rm -q --cached --
+          if [[ "$MODE" == "latest" ]]; then
+            git add -- 'reports/ashare-yearly/*.html'
+          else
+            git add -- "reports/ashare-yearly/ashare-yearly-$REPORT_DATE.html"
+          fi
+          if git diff --cached --quiet; then echo "没有变化"; exit 0; fi
+          git commit -q -m "chore(ashare-yearly): A股新股报告 $REPORT_DATE"
+          for attempt in 1 2 3 4 5 6; do
+            git pull -q --rebase origin "${GITHUB_REF_NAME}" && git push -q origin "HEAD:${GITHUB_REF_NAME}" && exit 0
+            git rebase --abort 2>/dev/null || true
+            sleep $((RANDOM % 20 + 5))
+          done
+          exit 1
 
-      - name: 归档到 Google Drive（CNINFO/A股新股报告）
+      - name: 归档 HTML + PDF 到 Google Drive（CNINFO/A股新股报告）
+        if: env.UPLOAD == 'true'
         shell: bash
         run: |
-          latest=$(ls reports/ashare-yearly/ashare-yearly-20??-??-??.html 2>/dev/null | sort | tail -1)
-          if [[ -z "$latest" ]]; then echo "没有找到报告，跳过 Drive 归档"; exit 0; fi
-          d=$(basename "$latest" .html); d=${d#ashare-yearly-}
-          # 主报告 + manifest + 个股明细页（打包成 zip）；原始 CSV(data/) 太大，仍只放 Actions 附件
-          python scripts/drive_archive.py --dataset ashare_yearly --date "$d" \
-            "$latest" reports/ashare-yearly/manifest.json \
-            --zip-dir stocks=reports/ashare-yearly/stocks
+          f="reports/ashare-yearly/ashare-yearly-$REPORT_DATE.html"
+          if [[ ! -f "$f" ]]; then echo "没有找到 $f，跳过 Drive 归档"; exit 0; fi
+          python scripts/drive_archive.py --dataset ashare_yearly --date "$REPORT_DATE" "$f"
 
-      - name: 上传报告产物
+      - name: 上传原始数据附件
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ashare-yearly-report
-          path: reports/ashare-yearly
+          name: ashare-yearly-${{ matrix.label }}
+          path: |
+            reports/ashare-yearly
+            artifacts/ashare-yearly-*
           if-no-files-found: warn
+          retention-days: 14
