@@ -2,8 +2,8 @@ name: 基金 TOP50 与持仓分析
 
 on:
   schedule:
-    # UTC 23:35 = 次日北京时间 07:35；每天运行，周末保留真实净值日期。
-    - cron: '35 23 * * *'
+    # 每周一次：UTC 周五 23:35 = 北京时间周六 07:35（周五净值已更新）
+    - cron: '35 23 * * 5'
   workflow_dispatch:
     inputs:
       category:
@@ -40,7 +40,7 @@ jobs:
 
   collect:
     needs: test
-    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    if: (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 55
     permissions:
@@ -83,30 +83,37 @@ jobs:
             artifacts/fund-tracker/
           retention-days: 14
           if-no-files-found: warn
-      - name: 提交日报，不改动现有 A 股报告
+      - name: 安装 PDF 中文字体
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq fonts-noto-cjk >/dev/null
+      - name: 提交周报（仓库只保留 HTML）
         if: success()
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
-          git add -- reports/funds/
+          # 只保留 HTML；CSV / JSON / Markdown 仅保存在本次 Actions 附件中
+          git ls-files reports/funds | grep -vE '\.html$' | xargs -r git rm -q --cached --
+          find reports/funds -type f ! -name '*.html' -delete
+          git add -- 'reports/funds/*.html'
           if git diff --cached --quiet; then
             echo '没有新的基金报告'
             exit 0
           fi
-          git commit -m "funds: daily snapshot $(date +%F)"
-          for attempt in 1 2 3; do
+          git commit -m "funds: weekly snapshot $(date +%F)"
+          for attempt in 1 2 3 4 5; do
             if git pull --rebase origin main && git push origin HEAD:main; then
               exit 0
             fi
             git rebase --abort || true
-            sleep 5
+            sleep $((RANDOM % 20 + 5))
           done
           echo '提交失败：检查仓库写权限/分支保护；报告仍保存在本次 Actions 附件中。'
           exit 1
-      - name: 归档到 Google Drive（CNINFO/基金TOP50与持仓分析）
+      - name: 归档 HTML + PDF 到 Google Drive（CNINFO/基金TOP50与持仓分析）
         if: success()
         shell: bash
         run: |
           dir=$(ls -d reports/funds/20??-??-?? 2>/dev/null | sort | tail -1)
           if [[ -z "$dir" ]]; then echo "没有找到基金报告，跳过 Drive 归档"; exit 0; fi
-          python scripts/drive_archive.py --dataset fund_tracker --date "$(basename "$dir")" "$dir"
+          d=$(basename "$dir")
+          python scripts/drive_archive.py --dataset fund_tracker --date "$d" \
+            --name "基金TOP50与持仓分析_$d" "$dir/index.html"
