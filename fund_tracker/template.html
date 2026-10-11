@@ -11,10 +11,10 @@
 <section class="metrics" aria-label="榜单范围"><div class="metric"><span>有效排名池</span><b>@@UNIVERSE@@</b></div><div class="metric"><span>具有近一年收益</span><b>@@ELIGIBLE@@</b></div><div class="metric"><span>精选产品份额</span><b>@@COUNT@@</b></div></section>
 <p class="notice">排名在完整有效池中计算，不是在前 50 名内重新排名。A/C 等份额分别列示。收益采用源站口径；不同净值日期、基金类型及币种可能不可比，未另行换汇。单位净值高不代表表现好。</p>
 <section aria-labelledby="rank-title"><h2 id="rank-title">一年领先，多周期核对</h2><p class="muted">每格依次显示数值、排名 / 有效样本数。上一交易日：@@PREVIOUS@@；净值日期不匹配的日收益留空，不用旧数据冒充。</p>
-<div class="toolbar"><label for="search">按基金名称或代码筛选<input id="search" type="search" placeholder="输入基金名称或六位代码" autocomplete="off"></label><a href="top50.csv" download>下载榜单 CSV</a><a href="funds.json" download>下载完整 JSON</a></div>
+<div class="toolbar"><label for="search">按基金名称或代码筛选<input id="search" type="search" placeholder="输入基金名称或六位代码" autocomplete="off"></label></div>
 <div class="table-wrap" tabindex="0" role="region" aria-label="多周期基金排名表，宽表可左右滚动"><table class="rankings"><thead><tr>@@HEADERS@@</tr></thead><tbody>@@ROWS@@</tbody></table></div><p id="empty" hidden>没有匹配的基金。请更换名称或代码。</p></section>
 <section aria-labelledby="hold-title"><h2 id="hold-title">持仓与分类证据</h2><p class="muted">以下仅分析已取得的披露股票。未覆盖部分可能是未披露股票、债券、现金或其他资产，不能据此推定。概念权重可重叠；分类使用采集时标签，不用于历史回测。</p><p class="muted">概念映射：@@CONCEPT_STATUS@@</p>@@DETAILS@@</section>
-<section><h2>数据质量与方法</h2><details><summary>查看 @@WARNCOUNT@@ 条异常 / 回退记录</summary><ul>@@ISSUES@@</ul></details><p>行业采用接口分类；概念采用板块成分映射；AI 不参与数值计算或填补未知标签。港股、美股等无法可靠映射时保留“未分类”。所有源数据时间、缓存命中和来源标识均保留在 JSON 中。</p><p><a href="holdings.csv" download>股票持仓 CSV</a> · <a href="allocations.csv" download>行业 / 概念汇总 CSV</a> · <a href="sources.json" download>来源与时间记录</a></p></section>
+<section><h2>数据质量与方法</h2><details><summary>查看 @@WARNCOUNT@@ 条异常 / 回退记录</summary><ul>@@ISSUES@@</ul></details><p>行业采用接口分类；概念采用板块成分映射；AI 不参与数值计算或填补未知标签。港股、美股等无法可靠映射时保留“未分类”。所有源数据时间、缓存命中和来源标识均保留在运行附件的 JSON 中。</p><p>原始数据（CSV / JSON）保存在对应 GitHub Actions 运行的附件中。</p></section>
 <footer>基于公开披露与第三方公开接口。基金持仓不是实时全仓；日历或数据不完整时明确留空。历史收益不代表未来收益，本工具不提供投资建议。GitHub 定时任务可能延迟。</footer>
 </main><script>
 const search=document.querySelector('#search');const rows=[...document.querySelectorAll('.rankings tbody tr')];const sections=[...document.querySelectorAll('.fund-detail')];
