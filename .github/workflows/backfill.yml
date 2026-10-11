@@ -56,7 +56,7 @@ jobs:
           start=${start:-$(TZ=Asia/Shanghai date -d '7 days ago' +%F)}
           end=${end:-$(TZ=Asia/Shanghai date +%F)}
           echo "回填区间：$start ~ $end"
-          python scripts/backfill_matrix.py --start "$start" --end "$end"
+          python scripts/backfill_matrix.py --start "$start" --end "$end" --days 7
 
   backfill:
     needs: plan
