@@ -34,7 +34,7 @@ on:
   workflow_dispatch:
     inputs:
       trade_date:
-        description: "单日：交易日期 YYYY-MM-DD；留空为北京时间今日"
+        description: "交易日期 YYYY-MM-DD，可用逗号/空格填写多个；留空为北京时间今日"
         required: false
         type: string
       start:
@@ -131,13 +131,14 @@ jobs:
         run: |
           today=$(TZ=Asia/Shanghai date +%F)
           start=$(echo "${IN_START:-}" | tr -d '[:space:]'); end=$(echo "${IN_END:-}" | tr -d '[:space:]')
-          single=$(echo "${IN_DATE:-}" | tr -d '[:space:]')
+          single=$(echo "${IN_DATE:-}" | tr ',，' '  ' | xargs)
           if [[ -n "$start" ]]; then
             matrix=$(python scripts/trading_days.py --start "$start" --end "${end:-$today}" --chunk 15 --matrix)
           else
             d="${single:-$today}"
-            python -c 'from datetime import date; import sys; v=sys.argv[1]; assert date.fromisoformat(v).isoformat()==v' "$d"
-            matrix=$(jq -cn --arg d "$d" '{include:[{label:$d,dates:$d}]}')
+            python -c 'from datetime import date; import sys; [date.fromisoformat(v) for v in sys.argv[1:]]; assert all(date.fromisoformat(v).isoformat()==v for v in sys.argv[1:])' $d
+            label=$(echo "$d" | awk '{print (NF>1) ? $1 "等" NF "天" : $1}')
+            matrix=$(jq -cn --arg d "$d" --arg l "$label" '{include:[{label:$l,dates:$d}]}')
           fi
           echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
           echo "$matrix" | jq -r '.include[].label'
