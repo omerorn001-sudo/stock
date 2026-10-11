@@ -18,6 +18,10 @@ jobs:
   report:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    env:
+      GDRIVE_APPS_SCRIPT_URL: ${{ secrets.GDRIVE_APPS_SCRIPT_URL }}
+      GDRIVE_APPS_SCRIPT_TOKEN: ${{ secrets.GDRIVE_APPS_SCRIPT_TOKEN }}
+      GDRIVE_APPS_SCRIPT_MAX_BYTES: ${{ vars.GDRIVE_APPS_SCRIPT_MAX_BYTES || '36700160' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -39,3 +43,17 @@ jobs:
             git commit -m "report: $(date -u -d '+8 hours' +%F)"
             git push
           fi
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: 归档到 Google Drive（CNINFO/A股每日涨跌幅报告）
+        shell: bash
+        run: |
+          d=$(TZ=Asia/Shanghai date +%F)
+          if [[ ! -f "reports/$d.html" ]]; then
+            echo "今日无新报告（非交易日），跳过 Drive 归档"; exit 0
+          fi
+          python -m pip install --quiet "requests>=2.32,<3"
+          python scripts/drive_archive.py --dataset daily_report --date "$d" "reports/$d.html"
