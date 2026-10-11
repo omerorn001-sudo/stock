@@ -23,3 +23,10 @@ artifacts/
 !ops/probe-console.log
 !ops/pip.log
 .DS_Store
+
+# 报告只入库 HTML；原始数据只在 Actions 附件中
+reports/ashare-yearly/data/
+reports/ashare-yearly/manifest.json
+reports/funds/**/*.csv
+reports/funds/**/*.json
+reports/funds/**/*.md
