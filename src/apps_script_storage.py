@@ -17,7 +17,8 @@ from urllib.parse import urlparse
 import requests
 
 ALLOWED_HOSTS = frozenset({"script.google.com", "script.googleusercontent.com"})
-TRANSIENT_STATUS = frozenset({408, 429, 500, 502, 503, 504})
+# Google 在并发高峰时会偶发返回 404（"unable to open the file"）HTML 页，按临时错误重试。
+TRANSIENT_STATUS = frozenset({404, 408, 429, 500, 502, 503, 504})
 TRANSIENT_APP_CODES = frozenset({"busy", "rate_limited", "temporary_error"})
 TRANSIENT_APP_ERROR_RE = re.compile(
     r"(另一个上传任务正在运行|请稍后重试|try again|temporarily unavailable)",
@@ -25,7 +26,7 @@ TRANSIENT_APP_ERROR_RE = re.compile(
 )
 DEFAULT_MAX_BYTES = 35 * 1024 * 1024
 DEFAULT_TIMEOUT = 120
-MAX_POST_ATTEMPTS = 5
+MAX_POST_ATTEMPTS = 7
 DATASET_RE = re.compile(r"[a-z0-9][a-z0-9_-]{0,49}")
 FORMAT_MIME = {
     "pdf": "application/pdf",
@@ -102,7 +103,7 @@ def _retry_delay(response: requests.Response, attempt: int) -> float:
     try:
         return max(float(retry_after), 1.0)
     except (TypeError, ValueError):
-        return float(min(2 ** (attempt - 1), 16))
+        return float(min(5 * 2 ** (attempt - 1), 60))
 
 
 class AppsScriptDriveClient:
