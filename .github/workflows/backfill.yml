@@ -1,14 +1,19 @@
 name: juchao-history-backfill
 
 on:
+  schedule:
+    # 每个工作日 UTC 13:00 = 北京时间 21:00，自动采集最近 7 天的机构调研公告（已归档的自动跳过）
+    - cron: "0 13 * * 1-5"
   workflow_dispatch:
     inputs:
       start:
-        description: "历史回填开始日期 YYYY-MM-DD"
-        required: true
+        description: "回填开始日期 YYYY-MM-DD；留空 = 7 天前"
+        required: false
+        default: ""
       end:
-        description: "历史回填结束日期 YYYY-MM-DD"
-        required: true
+        description: "回填结束日期 YYYY-MM-DD；留空 = 今天"
+        required: false
+        default: ""
       market:
         description: "市场范围（北交所始终排除）"
         type: choice
@@ -20,7 +25,7 @@ on:
         default: true
       max_files_per_month:
         description: "每月最多处理数量；0表示不限制"
-        required: true
+        required: false
         default: "0"
 
 concurrency:
@@ -42,13 +47,22 @@ jobs:
       - name: 校验 PDF 工具脚本
         run: python -m py_compile scripts/pdf_drive.py
       - id: matrix
-        run: python scripts/backfill_matrix.py --start "${{ inputs.start }}" --end "${{ inputs.end }}"
+        shell: bash
+        env:
+          IN_START: ${{ inputs.start }}
+          IN_END: ${{ inputs.end }}
+        run: |
+          start=$(echo "${IN_START:-}" | tr -d '[:space:]'); end=$(echo "${IN_END:-}" | tr -d '[:space:]')
+          start=${start:-$(TZ=Asia/Shanghai date -d '7 days ago' +%F)}
+          end=${end:-$(TZ=Asia/Shanghai date +%F)}
+          echo "回填区间：$start ~ $end"
+          python scripts/backfill_matrix.py --start "$start" --end "$end"
 
   backfill:
     needs: plan
     strategy:
       fail-fast: false
-      max-parallel: 1
+      max-parallel: 3
       matrix: ${{ fromJson(needs.plan.outputs.matrix) }}
     runs-on: ubuntu-latest
     timeout-minutes: 330
@@ -79,7 +93,7 @@ jobs:
             sudo apt-get install -y --no-install-recommends libreoffice-writer fonts-noto-cjk
           fi
       - name: Check Drive gateway
-        if: inputs.upload_drive == true
+        if: github.event_name == 'schedule' || inputs.upload_drive == true
         run: |
           if [[ -z "$GDRIVE_APPS_SCRIPT_URL" || -z "$GDRIVE_APPS_SCRIPT_TOKEN" ]]; then
             echo "::error::上传 Drive 需要 Apps Script URL 和 TOKEN"
@@ -94,8 +108,8 @@ jobs:
         run: |
           output="artifacts/backfill-${{ matrix.start }}-${{ matrix.end }}"
           archive_args=(--start "${{ matrix.start }}" --end "${{ matrix.end }}"
-                --market "${{ inputs.market }}"
-                --max-files "${{ inputs.max_files_per_month }}"
+                --market "${{ inputs.market || 'all' }}"
+                --max-files "${{ inputs.max_files_per_month || '0' }}"
                 --download-files
                 --output "$output")
 
@@ -104,7 +118,7 @@ jobs:
           archive_status=$?
 
           pdf_args=(backfill --output "$output")
-          if [[ "${{ inputs.upload_drive }}" == "true" ]]; then
+          if [[ "${{ github.event_name == 'schedule' || inputs.upload_drive }}" == "true" ]]; then
             pdf_args+=(--upload-drive)
           fi
           python scripts/pdf_drive.py "${pdf_args[@]}"
