@@ -1,0 +1,1234 @@
+{
+  "9095531b4fa85e0219f8a7c1": {
+    "source": "akshare:tool_trade_date_hist_sina",
+    "url": "https://finance.sina.com.cn/realstock/company/klc_td_sh.txt",
+    "fetched_at": "2026-10-11T13:52:13.888366+00:00",
+    "cache_hit": false,
+    "raw_file": "9095531b4fa85e0219f8a7c1.json",
+    "sha256": "d40f6207e210a7980f5a84abd1952af7404d197d2857860b54cbb3a48f325ede"
+  },
+  "14d491511cce04443a5b9cd5": {
+    "source": "akshare:fund_open_fund_rank_em",
+    "url": "https://fund.eastmoney.com/data/rankhandler.aspx",
+    "fetched_at": "2026-10-11T13:52:16.736973+00:00",
+    "cache_hit": false,
+    "raw_file": "14d491511cce04443a5b9cd5.json",
+    "sha256": "691e6b4a3289cdbfa91cded46ce861ba49b653616ed333fa144ed7303c7f9651"
+  },
+  "911c76a9ac064240b4b79e2e": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_006502.html",
+    "fetched_at": "2026-10-11T13:52:18.280538+00:00",
+    "cache_hit": false,
+    "raw_file": "911c76a9ac064240b4b79e2e.json",
+    "sha256": "3dedfcd0e6740dd4b10848b5f7da86e440d7e428af5e6fa63104eee581d31627"
+  },
+  "1cd7dac4fe5993531656e1f8": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_006502.html",
+    "fetched_at": "2026-10-11T13:52:19.726741+00:00",
+    "cache_hit": false,
+    "raw_file": "1cd7dac4fe5993531656e1f8.json",
+    "sha256": "3479d77faa2d9ce5a8ea5a8af50eae3b1bdad71a6ba7abe9d43f3276e362c6ea"
+  },
+  "b655a73e1adc91232cc79723": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:52:21.423553+00:00",
+    "cache_hit": false,
+    "raw_file": "b655a73e1adc91232cc79723.json",
+    "sha256": "451a308693dfa3eef2f684ece645e85b1982aef7fdf361ac0e8eb51913a30c11"
+  },
+  "3e8cebabbba31bfa8a89e496": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_006503.html",
+    "fetched_at": "2026-10-11T13:52:22.385296+00:00",
+    "cache_hit": false,
+    "raw_file": "3e8cebabbba31bfa8a89e496.json",
+    "sha256": "e8b1014e950138eb93f65c4525223bf4275fedbe59c221d5557b16b46b530d4f"
+  },
+  "74a5cdeaa9db7641425a1edc": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_006503.html",
+    "fetched_at": "2026-10-11T13:52:22.830199+00:00",
+    "cache_hit": false,
+    "raw_file": "74a5cdeaa9db7641425a1edc.json",
+    "sha256": "2b797ee64867955b37741e611d9401f79290341d811380c68e55b8c11c936c34"
+  },
+  "cb5a2ea73e7daf96fb0bf442": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:52:24.476731+00:00",
+    "cache_hit": false,
+    "raw_file": "cb5a2ea73e7daf96fb0bf442.json",
+    "sha256": "aacf003f4b0477c47e349f1f490cafcde6007e46dcbca910c7a77205365e0814"
+  },
+  "309c7e60f1c512ccf29aeb97": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_005825.html",
+    "fetched_at": "2026-10-11T13:52:25.409133+00:00",
+    "cache_hit": false,
+    "raw_file": "309c7e60f1c512ccf29aeb97.json",
+    "sha256": "164b487f5438d2394a60aad4ba14925a89baa4fa7c833b9c29fca5aa269b4311"
+  },
+  "a403035d303f48da3ac3c320": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_005825.html",
+    "fetched_at": "2026-10-11T13:52:25.865705+00:00",
+    "cache_hit": false,
+    "raw_file": "a403035d303f48da3ac3c320.json",
+    "sha256": "485d5eae07a79546b9f88d025838fbcbe10e225b8defb8799e3f0fb5108b2a63"
+  },
+  "4488295659773d5db2ccd9e4": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:52:27.481666+00:00",
+    "cache_hit": false,
+    "raw_file": "4488295659773d5db2ccd9e4.json",
+    "sha256": "8eaabbf523435ddc48ad037882bb77f232a3b0709a46d4b13b00be653eca6c15"
+  },
+  "6c4f327e38e9e87aeff0fdf7": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_015159.html",
+    "fetched_at": "2026-10-11T13:52:28.460777+00:00",
+    "cache_hit": false,
+    "raw_file": "6c4f327e38e9e87aeff0fdf7.json",
+    "sha256": "5ff8853938c15369778881255fb68458e6b7fb97dd2f11af48a800198de8608f"
+  },
+  "1b5fa4a4b2e274cc9ff2b990": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_015159.html",
+    "fetched_at": "2026-10-11T13:52:28.886807+00:00",
+    "cache_hit": false,
+    "raw_file": "1b5fa4a4b2e274cc9ff2b990.json",
+    "sha256": "d888ad3f09695a5312ff79dbb07527c6d3df1bb29aa2787e846fa72cab3b8d6e"
+  },
+  "fa213923d350f7f040fb023d": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:52:30.527240+00:00",
+    "cache_hit": false,
+    "raw_file": "fa213923d350f7f040fb023d.json",
+    "sha256": "ca5cede62390fe343ca5f4bb38f568946f49d85c335f24e1030a1ebc1e07cb69"
+  },
+  "7cfd8631be4cb1c1d9e83ba5": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_005628.html",
+    "fetched_at": "2026-10-11T13:52:31.433750+00:00",
+    "cache_hit": false,
+    "raw_file": "7cfd8631be4cb1c1d9e83ba5.json",
+    "sha256": "1621bf8bcf420680234a98303a88520d68ef13093a35186e6476b8be0bf57200"
+  },
+  "dbe2d82fa1aefdadf0be9c13": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_005628.html",
+    "fetched_at": "2026-10-11T13:52:31.894722+00:00",
+    "cache_hit": false,
+    "raw_file": "dbe2d82fa1aefdadf0be9c13.json",
+    "sha256": "419cdba09822f7f6ab052bed24dcd7b86285786ac4b111848c1e5b2198f64d1b"
+  },
+  "1fbf6076333efad7d2890943": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:52:45.891137+00:00",
+    "cache_hit": false,
+    "raw_file": "1fbf6076333efad7d2890943.json",
+    "sha256": "76bb70cf8cc1c45be0654cf3661e0437facce3ed3c9c9e29c7b2561b711ee9f8"
+  },
+  "60cfda492ffd8eed01b62463": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_005629.html",
+    "fetched_at": "2026-10-11T13:52:47.308755+00:00",
+    "cache_hit": false,
+    "raw_file": "60cfda492ffd8eed01b62463.json",
+    "sha256": "5c502f2866bbb7d9f41578bb491e19f2a777c1606d50adfd864f0f15b541aef6"
+  },
+  "3bdb14a218ea0be5d0f3fca5": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_005629.html",
+    "fetched_at": "2026-10-11T13:52:47.702666+00:00",
+    "cache_hit": false,
+    "raw_file": "3bdb14a218ea0be5d0f3fca5.json",
+    "sha256": "a7683dfbfbb77c2983cfda8612583854ae4b74504e250918aa2495c1f5fcd023"
+  },
+  "a87fc9cd6e14bab119a9279d": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:52:49.225240+00:00",
+    "cache_hit": false,
+    "raw_file": "a87fc9cd6e14bab119a9279d.json",
+    "sha256": "81c8b75b3a6cc50ab2f214af8a08646ed186a09e1cbe274a9e6256098288ff32"
+  },
+  "2e9fe32962ea8cce5c69dce4": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_002289.html",
+    "fetched_at": "2026-10-11T13:52:50.370483+00:00",
+    "cache_hit": false,
+    "raw_file": "2e9fe32962ea8cce5c69dce4.json",
+    "sha256": "3393a388602b562313c32e26072499562f531fe5b4845d70edce3fc75749fa1e"
+  },
+  "b94bce9ac8401139cfda85ba": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_002289.html",
+    "fetched_at": "2026-10-11T13:52:50.748103+00:00",
+    "cache_hit": false,
+    "raw_file": "b94bce9ac8401139cfda85ba.json",
+    "sha256": "8ebe24bdb9ec52711247a769b5ae6662329a9f964915b26da419026118f1c354"
+  },
+  "49fbe70030287637089d84aa": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:53:04.535826+00:00",
+    "cache_hit": false,
+    "raw_file": "49fbe70030287637089d84aa.json",
+    "sha256": "b912f3340375a33eb77afebed2ec2ab86d2cbc22bd6b413ad6ecfb01553bd2fc"
+  },
+  "a4c3301b787c77053dad0132": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_016052.html",
+    "fetched_at": "2026-10-11T13:53:05.702921+00:00",
+    "cache_hit": false,
+    "raw_file": "a4c3301b787c77053dad0132.json",
+    "sha256": "9cd866d3b99184cf61fc28de1b7cfea207c48110bf411def58470f2ddd1aee39"
+  },
+  "abd55850ae1466bbfb8cd7eb": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_016052.html",
+    "fetched_at": "2026-10-11T13:53:06.063071+00:00",
+    "cache_hit": false,
+    "raw_file": "abd55850ae1466bbfb8cd7eb.json",
+    "sha256": "8b93f20fe8e0b534d4329d9b037306a9174fdf0b951d1fa02dd7b69b23d5880b"
+  },
+  "dab902087b6ca3bdd0003cbe": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:53:07.636920+00:00",
+    "cache_hit": false,
+    "raw_file": "dab902087b6ca3bdd0003cbe.json",
+    "sha256": "776d35d162e9bd458e5da4564b80c938fbd9bac0e55c8706270c55742e2e0105"
+  },
+  "a6b411a9a3d450734317092e": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_001040.html",
+    "fetched_at": "2026-10-11T13:53:08.845039+00:00",
+    "cache_hit": false,
+    "raw_file": "a6b411a9a3d450734317092e.json",
+    "sha256": "34b66f5987dc6c04f4765f7cb0c1cfa053edc13e218ec3a776ad73aed69eb5b4"
+  },
+  "f4a5df40e8b2f7c6ea5b7282": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_001040.html",
+    "fetched_at": "2026-10-11T13:53:09.214682+00:00",
+    "cache_hit": false,
+    "raw_file": "f4a5df40e8b2f7c6ea5b7282.json",
+    "sha256": "60bcd7d1954c00ba26223f21dc9775cdbe38eb1a4d5bf70b3c2d54d59652feb9"
+  },
+  "b8cc5916ccd45d91b9b4a367": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:53:11.005972+00:00",
+    "cache_hit": false,
+    "raw_file": "b8cc5916ccd45d91b9b4a367.json",
+    "sha256": "a57897f06e8ef4a5603dce318e098cbb0207e9fb7953c2fd04f0e421ac6410ee"
+  },
+  "e843c003f26a14cae3dc8700": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_014736.html",
+    "fetched_at": "2026-10-11T13:53:12.412497+00:00",
+    "cache_hit": false,
+    "raw_file": "e843c003f26a14cae3dc8700.json",
+    "sha256": "9e6e1b2ad6c343110a3cab2e33e897536f933ea7679001ca6bdab8630def6afd"
+  },
+  "fae6a7b59592b62c6d752d21": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_014736.html",
+    "fetched_at": "2026-10-11T13:53:12.809679+00:00",
+    "cache_hit": false,
+    "raw_file": "fae6a7b59592b62c6d752d21.json",
+    "sha256": "60ca72f8ece4bfba2398f7a61a915fc2b676530829883768ebbb66ea3603f1a4"
+  },
+  "2f0dbf13695babdcf570d417": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:53:14.428874+00:00",
+    "cache_hit": false,
+    "raw_file": "2f0dbf13695babdcf570d417.json",
+    "sha256": "f35e44c2e8543339ee35be8bd3edad40e2555147b9607c6493d825dad61b12c1"
+  },
+  "3db541880ecff5bd22e0e419": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_025415.html",
+    "fetched_at": "2026-10-11T13:53:15.417782+00:00",
+    "cache_hit": false,
+    "raw_file": "3db541880ecff5bd22e0e419.json",
+    "sha256": "125310aa58eece1bb3bd938fcbb30947a09ee1f7e0a98b22a37fb7037772f21f"
+  },
+  "5c088c7b093833cc636e9abf": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_025415.html",
+    "fetched_at": "2026-10-11T13:53:15.804824+00:00",
+    "cache_hit": false,
+    "raw_file": "5c088c7b093833cc636e9abf.json",
+    "sha256": "644d0839fa622498422b5c4e338a56668c5bb5be17ee37b77d03831f6703a8df"
+  },
+  "5e86f599b04785b7c8e504ba": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:53:17.596293+00:00",
+    "cache_hit": false,
+    "raw_file": "5e86f599b04785b7c8e504ba.json",
+    "sha256": "c01b8cf5ad3ff0dc52731bd000f6d46c49a9c168959108621422a7379f51a184"
+  },
+  "c3dfa5307b1abddc59310355": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_014737.html",
+    "fetched_at": "2026-10-11T13:53:19.009763+00:00",
+    "cache_hit": false,
+    "raw_file": "c3dfa5307b1abddc59310355.json",
+    "sha256": "2c4f3e3d57e0e8fcdee3d9a24773108984b58ddab1caf98e1356da67dbee7a39"
+  },
+  "d71c28251d7507015e52806e": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_014737.html",
+    "fetched_at": "2026-10-11T13:53:19.373910+00:00",
+    "cache_hit": false,
+    "raw_file": "d71c28251d7507015e52806e.json",
+    "sha256": "a4ad125fd0652a49e3ae92ad8a3377353daba2b5f38e517fca43fe0acaa78a21"
+  },
+  "7aaabaefe39cb8f0b66e86e4": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:53:20.948427+00:00",
+    "cache_hit": false,
+    "raw_file": "7aaabaefe39cb8f0b66e86e4.json",
+    "sha256": "1c3f3093a13344a5564e6eb53d0ce532eac37c1946e160b120f99b98ddacc218"
+  },
+  "afc97084937a927e5833ff71": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_020775.html",
+    "fetched_at": "2026-10-11T13:53:22.104603+00:00",
+    "cache_hit": false,
+    "raw_file": "afc97084937a927e5833ff71.json",
+    "sha256": "ad074e1f42f3f9718b00c4732c8584a7a34d66d7430a3dc8e0d6227fa37de6b7"
+  },
+  "79990cdebc85dc6f29c5e80a": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_020775.html",
+    "fetched_at": "2026-10-11T13:53:22.459796+00:00",
+    "cache_hit": false,
+    "raw_file": "79990cdebc85dc6f29c5e80a.json",
+    "sha256": "f7f785bc4a107c8d02dcf1d9dd5a830054b1dcc26b338f29b51f9971bd1d2d5a"
+  },
+  "a349f840caba3b5008b16e8d": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:53:24.907474+00:00",
+    "cache_hit": false,
+    "raw_file": "a349f840caba3b5008b16e8d.json",
+    "sha256": "2b33f954a8cef325a930590cd394a687155cd11ab65d7b72a15492562fde0c14"
+  },
+  "bb5444a351d149d1b8cceea8": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_006265.html",
+    "fetched_at": "2026-10-11T13:53:26.062252+00:00",
+    "cache_hit": false,
+    "raw_file": "bb5444a351d149d1b8cceea8.json",
+    "sha256": "d6ca737a22400a7ac17df2d52480c83f063140f7e8a5252032eaaa71872f1dd6"
+  },
+  "94dd042ce4fb1f6d6f0da3c3": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_006265.html",
+    "fetched_at": "2026-10-11T13:53:26.427278+00:00",
+    "cache_hit": false,
+    "raw_file": "94dd042ce4fb1f6d6f0da3c3.json",
+    "sha256": "ded26b131135c2f77eb9328fab3be762b0319949d24893b2580a2687c6277910"
+  },
+  "4537172ee7b40d977e34f87d": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:53:28.209025+00:00",
+    "cache_hit": false,
+    "raw_file": "4537172ee7b40d977e34f87d.json",
+    "sha256": "d6e7db2f85e8fcfe9236edea7fa44bd3f816109c82ba330e7a1a2e2b9e943c6c"
+  },
+  "6dff77f2436a3bb87ba37668": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_020774.html",
+    "fetched_at": "2026-10-11T13:53:29.248594+00:00",
+    "cache_hit": false,
+    "raw_file": "6dff77f2436a3bb87ba37668.json",
+    "sha256": "90478f54902c1512429dcf61bce4209a4e4839a228430bfe3de7ec6305f623d5"
+  },
+  "168db9ef5ddc7e9f517c8a61": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_020774.html",
+    "fetched_at": "2026-10-11T13:53:29.650399+00:00",
+    "cache_hit": false,
+    "raw_file": "168db9ef5ddc7e9f517c8a61.json",
+    "sha256": "fbf0237a0ab390f87404ec0ff4908dcc5ff2adbdab342b8e91d75d56c797eb4f"
+  },
+  "9718db97f1815974a9b297b0": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:53:31.392222+00:00",
+    "cache_hit": false,
+    "raw_file": "9718db97f1815974a9b297b0.json",
+    "sha256": "89a533215c938ec0251296622dbfa755e1abc191f23d5b13830a6eeac6098811"
+  },
+  "e182d07158a4eff0e6337f5a": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_000411.html",
+    "fetched_at": "2026-10-11T13:53:32.425497+00:00",
+    "cache_hit": false,
+    "raw_file": "e182d07158a4eff0e6337f5a.json",
+    "sha256": "a9fcb4c9b4a2341cd7e23070487836e62492e66814525568f3ae551a17be3e08"
+  },
+  "d002485b947fafa81aa39aca": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_000411.html",
+    "fetched_at": "2026-10-11T13:53:32.839616+00:00",
+    "cache_hit": false,
+    "raw_file": "d002485b947fafa81aa39aca.json",
+    "sha256": "7a06a66e47a9e32b6496457d0cfdf9dd9e5dfd7c0cbe0e576fc8af392866b42b"
+  },
+  "c05d8db43775e03503ea6e13": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:53:34.416834+00:00",
+    "cache_hit": false,
+    "raw_file": "c05d8db43775e03503ea6e13.json",
+    "sha256": "9b83dbcca0d2fbf0c3700ac650ce508f1c3645cc1695d0ec8cc3bb7b15428234"
+  },
+  "437b08d5cf2c204acc5287d5": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_021500.html",
+    "fetched_at": "2026-10-11T13:53:35.530600+00:00",
+    "cache_hit": false,
+    "raw_file": "437b08d5cf2c204acc5287d5.json",
+    "sha256": "1e662441cbfe5c530f605c660ece8d69d24aafb86a83826d15fecf337ce2e79a"
+  },
+  "fb489bed9547fd453a941b7a": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_021500.html",
+    "fetched_at": "2026-10-11T13:53:36.048275+00:00",
+    "cache_hit": false,
+    "raw_file": "fb489bed9547fd453a941b7a.json",
+    "sha256": "7ae9b3e2c9854fcf4963ef43b8913fa072f7c3f70fb80b05eea67b1c27a4f632"
+  },
+  "6081b0e9cd50d6e5d9fd9317": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:53:37.590293+00:00",
+    "cache_hit": false,
+    "raw_file": "6081b0e9cd50d6e5d9fd9317.json",
+    "sha256": "1c682ff8a20e5bb6b471b007f6c18e8dd4227370b4aec3f2fdf1847dae416848"
+  },
+  "01c8bccfa84dfe4df39ebb23": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_501201.html",
+    "fetched_at": "2026-10-11T13:53:38.702007+00:00",
+    "cache_hit": false,
+    "raw_file": "01c8bccfa84dfe4df39ebb23.json",
+    "sha256": "2bcd0237b58195c1672cb21204817c6637fdc7c123564847241a9551d0443882"
+  },
+  "495a5cfba0ec2f13db1c2775": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_501201.html",
+    "fetched_at": "2026-10-11T13:53:39.057680+00:00",
+    "cache_hit": false,
+    "raw_file": "495a5cfba0ec2f13db1c2775.json",
+    "sha256": "56f8c7819043b9199ed9011913e68a6e9ee5792c7503699fd1b2a6d4c4716c69"
+  },
+  "803beca68f5fdd487819e6bf": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:53:40.749197+00:00",
+    "cache_hit": false,
+    "raw_file": "803beca68f5fdd487819e6bf.json",
+    "sha256": "6a6000352d24700b3e54a586dd977c14795fbfbaee87ac72dfb8ba0d9c9b1181"
+  },
+  "3c312cd8b411dc3c038da6f9": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_540010.html",
+    "fetched_at": "2026-10-11T13:53:41.731484+00:00",
+    "cache_hit": false,
+    "raw_file": "3c312cd8b411dc3c038da6f9.json",
+    "sha256": "ba6d271c824592a0e1499a63255536ce3d3ea2d8a94697b03a3d19060ec37859"
+  },
+  "ecd6fee7806f8f00731c4bc4": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_540010.html",
+    "fetched_at": "2026-10-11T13:53:42.229814+00:00",
+    "cache_hit": false,
+    "raw_file": "ecd6fee7806f8f00731c4bc4.json",
+    "sha256": "de6f39225a2daab2a9f09034605f2eb2be44f0f7a124a7815766ed8d9834eef9"
+  },
+  "f0469cc277f831929fecdb4a": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:53:43.670968+00:00",
+    "cache_hit": false,
+    "raw_file": "f0469cc277f831929fecdb4a.json",
+    "sha256": "85b3ebe4bcbd427a441e3ff4e94229a47a24ffaf2169249c9a5c12353e7eece7"
+  },
+  "626846a6aa05fa4a548dec1b": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_001105.html",
+    "fetched_at": "2026-10-11T13:53:44.861536+00:00",
+    "cache_hit": false,
+    "raw_file": "626846a6aa05fa4a548dec1b.json",
+    "sha256": "7a121ce43a26c5c4985ee1c24f1a0ce8d3a54c66c1256fca6163b8d9a7f7eeb9"
+  },
+  "89d4967b47c2d5d3e9654502": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_001105.html",
+    "fetched_at": "2026-10-11T13:53:45.229309+00:00",
+    "cache_hit": false,
+    "raw_file": "89d4967b47c2d5d3e9654502.json",
+    "sha256": "20bdbd6e335bc210de41f0efe79b616d003fc90e3f7ea5d53b5232080a95a14c"
+  },
+  "8171b52ca6ed69ff8e5b79c2": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:53:46.917269+00:00",
+    "cache_hit": false,
+    "raw_file": "8171b52ca6ed69ff8e5b79c2.json",
+    "sha256": "93f23c04b1ec1eb93ba626068f51b9bc72c158cdbb059265d7807442e869f797"
+  },
+  "0fad938120da7d38f9fb58c2": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_015608.html",
+    "fetched_at": "2026-10-11T13:53:47.981455+00:00",
+    "cache_hit": false,
+    "raw_file": "0fad938120da7d38f9fb58c2.json",
+    "sha256": "0639e139fec12ee12d18f83f7bef45f550c0d6283a5864f32967a9ed14e2f505"
+  },
+  "936d6373f3fdec1204d69220": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_015608.html",
+    "fetched_at": "2026-10-11T13:53:48.444725+00:00",
+    "cache_hit": false,
+    "raw_file": "936d6373f3fdec1204d69220.json",
+    "sha256": "b7ef67412605f2a504a3b0c7db9881a7cfa5250cc26a16f34c626b7330e900fe"
+  },
+  "25961dc2b5aff9a5ef436fa1": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:53:50.134364+00:00",
+    "cache_hit": false,
+    "raw_file": "25961dc2b5aff9a5ef436fa1.json",
+    "sha256": "572a98ee892f8576ee68dc1c5b03e894b8fd2eed9bf19d71191661f4bf796e78"
+  },
+  "8fec140d386fae8aa57994a4": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_012696.html",
+    "fetched_at": "2026-10-11T13:53:51.227473+00:00",
+    "cache_hit": false,
+    "raw_file": "8fec140d386fae8aa57994a4.json",
+    "sha256": "5055b1986f505ee1b47803170251193416276f535419d584170cb05bbfe128eb"
+  },
+  "72e33eeda1837db24185e068": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_012696.html",
+    "fetched_at": "2026-10-11T13:53:51.595330+00:00",
+    "cache_hit": false,
+    "raw_file": "72e33eeda1837db24185e068.json",
+    "sha256": "d7effb2859cd506513d431be9fae3016cdb792cbd71243e840b554177f37bc42"
+  },
+  "0d5a221c769e2d7d5f0250e5": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:53:53.338340+00:00",
+    "cache_hit": false,
+    "raw_file": "0d5a221c769e2d7d5f0250e5.json",
+    "sha256": "428ed78de4bcd12ec80eb51bfd311937d11a27c5b7c822e7c03d9c924fcc1c6b"
+  },
+  "b49c8f198bfa779ccd0469b2": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_012697.html",
+    "fetched_at": "2026-10-11T13:53:54.410763+00:00",
+    "cache_hit": false,
+    "raw_file": "b49c8f198bfa779ccd0469b2.json",
+    "sha256": "b6c010aee70bf5869f49cc03d301a79adcf9388e03d12c782010c596148cb21f"
+  },
+  "a0c3169766d7c0524d420bbe": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_012697.html",
+    "fetched_at": "2026-10-11T13:53:54.795567+00:00",
+    "cache_hit": false,
+    "raw_file": "a0c3169766d7c0524d420bbe.json",
+    "sha256": "5dd464c4ed1ed2be7683b83d4ef0ce7d896e4c14e6a8df0d2561ad547bbed64b"
+  },
+  "a9673308dcb01106352fbeb8": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:53:56.386713+00:00",
+    "cache_hit": false,
+    "raw_file": "a9673308dcb01106352fbeb8.json",
+    "sha256": "7908608ca3b35d32bb8e7bf186b10ad38ec26ca7b6aac3d857b4904da3cb01df"
+  },
+  "4f58cbbab2c67c7668eb7cc5": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_006081.html",
+    "fetched_at": "2026-10-11T13:53:57.369000+00:00",
+    "cache_hit": false,
+    "raw_file": "4f58cbbab2c67c7668eb7cc5.json",
+    "sha256": "5977f95c3658ce6d8352256cc45a7f27a693c1a94d7a67b4f471caa28fb900e1"
+  },
+  "9e1741e92f95b16d8777dbe5": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_006081.html",
+    "fetched_at": "2026-10-11T13:53:57.772206+00:00",
+    "cache_hit": false,
+    "raw_file": "9e1741e92f95b16d8777dbe5.json",
+    "sha256": "9c770393277dd3f2983b68a07ef8deb5a35ed92122fc394f85ebdf3cac6f719a"
+  },
+  "e63eeb66cff8633b281bf66c": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:53:59.407008+00:00",
+    "cache_hit": false,
+    "raw_file": "e63eeb66cff8633b281bf66c.json",
+    "sha256": "fe80f2e86bb67484dddf9e1bc0e9f7723ada7d24f3e8f7d28fb654f4c191335b"
+  },
+  "86487a97cf344ef03e9a4acb": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_001877.html",
+    "fetched_at": "2026-10-11T13:54:00.604166+00:00",
+    "cache_hit": false,
+    "raw_file": "86487a97cf344ef03e9a4acb.json",
+    "sha256": "88f5174b6ec4636f7b706749fc565c2aa08976bd20d65310cd523f6572640229"
+  },
+  "98d01e56982b21df37cb4249": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_001877.html",
+    "fetched_at": "2026-10-11T13:54:00.989299+00:00",
+    "cache_hit": false,
+    "raw_file": "98d01e56982b21df37cb4249.json",
+    "sha256": "e4c3a3d0eaca6d48e6e7b5b5c409ab20c3a5eedddda4e6a5760fe4a80281728e"
+  },
+  "bc3ec46242ddfcec4a8d4f34": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:54:02.701955+00:00",
+    "cache_hit": false,
+    "raw_file": "bc3ec46242ddfcec4a8d4f34.json",
+    "sha256": "a97526316d24ad53c4d11c139039033fffa7c0f70a79dcb6c4eea0817adee313"
+  },
+  "8ceefda8efc564a461645d74": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_001416.html",
+    "fetched_at": "2026-10-11T13:54:03.717542+00:00",
+    "cache_hit": false,
+    "raw_file": "8ceefda8efc564a461645d74.json",
+    "sha256": "eb6860df60f32760f0a9fc1939ab63aabdfe4f39d9374ab72033364ce32568f2"
+  },
+  "6f7f4e1ba5d73dc57d49d1e8": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_001416.html",
+    "fetched_at": "2026-10-11T13:54:04.108007+00:00",
+    "cache_hit": false,
+    "raw_file": "6f7f4e1ba5d73dc57d49d1e8.json",
+    "sha256": "058ba840545c9411c6a7474695166681514ed1e557a133258ca354e5390daf05"
+  },
+  "220e1bd086abd96eedc0a344": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:54:05.888775+00:00",
+    "cache_hit": false,
+    "raw_file": "220e1bd086abd96eedc0a344.json",
+    "sha256": "c146c5fe8111b32656ba07e7d7b393e8f040ddd6932d52a95d2879811cf8c39b"
+  },
+  "359e8616fe0c3984b4ac72a3": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_013613.html",
+    "fetched_at": "2026-10-11T13:54:06.979028+00:00",
+    "cache_hit": false,
+    "raw_file": "359e8616fe0c3984b4ac72a3.json",
+    "sha256": "55df252238a454abc4a48b4294ac34d945b4efbc794fadf9635c02e8ea5f74b4"
+  },
+  "732de8810b7b7910f4cba7af": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_013613.html",
+    "fetched_at": "2026-10-11T13:54:07.343630+00:00",
+    "cache_hit": false,
+    "raw_file": "732de8810b7b7910f4cba7af.json",
+    "sha256": "7b2242f1796f832b7c3b387b7d634046df6a8b4d70f15a74bd9855cbeb37a566"
+  },
+  "850a10a68224d6745417b8ca": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:54:09.100277+00:00",
+    "cache_hit": false,
+    "raw_file": "850a10a68224d6745417b8ca.json",
+    "sha256": "5c38c26cd5412d1aa3dd0d9fa76c33f7b1b4df84faf0d8f174c33c830514f6b6"
+  },
+  "6d85ce183ae89dfcaa760267": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_006080.html",
+    "fetched_at": "2026-10-11T13:54:10.140054+00:00",
+    "cache_hit": false,
+    "raw_file": "6d85ce183ae89dfcaa760267.json",
+    "sha256": "aa92732a2513314d5fdfe039ab44c75f24f9549d60c7260ab8dc1ce8611c55b6"
+  },
+  "5c07b7ebbcb83a42262ca5b0": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_006080.html",
+    "fetched_at": "2026-10-11T13:54:10.532359+00:00",
+    "cache_hit": false,
+    "raw_file": "5c07b7ebbcb83a42262ca5b0.json",
+    "sha256": "487d0948faaf6386cb22ebe6f1b295581fdfe83642dd762f9ef1f28db7f12634"
+  },
+  "80440925adf28f9bbd015360": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:54:12.144616+00:00",
+    "cache_hit": false,
+    "raw_file": "80440925adf28f9bbd015360.json",
+    "sha256": "b412f514f281197a2a374adb0debd54e39dd372614d57ef45f4de290b3deaff4"
+  },
+  "f90306241eea213ae9bb61a4": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_011377.html",
+    "fetched_at": "2026-10-11T13:54:13.078280+00:00",
+    "cache_hit": false,
+    "raw_file": "f90306241eea213ae9bb61a4.json",
+    "sha256": "3129cfa78ad034c484c40c18efa5daa7e55803ebbe90b14f76d0cd3c2b3e1c1c"
+  },
+  "83d4d222441b74922f1a7889": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_011377.html",
+    "fetched_at": "2026-10-11T13:54:13.562557+00:00",
+    "cache_hit": false,
+    "raw_file": "83d4d222441b74922f1a7889.json",
+    "sha256": "1dd7df11bd71e5034ca33b64872439d5ea2d86a5a537ea9d41072256727d742b"
+  },
+  "abe8d2a3ec34d68ce550e319": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:54:15.082125+00:00",
+    "cache_hit": false,
+    "raw_file": "abe8d2a3ec34d68ce550e319.json",
+    "sha256": "48bd3654584fe0eaafd3e818f92fe88f70e903ede80a80a5e3846c0a11c3e424"
+  },
+  "5fd57bc79063335e7acd5b9e": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_010391.html",
+    "fetched_at": "2026-10-11T13:54:16.221550+00:00",
+    "cache_hit": false,
+    "raw_file": "5fd57bc79063335e7acd5b9e.json",
+    "sha256": "eb975e67e0751aecbb16d3f5269ac250cc96ef56c7a92dd326141347559c3f50"
+  },
+  "7157fb3d59541e60e20e210d": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_010391.html",
+    "fetched_at": "2026-10-11T13:54:16.613854+00:00",
+    "cache_hit": false,
+    "raw_file": "7157fb3d59541e60e20e210d.json",
+    "sha256": "a490bbe3dfcd0cc0c809409d0a1738887820b5e0fb2f9ff5184c8d0d3ef39b7c"
+  },
+  "0928d6c357b5a6aabd48b084": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:54:18.517959+00:00",
+    "cache_hit": false,
+    "raw_file": "0928d6c357b5a6aabd48b084.json",
+    "sha256": "ce3f2cf86ed234c21d136ff5b85784979d8dcc1c95fa8311d93cb17bae1b9620"
+  },
+  "0864dcfd45b15d347fb75ad7": {
+    "source": "public-web:fund-archives",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:54:19.099851+00:00",
+    "cache_hit": false,
+    "raw_file": "0864dcfd45b15d347fb75ad7.json",
+    "sha256": "31833c6e2ace68ad17cb50c8ad3f15aceb3ddc302e5d1bdafbc04a36f3174ac4"
+  },
+  "d07ce4ff30356f2c391c7c50": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_011378.html",
+    "fetched_at": "2026-10-11T13:54:23.232747+00:00",
+    "cache_hit": false,
+    "raw_file": "d07ce4ff30356f2c391c7c50.json",
+    "sha256": "ac87ab448883991da1ba3bde995f5fb5a4d578b97abbfb582bab4bef22c5fc0b"
+  },
+  "142997de29845ad920ef653c": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_011378.html",
+    "fetched_at": "2026-10-11T13:54:23.604860+00:00",
+    "cache_hit": false,
+    "raw_file": "142997de29845ad920ef653c.json",
+    "sha256": "e5b769163136050299ff42d589e0a454a2726087814df607971255a0e5dfb99b"
+  },
+  "844d76d1a986146792753c3d": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:54:25.322419+00:00",
+    "cache_hit": false,
+    "raw_file": "844d76d1a986146792753c3d.json",
+    "sha256": "b5fc97760a42769a9eb1b6f17ea8b3c6b56c87d839e73d677511cb52ec8a69e6"
+  },
+  "23698dd57caa14faa0db8797": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_001956.html",
+    "fetched_at": "2026-10-11T13:54:26.422260+00:00",
+    "cache_hit": false,
+    "raw_file": "23698dd57caa14faa0db8797.json",
+    "sha256": "48d298ea1ca78bd5e2cc90af6b6031e351a278dba608106d6e5b5153f7a4c537"
+  },
+  "87bb51b0806ef3eb28dd4e12": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_001956.html",
+    "fetched_at": "2026-10-11T13:54:26.796470+00:00",
+    "cache_hit": false,
+    "raw_file": "87bb51b0806ef3eb28dd4e12.json",
+    "sha256": "8774d0861e083fd2c79dc2ecd3010aab8fc7869ab5e2695d6f26fdfc77978f50"
+  },
+  "1334f1a10b6be3445d5dc243": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:54:28.352004+00:00",
+    "cache_hit": false,
+    "raw_file": "1334f1a10b6be3445d5dc243.json",
+    "sha256": "dd7597128e504ff07d63568cc4c82be02c0b34b1a4bb687a66381d5ba66bc6fa"
+  },
+  "33e9059309bdcb4ecc195dbc": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_020722.html",
+    "fetched_at": "2026-10-11T13:54:29.554343+00:00",
+    "cache_hit": false,
+    "raw_file": "33e9059309bdcb4ecc195dbc.json",
+    "sha256": "0ad8a670dd78c6f1eba55a87a33dfe295cd58cdbae9b3e310d6e50d41db0e8a3"
+  },
+  "2742c72a31c91c2704311c39": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_020722.html",
+    "fetched_at": "2026-10-11T13:54:29.952042+00:00",
+    "cache_hit": false,
+    "raw_file": "2742c72a31c91c2704311c39.json",
+    "sha256": "c114cc1e3b6ecdc636087993f8056df7eaeb5dacfe8b051669dc222403178fb4"
+  },
+  "6341286cc09de65d07ea077f": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:54:31.563168+00:00",
+    "cache_hit": false,
+    "raw_file": "6341286cc09de65d07ea077f.json",
+    "sha256": "50c433fc179b4a6a64b65a7f4f50cfb7956b8c6d31fe62e5da45355b1425ebb0"
+  },
+  "6b5c37ee3485dfba97f6b3fa": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_001036.html",
+    "fetched_at": "2026-10-11T13:54:33.398867+00:00",
+    "cache_hit": false,
+    "raw_file": "6b5c37ee3485dfba97f6b3fa.json",
+    "sha256": "1a11399cfe9233ce67aceba17186ad4f54116f2dedd1a6389ec5cebd72bade69"
+  },
+  "aa297f5b46c9d814efe90c4d": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_001036.html",
+    "fetched_at": "2026-10-11T13:54:33.783521+00:00",
+    "cache_hit": false,
+    "raw_file": "aa297f5b46c9d814efe90c4d.json",
+    "sha256": "f69f165e732a084bb174f8ae5d6a7303c11510f0e27458170aaf2092ad00520f"
+  },
+  "b4a704639b9745bae2affa5e": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:54:35.429660+00:00",
+    "cache_hit": false,
+    "raw_file": "b4a704639b9745bae2affa5e.json",
+    "sha256": "868e1b31d33362ac587b8d3b2d0c382755ae0e5f9e081cfcc2950bd1015d70c8"
+  },
+  "fd88f5e7032758466740be65": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_010392.html",
+    "fetched_at": "2026-10-11T13:54:36.593226+00:00",
+    "cache_hit": false,
+    "raw_file": "fd88f5e7032758466740be65.json",
+    "sha256": "ba3088fa9fef6b51ad1fe9b93c166787315ac65f2069575452df26981b603c8d"
+  },
+  "46b4e9c30b8104176cd7aa47": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_010392.html",
+    "fetched_at": "2026-10-11T13:54:37.340156+00:00",
+    "cache_hit": false,
+    "raw_file": "46b4e9c30b8104176cd7aa47.json",
+    "sha256": "6afdfa46a7b125e3998c7e1d86a5db7c12e89b597eb962bebab9599d2cd2637a"
+  },
+  "d179954fb62208f119016158": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:54:38.935568+00:00",
+    "cache_hit": false,
+    "raw_file": "d179954fb62208f119016158.json",
+    "sha256": "c057d86375c2d2fe70337a6f72384dde69322608211ce10b419f4f21c5456757"
+  },
+  "b8a3eaa5447a63182950128a": {
+    "source": "public-web:fund-archives",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:54:39.311737+00:00",
+    "cache_hit": false,
+    "raw_file": "b8a3eaa5447a63182950128a.json",
+    "sha256": "1420b9fc0baa1501d63fd2d3a8bf0c07d3c920aa8929be2549e5c9aa937516ae"
+  },
+  "1bd1f847e045f264566eec44": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_020723.html",
+    "fetched_at": "2026-10-11T13:54:41.007660+00:00",
+    "cache_hit": false,
+    "raw_file": "1bd1f847e045f264566eec44.json",
+    "sha256": "5932a298f9341cc512f50d7a099f60686e6aa1f2765e0ba2338e938dbdcd9851"
+  },
+  "165aef2c1f78caea73aed2c8": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_020723.html",
+    "fetched_at": "2026-10-11T13:54:41.381101+00:00",
+    "cache_hit": false,
+    "raw_file": "165aef2c1f78caea73aed2c8.json",
+    "sha256": "f12780752cf64e4862ca7bcf5acdef035120fd128dc319288d254dc480357c1a"
+  },
+  "7a2e4e64b5f67d918819c41c": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:54:43.026265+00:00",
+    "cache_hit": false,
+    "raw_file": "7a2e4e64b5f67d918819c41c.json",
+    "sha256": "2463a958e593f9955f5fc82a57e0b149f76d56a28d803d0bcf794f7ce66cbadf"
+  },
+  "768cbd2e2fbbc263b4437c01": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_008382.html",
+    "fetched_at": "2026-10-11T13:54:44.106124+00:00",
+    "cache_hit": false,
+    "raw_file": "768cbd2e2fbbc263b4437c01.json",
+    "sha256": "6ce46cbef98fc75d9b1e7caf7ebe48a2bc67c7cf38b1e6f23b9643191ebcc83a"
+  },
+  "a1ab36fed6c2b175afc9ca37": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_008382.html",
+    "fetched_at": "2026-10-11T13:54:44.490498+00:00",
+    "cache_hit": false,
+    "raw_file": "a1ab36fed6c2b175afc9ca37.json",
+    "sha256": "e51824e6ec733c1251e0a554633c35a38d18e72950f08ed3e11dab5d2f862a19"
+  },
+  "91145b350beeadf7240afec6": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:54:46.201218+00:00",
+    "cache_hit": false,
+    "raw_file": "91145b350beeadf7240afec6.json",
+    "sha256": "b398da6aa0727019bae43acffc1d4c3252f7c2ed01de5f60880fefb78159cc67"
+  },
+  "14fc3c67377a0fce683288a9": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_001048.html",
+    "fetched_at": "2026-10-11T13:54:47.395007+00:00",
+    "cache_hit": false,
+    "raw_file": "14fc3c67377a0fce683288a9.json",
+    "sha256": "76983cd2ee98fede1b716a543989eaefc1161013f190fd6a92f5bc47751f7709"
+  },
+  "d7311de9badbae4bfb0c3d51": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_001048.html",
+    "fetched_at": "2026-10-11T13:54:47.793991+00:00",
+    "cache_hit": false,
+    "raw_file": "d7311de9badbae4bfb0c3d51.json",
+    "sha256": "47edeafa1f934eeac069be78a4c6b98f0c26dbca58ba9e095a92370bad70f9fb"
+  },
+  "9c996b0e08c7fbb9c49fe6d2": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:54:49.425108+00:00",
+    "cache_hit": false,
+    "raw_file": "9c996b0e08c7fbb9c49fe6d2.json",
+    "sha256": "fa76eb2beb91c9bd84e2cc614e15a3169a7d4ea0d3b0fb871ea0b8aab2de81a3"
+  },
+  "654d58993da03578ea186aaf": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_015686.html",
+    "fetched_at": "2026-10-11T13:54:50.396461+00:00",
+    "cache_hit": false,
+    "raw_file": "654d58993da03578ea186aaf.json",
+    "sha256": "1fb3e05c9c016d022cdcaee8618fe93dae98ab6d8a3d73cfdc1ae2103486ac59"
+  },
+  "6ffc2696efbf7f4163417b2b": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_015686.html",
+    "fetched_at": "2026-10-11T13:54:50.815704+00:00",
+    "cache_hit": false,
+    "raw_file": "6ffc2696efbf7f4163417b2b.json",
+    "sha256": "4887a21cccbd611dcd5607a73497c7e36b44f42b28d232c33c20e03d6893147a"
+  },
+  "094d9f0b11d5ae8da7576f43": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:54:52.487710+00:00",
+    "cache_hit": false,
+    "raw_file": "094d9f0b11d5ae8da7576f43.json",
+    "sha256": "71430b46e9b9ed3d753e2e18402aa24f4385a5a61c31c341a3fc6f779e4a0e64"
+  },
+  "0a72459e76aaeb7e7aebc2bf": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_000960.html",
+    "fetched_at": "2026-10-11T13:54:53.667770+00:00",
+    "cache_hit": false,
+    "raw_file": "0a72459e76aaeb7e7aebc2bf.json",
+    "sha256": "4dd9ab4f13768a808d6c145868607fd2f7671456657ca9925db7891514afbe4a"
+  },
+  "99defef96fd5d74e3711992f": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_000960.html",
+    "fetched_at": "2026-10-11T13:54:54.064894+00:00",
+    "cache_hit": false,
+    "raw_file": "99defef96fd5d74e3711992f.json",
+    "sha256": "0d1ad046a668a4ef7deb63b0beaf484da6a1bf4e3e2b5f426b596558b04ce8ea"
+  },
+  "fc55934d5668f4afa7b68399": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:54:55.763561+00:00",
+    "cache_hit": false,
+    "raw_file": "fc55934d5668f4afa7b68399.json",
+    "sha256": "c3e7b0f12e288e0330c1a6809623afb405d0162d4d7a80147d9436608d0e2d21"
+  },
+  "6d3cbce707fd9499b9e2ec98": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_005777.html",
+    "fetched_at": "2026-10-11T13:54:57.408771+00:00",
+    "cache_hit": false,
+    "raw_file": "6d3cbce707fd9499b9e2ec98.json",
+    "sha256": "a9ac50e85bd4ac307ae62a3bc46860f6674b2958d7609dff7c486daf536f8197"
+  },
+  "901bc7779b16e33e411c8ead": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_005777.html",
+    "fetched_at": "2026-10-11T13:54:57.779932+00:00",
+    "cache_hit": false,
+    "raw_file": "901bc7779b16e33e411c8ead.json",
+    "sha256": "b1c6069941f1ade928da87ac487c7557961fab6f7e343c0feb32623137b36971"
+  },
+  "f898c79829d57fa752258e55": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:54:59.498279+00:00",
+    "cache_hit": false,
+    "raw_file": "f898c79829d57fa752258e55.json",
+    "sha256": "fe37520dd73c9167974d5d9385326999d2b87ce3a2d8a7bcd5ba0bf42cc50c69"
+  },
+  "b21168d9672524e12888aa48": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_006751.html",
+    "fetched_at": "2026-10-11T13:55:00.653245+00:00",
+    "cache_hit": false,
+    "raw_file": "b21168d9672524e12888aa48.json",
+    "sha256": "4e9b0263789d103685e24d1a0c2f567e515f18b930e8c86e47ddb618635712b6"
+  },
+  "b1b086dfe101d29e953e955a": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_006751.html",
+    "fetched_at": "2026-10-11T13:55:01.038255+00:00",
+    "cache_hit": false,
+    "raw_file": "b1b086dfe101d29e953e955a.json",
+    "sha256": "5f49c5856b861413320a0f9b476b19017c1379ca4b590acec186cecce7074e9c"
+  },
+  "3765a20950346d4c2ab6b146": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:55:02.641820+00:00",
+    "cache_hit": false,
+    "raw_file": "3765a20950346d4c2ab6b146.json",
+    "sha256": "9e723c7f81649d63d2691cec897ae884b5b8db707fc591b5f09b93979f5dfe70"
+  },
+  "28cbbc1cf2041c0314a04896": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_519935.html",
+    "fetched_at": "2026-10-11T13:55:03.711756+00:00",
+    "cache_hit": false,
+    "raw_file": "28cbbc1cf2041c0314a04896.json",
+    "sha256": "7f5960e124ac38e2fa5b51207f796a8442e7e94a9688af02c83519f88e346bbb"
+  },
+  "fe498239be12e30c0dfca9ce": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_519935.html",
+    "fetched_at": "2026-10-11T13:55:04.101275+00:00",
+    "cache_hit": false,
+    "raw_file": "fe498239be12e30c0dfca9ce.json",
+    "sha256": "b5a11ee2eec781e595836a0ff3c9a3dda6efd15a05c1d94f9e1c392e2443e499"
+  },
+  "38a2c28c8aec690b8066481e": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:55:05.662495+00:00",
+    "cache_hit": false,
+    "raw_file": "38a2c28c8aec690b8066481e.json",
+    "sha256": "b37d2d77ca76f61aa6e3073b0a125b3de4ea7a16bfea9acc3052bb38415f5590"
+  },
+  "215190cd0202958bf5ff4d1a": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_021937.html",
+    "fetched_at": "2026-10-11T13:55:06.874542+00:00",
+    "cache_hit": false,
+    "raw_file": "215190cd0202958bf5ff4d1a.json",
+    "sha256": "b58d66ee4f45046643985a2c9551794fed96e41b2472749bfd5e871c78bd4538"
+  },
+  "5de12259ff53a94aebd9adf7": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_021937.html",
+    "fetched_at": "2026-10-11T13:55:07.235909+00:00",
+    "cache_hit": false,
+    "raw_file": "5de12259ff53a94aebd9adf7.json",
+    "sha256": "e1d4678a21f81c1cc7d5c98ba5231937e88c7cecb87d4526eab3a46d7ceb7d83"
+  },
+  "07f4d0051052e0d8163e0007": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:55:08.904116+00:00",
+    "cache_hit": false,
+    "raw_file": "07f4d0051052e0d8163e0007.json",
+    "sha256": "e3f91ee25896728211addd753892f733ffff3837348240b1e6d1e9e0100730c1"
+  },
+  "2c6bbcaa80784409636edfc4": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_011126.html",
+    "fetched_at": "2026-10-11T13:55:10.090155+00:00",
+    "cache_hit": false,
+    "raw_file": "2c6bbcaa80784409636edfc4.json",
+    "sha256": "d30d0c4add12506d45b97a51cb1b051bb04ca015bee82d46c63a367df9c35301"
+  },
+  "45f0930b329ccbae19377ddf": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_011126.html",
+    "fetched_at": "2026-10-11T13:55:10.466896+00:00",
+    "cache_hit": false,
+    "raw_file": "45f0930b329ccbae19377ddf.json",
+    "sha256": "99587003346ee1e944545963c9f460f1e29c38fd358ad35929941f65e0339b32"
+  },
+  "3c842f5f28278531dc01349a": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:55:12.713702+00:00",
+    "cache_hit": false,
+    "raw_file": "3c842f5f28278531dc01349a.json",
+    "sha256": "b96fe39371560df11e73a984c41f3b39f79bd66a5d14d5c43b599aefce11abe3"
+  },
+  "c9e333b450e4187208b1d091": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_021938.html",
+    "fetched_at": "2026-10-11T13:55:13.987540+00:00",
+    "cache_hit": false,
+    "raw_file": "c9e333b450e4187208b1d091.json",
+    "sha256": "d820823e920b96fed14077a938d6ecbc13d7aa23d46b34e67792b4646c09766b"
+  },
+  "5c1f24c5b9c534fd04848d58": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_021938.html",
+    "fetched_at": "2026-10-11T13:55:14.405025+00:00",
+    "cache_hit": false,
+    "raw_file": "5c1f24c5b9c534fd04848d58.json",
+    "sha256": "f07eab1a136ee8085a1c139441463be034fa1c5a24c37471f094c7fcba445fa3"
+  },
+  "c84b5f0949760fe30dd261b0": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:55:16.022035+00:00",
+    "cache_hit": false,
+    "raw_file": "c84b5f0949760fe30dd261b0.json",
+    "sha256": "934199b4dfb2b1584f53f0ed9c8e007c422c042b0434c054a0030a2b6866bedc"
+  },
+  "6f35fe2d640841827469e91f": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_000697.html",
+    "fetched_at": "2026-10-11T13:55:17.125153+00:00",
+    "cache_hit": false,
+    "raw_file": "6f35fe2d640841827469e91f.json",
+    "sha256": "80a0db467e03df44147458310e42c1e9a3011ca9c51ca9170013434bd9b8d96e"
+  },
+  "5b1e18133e76b8646f609712": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_000697.html",
+    "fetched_at": "2026-10-11T13:55:17.490232+00:00",
+    "cache_hit": false,
+    "raw_file": "5b1e18133e76b8646f609712.json",
+    "sha256": "2e9b80ae2943f2dd698c91bab60e1fe36828495602f64464c2bddef83fb947a1"
+  },
+  "ee11d005a26cbf9e2f7ed39c": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:55:19.332411+00:00",
+    "cache_hit": false,
+    "raw_file": "ee11d005a26cbf9e2f7ed39c.json",
+    "sha256": "54092ec67d087814ac042631c7a0d1d9cd91358e4c0bc066f0836ace60383798"
+  },
+  "bdd8eea8309825c8f954aaa9": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_004352.html",
+    "fetched_at": "2026-10-11T13:55:20.741573+00:00",
+    "cache_hit": false,
+    "raw_file": "bdd8eea8309825c8f954aaa9.json",
+    "sha256": "2c76b1c0cd6b72cb3059179fd216a009c6fafa9b20c8e67d8a09b4849e83b914"
+  },
+  "5b40ea197b63ecd5bdcc86f5": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_004352.html",
+    "fetched_at": "2026-10-11T13:55:21.175368+00:00",
+    "cache_hit": false,
+    "raw_file": "5b40ea197b63ecd5bdcc86f5.json",
+    "sha256": "2ae87b6b6ceb2a5bc7cf2b560f6392d39b9cf8d8de602aad3e404aed176c5102"
+  },
+  "8a5b4ada3024352f9c1ac56d": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:55:22.852439+00:00",
+    "cache_hit": false,
+    "raw_file": "8a5b4ada3024352f9c1ac56d.json",
+    "sha256": "55c8d68dba166ca0c4f3f2f24853474335ca31b34a794fab09aae0366d3fff7f"
+  },
+  "eb6318909350af277a3d5201": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_015199.html",
+    "fetched_at": "2026-10-11T13:55:23.860842+00:00",
+    "cache_hit": false,
+    "raw_file": "eb6318909350af277a3d5201.json",
+    "sha256": "fbe524a5796e5729a0af273e3333e7d3a381294ef183d6a9d34e3dd2a67dcbee"
+  },
+  "1567fa8c519857274b97032e": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_015199.html",
+    "fetched_at": "2026-10-11T13:55:24.263577+00:00",
+    "cache_hit": false,
+    "raw_file": "1567fa8c519857274b97032e.json",
+    "sha256": "5e7f468258b4ea9dc133412569ad035043c8bdd21b84baf1bf2ba319b0a69951"
+  },
+  "1cd8a8c7be423c9eeaace630": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:55:25.991290+00:00",
+    "cache_hit": false,
+    "raw_file": "1cd8a8c7be423c9eeaace630.json",
+    "sha256": "60bb306d9693e332b2e4940c3b1576206bc3e78ba35094911e87c14812de3781"
+  },
+  "300b7462ca61e482fb0eb59c": {
+    "source": "akshare:fund_overview_em",
+    "url": "https://fundf10.eastmoney.com/jbgk_015198.html",
+    "fetched_at": "2026-10-11T13:55:27.167317+00:00",
+    "cache_hit": false,
+    "raw_file": "300b7462ca61e482fb0eb59c.json",
+    "sha256": "b2bf18a0c0730f76d341cc8a9da648af593d6f3c727fa9eb00033aad9381c434"
+  },
+  "a6772e7e936d245d65a5646f": {
+    "source": "public-web:fund-profile",
+    "url": "https://fundf10.eastmoney.com/jbgk_015198.html",
+    "fetched_at": "2026-10-11T13:55:27.532753+00:00",
+    "cache_hit": false,
+    "raw_file": "a6772e7e936d245d65a5646f.json",
+    "sha256": "e7cc2dcf4867fd4528819f0f78a18f5061f183b56c9295d3525a6cc181800f56"
+  },
+  "8585e7e7c55ebc0e40732bbf": {
+    "source": "akshare:fund_portfolio_hold_em",
+    "url": "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+    "fetched_at": "2026-10-11T13:55:29.277969+00:00",
+    "cache_hit": false,
+    "raw_file": "8585e7e7c55ebc0e40732bbf.json",
+    "sha256": "3f298a8bcf655d0f6e857508c0f7ed94bb579748cd0a74860cc4e28e711e6f32"
+  }
+}
