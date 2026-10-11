@@ -168,6 +168,9 @@ class AppsScriptDriveClient:
 
             result = data.get("result")
             if not isinstance(result, dict):
+                if attempt < MAX_POST_ATTEMPTS:
+                    time.sleep(_retry_delay(response, attempt))
+                    continue
                 raise AppsScriptError("Apps Script 成功响应缺少 result")
             return result
         raise AppsScriptError(f"Apps Script 重试耗尽：{last_error}")
