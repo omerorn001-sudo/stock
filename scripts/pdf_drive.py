@@ -287,7 +287,8 @@ def process_backfill(output_dir: Path, upload_drive: bool) -> dict[str, Any]:
     )
     _write_manifest_files(output_dir, document, failures)
 
-    if client is not None:
+    # Drive 只保留 PDF 报告；manifest / failures 只留在 GitHub Actions 附件中。
+    if client is not None and os.getenv("DRIVE_UPLOAD_MANIFESTS") == "1":
         run_id = str(summary.get("run_id") or "pdf-backfill")
         for name in ("manifest.json", "manifest.csv", "failures.json"):
             try:
