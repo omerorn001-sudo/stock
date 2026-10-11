@@ -5,20 +5,32 @@ on:
     # UTC 08:30 = 北京时间 16:30，周一至周五（收盘后运行；非交易日脚本会自动跳过）
     # 注意：GitHub Actions 定时任务可能有数分钟至数十分钟延迟
     - cron: '30 8 * * 1-5'
-  workflow_dispatch: {}   # 支持手动触发（Actions 页面点 Run workflow）
+  workflow_dispatch:
+    inputs:
+      date:
+        description: '报告日期 YYYY-MM-DD；留空 = 今天（北京时间）。填历史交易日会按当天行情全市场回算'
+        required: false
+        type: string
+        default: ''
+      upload_drive:
+        description: '上传到 Google Drive（CNINFO/A股每日涨跌幅报告）'
+        required: true
+        type: boolean
+        default: true
 
 permissions:
   contents: write
 
 concurrency:
-  group: daily-report
+  group: daily-report-${{ inputs.date || 'today' }}
   cancel-in-progress: false
 
 jobs:
   report:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 75
     env:
+      TZ: Asia/Shanghai
       GDRIVE_APPS_SCRIPT_URL: ${{ secrets.GDRIVE_APPS_SCRIPT_URL }}
       GDRIVE_APPS_SCRIPT_TOKEN: ${{ secrets.GDRIVE_APPS_SCRIPT_TOKEN }}
       GDRIVE_APPS_SCRIPT_MAX_BYTES: ${{ vars.GDRIVE_APPS_SCRIPT_MAX_BYTES || '36700160' }}
@@ -29,10 +41,50 @@ jobs:
         with:
           bun-version: latest
 
-      - name: 生成报告
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: 确定报告日期与模式
+        id: params
+        shell: bash
+        env:
+          REQUESTED_DATE: ${{ inputs.date }}
+        run: |
+          today=$(TZ=Asia/Shanghai date +%F)
+          requested="$(echo "${REQUESTED_DATE:-}" | tr -d '[:space:]')"
+          if [[ -z "$requested" || "$requested" == "$today" ]]; then
+            echo "date=$today" >> "$GITHUB_OUTPUT"
+            echo "mode=today" >> "$GITHUB_OUTPUT"
+            echo "报告日期：$today（当日实时榜单）"
+          else
+            d="$(python scripts/report_date.py --date "$requested")"
+            echo "date=$d" >> "$GITHUB_OUTPUT"
+            echo "mode=history" >> "$GITHUB_OUTPUT"
+            echo "报告日期：$d（历史日期，全市场回算）"
+          fi
+          if [[ "${{ github.event_name }}" == "schedule" || "${{ inputs.upload_drive }}" == "true" ]]; then
+            echo "upload=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "upload=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: 生成报告（当日）
+        if: steps.params.outputs.mode == 'today'
         run: bun run src/main.ts
 
+      - name: 生成报告（历史日期）
+        if: steps.params.outputs.mode == 'history'
+        env:
+          REPORT_DATE: ${{ steps.params.outputs.date }}
+        run: |
+          rm -f "reports/${REPORT_DATE}.html"
+          bun run src/report-by-date.ts "$REPORT_DATE"
+          test -s "reports/${REPORT_DATE}.html"
+
       - name: 提交报告到仓库
+        env:
+          REPORT_DATE: ${{ steps.params.outputs.date }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -40,20 +92,25 @@ jobs:
           if git diff --cached --quiet; then
             echo "无新报告（可能为非交易日），跳过提交"
           else
-            git commit -m "report: $(date -u -d '+8 hours' +%F)"
-            git push
+            git commit -m "report: ${REPORT_DATE}"
+            for attempt in 1 2 3; do
+              if git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}"; then
+                exit 0
+              fi
+              git rebase --abort || true
+              sleep 5
+            done
+            exit 1
           fi
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
 
       - name: 归档到 Google Drive（CNINFO/A股每日涨跌幅报告）
+        if: steps.params.outputs.upload == 'true'
         shell: bash
+        env:
+          REPORT_DATE: ${{ steps.params.outputs.date }}
         run: |
-          d=$(TZ=Asia/Shanghai date +%F)
-          if [[ ! -f "reports/$d.html" ]]; then
-            echo "今日无新报告（非交易日），跳过 Drive 归档"; exit 0
+          if [[ ! -f "reports/${REPORT_DATE}.html" ]]; then
+            echo "没有 ${REPORT_DATE} 的报告（非交易日），跳过 Drive 归档"; exit 0
           fi
           python -m pip install --quiet "requests>=2.32,<3"
-          python scripts/drive_archive.py --dataset daily_report --date "$d" "reports/$d.html"
+          python scripts/drive_archive.py --dataset daily_report --date "$REPORT_DATE" "reports/${REPORT_DATE}.html"
