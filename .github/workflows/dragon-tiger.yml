@@ -13,6 +13,8 @@ on:
       - "tests/test_apps_script_storage.py"
       - ".github/workflows/dragon-tiger.yml"
       - "requirements-juchao.txt"
+      - "scripts/drive_archive.py"
+      - "scripts/trading_days.py"
   pull_request:
     paths:
       - "src/dragon_tiger.py"
@@ -24,17 +26,27 @@ on:
       - "tests/test_apps_script_storage.py"
       - ".github/workflows/dragon-tiger.yml"
       - "requirements-juchao.txt"
+      - "scripts/drive_archive.py"
+      - "scripts/trading_days.py"
   schedule:
     # UTC 12:10 = 北京时间 20:10，周一至周五；节假日无数据时正常跳过上传。
     - cron: "10 12 * * 1-5"
   workflow_dispatch:
     inputs:
       trade_date:
-        description: "交易日期 YYYY-MM-DD；留空为北京时间今日"
+        description: "单日：交易日期 YYYY-MM-DD；留空为北京时间今日"
+        required: false
+        type: string
+      start:
+        description: "批量补全：开始日期 YYYY-MM-DD（填了就按区间补全，忽略单日）"
+        required: false
+        type: string
+      end:
+        description: "批量补全：结束日期 YYYY-MM-DD；留空 = 今天"
         required: false
         type: string
       upload_drive:
-        description: "上传汇总、席位明细、JSON、Markdown 和 HTML 报告到 Google Drive"
+        description: "上传 HTML + PDF 报告到 Google Drive（CNINFO/龙虎榜）"
         required: true
         type: boolean
         default: true
@@ -95,15 +107,50 @@ jobs:
           if-no-files-found: warn
           retention-days: 7
 
-  archive:
-    name: Fetch and archive dragon-tiger data
+  plan:
+    name: Plan archive dates
     needs: validate
     if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
     runs-on: ubuntu-latest
-    timeout-minutes: 30
-    concurrency:
-      group: gdrive-apps-script-archive
-      cancel-in-progress: false
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - id: plan
+        shell: bash
+        env:
+          IN_DATE: ${{ inputs.trade_date }}
+          IN_START: ${{ inputs.start }}
+          IN_END: ${{ inputs.end }}
+        run: |
+          today=$(TZ=Asia/Shanghai date +%F)
+          start=$(echo "${IN_START:-}" | tr -d '[:space:]'); end=$(echo "${IN_END:-}" | tr -d '[:space:]')
+          single=$(echo "${IN_DATE:-}" | tr -d '[:space:]')
+          if [[ -n "$start" ]]; then
+            matrix=$(python scripts/trading_days.py --start "$start" --end "${end:-$today}" --chunk 15 --matrix)
+          else
+            d="${single:-$today}"
+            python -c 'from datetime import date; import sys; v=sys.argv[1]; assert date.fromisoformat(v).isoformat()==v' "$d"
+            matrix=$(jq -cn --arg d "$d" '{include:[{label:$d,dates:$d}]}')
+          fi
+          echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
+          echo "$matrix" | jq -r '.include[].label'
+
+  archive:
+    name: Archive ${{ matrix.label }}
+    needs: plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix: ${{ fromJson(needs.plan.outputs.matrix) }}
     permissions:
       contents: read
       issues: write
@@ -112,6 +159,8 @@ jobs:
       GDRIVE_APPS_SCRIPT_URL: ${{ secrets.GDRIVE_APPS_SCRIPT_URL }}
       GDRIVE_APPS_SCRIPT_TOKEN: ${{ secrets.GDRIVE_APPS_SCRIPT_TOKEN }}
       GDRIVE_APPS_SCRIPT_MAX_BYTES: ${{ vars.GDRIVE_APPS_SCRIPT_MAX_BYTES || '36700160' }}
+      UPLOAD: ${{ github.event_name == 'schedule' || inputs.upload_drive }}
+      DATES: ${{ matrix.dates }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v6
@@ -123,57 +172,45 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements-juchao.txt
-      - name: Resolve run parameters
-        id: params
+          sudo apt-get update -qq && sudo apt-get install -y -qq fonts-noto-cjk >/dev/null
+      - name: Fetch data and build HTML + PDF
+        id: run
         shell: bash
         run: |
-          if [[ "${{ github.event_name }}" == "schedule" ]]; then
-            trade_date=$(TZ=Asia/Shanghai date +%F)
-            upload=true
-          else
-            trade_date="${{ inputs.trade_date }}"
-            if [[ -z "$trade_date" ]]; then trade_date=$(TZ=Asia/Shanghai date +%F); fi
-            upload="${{ inputs.upload_drive }}"
-          fi
-          python -c 'from datetime import date; import sys; value=sys.argv[1]; assert date.fromisoformat(value).isoformat() == value' "$trade_date"
-          echo "trade_date=$trade_date" >> "$GITHUB_OUTPUT"
-          echo "upload=$upload" >> "$GITHUB_OUTPUT"
-      - name: Check Apps Script Drive gateway
-        if: steps.params.outputs.upload == 'true'
-        run: |
-          python - <<'PY'
-          from src.apps_script_storage import AppsScriptDriveClient
-          result = AppsScriptDriveClient().ping()
-          print("Apps Script Drive 网关连接成功：" + str(result.get("service") or "ok"))
-          print("龙虎榜目录：" + str((result.get("datasets") or {}).get("dragon_tiger") or "等待新版脚本"))
-          PY
-      - name: Fetch and archive data files
-        shell: bash
-        run: |
-          args=(--date "${{ steps.params.outputs.trade_date }}" --output artifacts/dragon-tiger)
-          if [[ "${{ steps.params.outputs.upload }}" == "true" ]]; then args+=(--upload-drive); fi
-          python -m src.dragon_tiger "${args[@]}"
-      - name: Build and archive HTML report
-        shell: bash
-        run: |
-          args=(--date "${{ steps.params.outputs.trade_date }}" --output artifacts/dragon-tiger)
-          if [[ "${{ steps.params.outputs.upload }}" == "true" ]]; then args+=(--upload-drive); fi
-          python -m src.dragon_tiger_html "${args[@]}"
+          failed=0
+          for d in $DATES; do
+            echo "::group::$d"
+            if ! python -m src.dragon_tiger --date "$d" --output artifacts/dragon-tiger; then
+              echo "::error::$d 数据采集失败"; failed=1; echo "::endgroup::"; continue
+            fi
+            count=$(python -c 'import json,sys; print(len(json.load(open(sys.argv[1],encoding="utf-8")).get("records") or []))' "artifacts/dragon-tiger/$d/龙虎榜_$d.json" 2>/dev/null || echo 0)
+            if [[ "$count" == "0" ]]; then echo "$d 无龙虎榜数据（非交易日），跳过"; echo "::endgroup::"; continue; fi
+            if ! python -m src.dragon_tiger_html --date "$d" --output artifacts/dragon-tiger; then
+              echo "::error::$d HTML 生成失败"; failed=1; echo "::endgroup::"; continue
+            fi
+            if [[ "$UPLOAD" == "true" ]]; then
+              python scripts/drive_archive.py --dataset dragon_tiger --date "$d" \
+                --pdf-dir "artifacts/dragon-tiger/$d" "artifacts/dragon-tiger/$d/龙虎榜报告_$d.html" || failed=1
+            fi
+            echo "::endgroup::"
+          done
+          echo "trade_date=${DATES%% *}" >> "$GITHUB_OUTPUT"
+          test "$failed" = "0"
       - name: Upload run artifact
         if: always()
         uses: actions/upload-artifact@v5
         with:
-          name: dragon-tiger-${{ steps.params.outputs.trade_date }}
+          name: dragon-tiger-${{ matrix.label }}
           path: artifacts/dragon-tiger/
           if-no-files-found: warn
-          retention-days: 30
+          retention-days: 14
       - name: Open or update failure issue
-        if: failure()
+        if: failure() && github.event_name == 'schedule'
         continue-on-error: true
         uses: actions/github-script@v8
         env:
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-          TRADE_DATE: ${{ steps.params.outputs.trade_date }}
+          TRADE_DATE: ${{ matrix.label }}
         with:
           script: |
             const title = '[龙虎榜] 每日 Drive 归档失败';
@@ -183,7 +220,7 @@ jobs:
             if (existing) await github.rest.issues.createComment({owner: context.repo.owner, repo: context.repo.repo, issue_number: existing.number, body});
             else await github.rest.issues.create({owner: context.repo.owner, repo: context.repo.repo, title, body});
       - name: Close recovered failure issue
-        if: success()
+        if: success() && github.event_name == 'schedule'
         continue-on-error: true
         uses: actions/github-script@v8
         with:
